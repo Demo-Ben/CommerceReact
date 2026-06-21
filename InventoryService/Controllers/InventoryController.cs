@@ -12,5 +12,19 @@ namespace InventoryService.Controllers
         {
             return Ok(StaticInventory.Items);
         }
-    }
+    
+
+
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+        {
+            var item = StaticInventory.Items.FirstOrDefault(i => i.Id == id);
+            if (item == null)
+                return NotFound();
+
+            return Ok(item);
+        }
+
+
+    } 
 }

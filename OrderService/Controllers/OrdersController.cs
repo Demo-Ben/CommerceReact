@@ -33,7 +33,7 @@ namespace OrderService.Controllers
 
         // POST /orders
         [HttpPost]
-        public IActionResult Create([FromBody] CreateOrderDto dto)
+        public async Task<IActionResult> CreateAsync([FromBody] CreateOrderDto dto)
         {
             var newOrder = new Order
             {
@@ -42,6 +42,13 @@ namespace OrderService.Controllers
                 Quantity = dto.Quantity,
                 Status = "Pending"
             };
+
+
+            using var client = new HttpClient();
+            var item = await client.GetFromJsonAsync<InventoryItemDto>(
+                $"https://localhost:5003/inventory/{dto.ItemId}"
+            );
+            newOrder.Total = item.Price * dto.Quantity;
 
             StaticOrders.Orders.Add(newOrder);
 
