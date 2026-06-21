@@ -58,11 +58,11 @@ export async function getOrders() {
 
 
 //payment service port
-export async function payOrder(orderId) {
+export async function payOrder(orderId, amount) {
     const res = await fetch(`${PAYMENT_BASE}/payments`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ orderId })
+        body: JSON.stringify({ orderId, amount })
     });
     return res.json();
 }
