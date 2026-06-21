@@ -50,7 +50,7 @@ export default function PaymentPage() {
                             <th>Id</th>
                             <th>OrderId</th>
                             <th>Amount</th>
-                          
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -59,7 +59,7 @@ export default function PaymentPage() {
                                 <td>{p.id}</td>
                                 <td>{p.orderId}</td>
                                 <td>${p.amount}</td>
-                               
+                                <td>{p.status}</td>
                             </tr>
                         ))}
                     </tbody>

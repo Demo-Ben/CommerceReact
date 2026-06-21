@@ -10,7 +10,7 @@ import React from "react";
 import { useApi } from "../../context/ApiContext";
 
 export default function OrderPage() {
-    const { orders, inventory } = useApi();
+    const { orders, inventory, payOrder } = useApi();
 
     const getItemName = itemId =>
         inventory.find(i => i.id === itemId)?.name || "Unknown";
@@ -28,16 +28,22 @@ export default function OrderPage() {
                             <th>Qty</th>
                             <th>Total</th>
                             <th>Status</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {orders.map(o => (
-                            <tr key={o.id}>
-                                <td>{o.id}</td>
-                                <td>{getItemName(o.itemId)}</td>
-                                <td>{o.quantity}</td>
-                                <td>${o.total}</td>
-                                <td>{o.status}</td>
+                        {orders.map(order => (
+                            <tr key={order.id}>
+                                <td>{order.id}</td>
+                                <td>{getItemName(order.itemId)}</td>
+                                <td>{order.quantity}</td>
+                                <td>${order.total}</td>
+                                <td>{order.status}</td>
+                                <td>
+                                    <button onClick={() => payOrder(order.id, order.total)}>
+                                        Pay
+                                    </button>
+                                </td>
                             </tr>
                         ))}
                     </tbody>

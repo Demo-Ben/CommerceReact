@@ -26,7 +26,7 @@ namespace PaymentService.Controllers
             {
                 Id = StaticPayments.Payments.Count + 1,
                 OrderId = dto.OrderId,
-                Amount = 0, // or compute later
+                Amount = dto.Amount,  
                 Status = "Completed",
                 PaidAt = DateTime.UtcNow
             };
