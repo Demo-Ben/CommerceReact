@@ -1,4 +1,12 @@
-// console.log("Hello World!")
+
+// In short — apiClient.js is:
+//     Your HTTP client layer
+//     Your microservice gateway(frontend)
+//     Your fetch wrapper
+//     Your URL centralization point
+//     Your stateless API function library
+//     Your backend contract layer
+
 
 //This is your React → Microservices gateway.
 
