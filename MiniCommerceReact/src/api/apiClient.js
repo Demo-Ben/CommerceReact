@@ -5,7 +5,9 @@
 // const API_BASE = "https://localhost:5001"; // your gateway or service URL
 //const API_BASE = "https://localhost:5002";      // OrderService port
 
-const ORDER_BASE = "https://localhost:5002";
+//const ORDER_BASE = "https://localhost:5002";
+export const ORDER_BASE = "https://localhost:5002";
+
 const INVENTORY_BASE = "https://localhost:5003";
 const PAYMENT_BASE = "https://localhost:5004";
 
