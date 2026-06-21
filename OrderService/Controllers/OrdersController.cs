@@ -13,6 +13,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 using OrderService.Data;
+using OrderService.DTOs;
 using OrderService.Models;
 
 namespace OrderService.Controllers
@@ -29,17 +30,34 @@ namespace OrderService.Controllers
         }
 
 
+
         // POST /orders
         [HttpPost]
-        public IActionResult Create([FromBody] Order newOrder)
+        public IActionResult Create([FromBody] CreateOrderDto dto)
         {
-            newOrder.Id = StaticOrders.Orders.Count + 1;
-            newOrder.Status = "Pending";
+            var newOrder = new Order
+            {
+                Id = StaticOrders.Orders.Count + 1,
+                ItemId = dto.ItemId,
+                Quantity = dto.Quantity,
+                Status = "Pending"
+            };
 
             StaticOrders.Orders.Add(newOrder);
 
             return Ok(newOrder);
         }
+        //[HttpPost]
+        //public IActionResult Create([FromBody] Order newOrder)
+        //{
+        //    newOrder.Id = StaticOrders.Orders.Count + 1;
+        //    newOrder.Status = "Pending";
+
+        //    StaticOrders.Orders.Add(newOrder);
+
+        //    return Ok(newOrder);
+        //}
+
 
         // POST /payments
         [HttpPost("/payments")]
@@ -50,6 +68,7 @@ namespace OrderService.Controllers
                 return NotFound();
 
             order.Status = "Paid";
+
             return Ok(order);
         }
         //[HttpPost("/payments")]
@@ -66,12 +85,11 @@ namespace OrderService.Controllers
         //    return Ok(order);
         //}
 
+
+        // GET /payments
         [HttpGet("/payments")]
         public IActionResult GetPayments()
         {
-            //return Ok(StaticOrders.Orders.Where(o => o.Status == "Paid"));
-
-            // return all orders that are paid
             var paidOrders = StaticOrders.Orders
                 .Where(o => o.Status == "Paid")
                 .ToList();
@@ -79,7 +97,6 @@ namespace OrderService.Controllers
             return Ok(paidOrders);
         }
 
-   
     }
 }
 
