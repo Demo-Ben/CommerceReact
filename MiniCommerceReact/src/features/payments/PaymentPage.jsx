@@ -10,18 +10,30 @@ import React, { useState } from "react";
 import { useApi } from "../../context/ApiContext";
 
 export default function PaymentPage() {
-    const { orders, payments, payOrder } = useApi();
+    // Pull everything we need from ApiContext
+    const { orders, payments, payOrder, getOrderById } = useApi();
+
+    // Track which order is selected in the dropdown
     const [selectedOrderId, setSelectedOrderId] = useState("");
 
+    // Only show orders that are not yet paid
     const unpaidOrders = orders.filter(o => o.status !== "Paid");
 
-    const handlePay = () => {
+    // ---------------------------------------------------------
+    // Pay button for the dropdown (first-time payment)
+    // Must be async because we use await inside
+    // ---------------------------------------------------------
+    const handlePay = async () => {
         if (!selectedOrderId) return;
 
+        // Find the order so we can get the total amount
         const order = orders.find(o => o.id === Number(selectedOrderId));
         if (!order) return;
 
-        payOrder(order.id, order.total);
+        // Pay with correct amount
+        await payOrder(order.id, order.total);
+
+        // Reset dropdown
         setSelectedOrderId("");
     };
 
@@ -29,6 +41,9 @@ export default function PaymentPage() {
         <div>
             <h2>Payments</h2>
 
+            {/* ---------------------------------------------------------
+                Section 1: Pay an unpaid order
+               --------------------------------------------------------- */}
             <h3>Pay Order</h3>
             <div>
                 <select
@@ -42,11 +57,17 @@ export default function PaymentPage() {
                         </option>
                     ))}
                 </select>
+
                 <button onClick={handlePay}>Pay</button>
             </div>
 
+            {/* ---------------------------------------------------------
+                Section 2: Payment History
+               --------------------------------------------------------- */}
             <h3>Payment History</h3>
+
             {payments.length === 0 && <p>No payments yet.</p>}
+
             {payments.length > 0 && (
                 <table border="1" cellPadding="4">
                     <thead>
@@ -55,6 +76,7 @@ export default function PaymentPage() {
                             <th>OrderId</th>
                             <th>Amount</th>
                             <th>Status</th>
+                            <th>Action</th> {/* Pay Again column */}
                         </tr>
                     </thead>
                     <tbody>
@@ -64,6 +86,23 @@ export default function PaymentPage() {
                                 <td>{p.orderId}</td>
                                 <td>${p.amount}</td>
                                 <td>{p.status}</td>
+
+                                {/* ---------------------------------------------------------
+                                    Pay Again button
+                                    Must be async because we use await inside
+                                    1. Fetch the order to get the total
+                                    2. Pay again with correct amount
+                                   --------------------------------------------------------- */}
+                                <td>
+                                    <button
+                                        onClick={async () => {
+                                            const order = await getOrderById(p.orderId);
+                                            await payOrder(order.id, order.total);
+                                        }}
+                                    >
+                                        Pay Again
+                                    </button>
+                                </td>
                             </tr>
                         ))}
                     </tbody>
