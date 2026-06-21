@@ -4,7 +4,8 @@ import {
     getOrders,
     getPayments,
     createOrder as apiCreateOrder,
-    payOrder as apiPayOrder
+    payOrder as apiPayOrder,
+    ORDER_BASE
 } from "../api/apiClient";
 
 // -------------------------------------------------------------
@@ -19,17 +20,18 @@ const ApiContext = createContext();
 // Mirrors the 3 microservices: Inventory, Orders, Payments
 // -------------------------------------------------------------
 const initialState = {
-    inventory: [
-        { id: 1, name: "Laptop", stock: 5, price: 1500 },
-        { id: 2, name: "Mouse", stock: 20, price: 25 }
-    ],
+    // inventory: [
+    //     { id: 1, name: "Laptop", stock: 5, price: 1500 },
+    //     { id: 2, name: "Mouse", stock: 20, price: 25 }
+    // ],
+    inventory: [],
     orders: [],
     payments: []
 };
 
 
 // -------------------------------------------------------------
-// Reducer
+// Reducer: updates state based on actions
 // Centralized state transitions triggered by service calls
 // -------------------------------------------------------------
 function reducer(state, action) {
@@ -78,11 +80,10 @@ function reducer(state, action) {
     }
 }
 
-// -------------------------------------------------------------
-// loadData()
-// Fetches all 3 microservices on startup
-// Equivalent to orchestrating multiple backend calls
-// -------------------------------------------------------------
+// -----------------------------
+// Helper: Load all data from all services
+// Called once on app startup
+// -----------------------------
 async function loadData(dispatch) {
     const inventory = await getInventory();
     const orders = await getOrders();
@@ -94,12 +95,9 @@ async function loadData(dispatch) {
     });
 }
 
-// -------------------------------------------------------------
-// ApiProvider
-// Wraps the entire React app and exposes:
-// - Shared state (inventory, orders, payments)
-// - Service functions (createOrder, payOrder)
-// -------------------------------------------------------------
+// -----------------------------
+// Provider: exposes global API + state to all pages
+// -----------------------------
 export function ApiProvider({ children }) {
     const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -111,19 +109,10 @@ export function ApiProvider({ children }) {
         loadData(dispatch);
     }, []);
 
-    // -----------------------------------------------------------
-    // createOrder()
+    // -----------------------------
+    // Create a new order
     // Calls OrderService → POST /orders
-    // Then updates front-end state with the returned order
-    // -----------------------------------------------------------
-    // async function createOrder(itemId, quantity) {
-    //     const order = await apiCreateOrder(itemId, quantity);
-
-    //     dispatch({
-    //         type: "ORDER_CREATED",
-    //         payload: order
-    //     });
-    // }
+    // -----------------------------
     async function createOrder(itemId, quantity) {
         console.log("createOrder() called:", itemId, quantity);   // ← ADD THIS
 
@@ -138,9 +127,10 @@ export function ApiProvider({ children }) {
     }
 
 
-    // -----------------------------------------------------------
-    // payOrder()
+    // -----------------------------
+    // Pay an order
     // Calls PaymentService → POST /payments
+    // Requires BOTH orderId + amount
     // Then updates:
     // - payments list
     // - order status to "Paid"
@@ -155,6 +145,10 @@ export function ApiProvider({ children }) {
     }
 
 
+    // -----------------------------
+    // Fetch a single order by ID
+    // Used by PaymentPage to get the total before paying
+    // -----------------------------
     async function getOrderById(orderId) {
         const res = await fetch(`${ORDER_BASE}/orders/${orderId}`);
         return res.json();
@@ -163,20 +157,22 @@ export function ApiProvider({ children }) {
 
     // -----------------------------------------------------------
     // Expose state + service functions to all components
+    // Expose everything to the UI
     // -----------------------------------------------------------
     const value = {
         inventory: state.inventory,
         orders: state.orders,
         payments: state.payments,
         createOrder,
-        payOrder
+        payOrder,
+        getOrderById
     };
 
     return <ApiContext.Provider value={value}>{children}</ApiContext.Provider>;
 }
 
 // -------------------------------------------------------------
-// useApi()
+// useApi() : Hook for easy access in pages
 // Custom hook for consuming the ApiContext
 // Makes calling services easy inside components
 // -------------------------------------------------------------
