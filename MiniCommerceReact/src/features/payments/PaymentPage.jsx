@@ -17,7 +17,11 @@ export default function PaymentPage() {
 
     const handlePay = () => {
         if (!selectedOrderId) return;
-        payOrder(Number(selectedOrderId));
+
+        const order = orders.find(o => o.id === Number(selectedOrderId));
+        if (!order) return;
+
+        payOrder(order.id, order.total);
         setSelectedOrderId("");
     };
 

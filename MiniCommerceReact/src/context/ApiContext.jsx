@@ -154,6 +154,13 @@ export function ApiProvider({ children }) {
         });
     }
 
+
+    async function getOrderById(orderId) {
+        const res = await fetch(`${ORDER_BASE}/orders/${orderId}`);
+        return res.json();
+    }
+
+
     // -----------------------------------------------------------
     // Expose state + service functions to all components
     // -----------------------------------------------------------
