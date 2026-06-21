@@ -3,11 +3,11 @@
 //This is your React → Microservices gateway.
 
 // const API_BASE = "https://localhost:5001"; // your gateway or service URL
-const API_BASE = "https://localhost:5002";      // OrderService port
+//const API_BASE = "https://localhost:5002";      // OrderService port
 
 const ORDER_BASE = "https://localhost:5002";
 const INVENTORY_BASE = "https://localhost:5003";
-const PaymentService = "https://localhost:5004";
+const PAYMENT_BASE = "https://localhost:5004";
 
 
 //InventoryService port
@@ -39,8 +39,27 @@ export async function getOrders() {
     return res.json();
 }
 
+
+
+// move to payment service port
+
+// export async function payOrder(orderId) {
+//     const res = await fetch(`${ORDER_BASE}/payments`, {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({ orderId })
+//     });
+//     return res.json();
+// }
+// export async function getPayments() {
+//     const res = await fetch(`${ORDER_BASE}/payments`);
+//     return res.json();
+// }
+
+
+//payment service port
 export async function payOrder(orderId) {
-    const res = await fetch(`${ORDER_BASE}/payments`, {
+    const res = await fetch(`${PAYMENT_BASE}/payments`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ orderId })
@@ -48,9 +67,8 @@ export async function payOrder(orderId) {
     return res.json();
 }
 
-
-//payment service port
 export async function getPayments() {
-    const res = await fetch(`${API_BASE}/payments`);
+    const res = await fetch(`${PAYMENT_BASE}/payments`);
     return res.json();
 }
+
