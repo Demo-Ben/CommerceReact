@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="../InventoryService/InventoryService.csproj" />
+  <Project Path="../OrderService/OrderService.csproj" />
+  <Project Path="minicommercereact.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+</Solution>
