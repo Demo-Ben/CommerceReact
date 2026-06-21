@@ -145,8 +145,8 @@ export function ApiProvider({ children }) {
     // - payments list
     // - order status to "Paid"
     // -----------------------------------------------------------
-    async function payOrder(orderId) {
-        const payment = await apiPayOrder(orderId);
+    async function payOrder(orderId, amount) {
+        const payment = await apiPayOrder(orderId, amount);
 
         dispatch({
             type: "ORDER_PAID",
