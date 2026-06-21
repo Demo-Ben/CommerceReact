@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using PaymentService.Models;
+﻿using PaymentService.Models;
 
 namespace PaymentService.Data
 {
