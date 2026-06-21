@@ -1,3 +1,12 @@
+// In short — ApiContext.jsx is:
+//      Your front‑end microservice orchestrator
+//      Your global state manager
+//      Your API gateway(client - side)
+//      Your single source of truth
+//      Your service container
+//      Your React - wide dependency injector
+
+
 import React, { createContext, useContext, useReducer, useEffect } from "react";
 import {
     getInventory,
