@@ -19,10 +19,11 @@ const ApiContext = createContext();
 // Mirrors the 3 microservices: Inventory, Orders, Payments
 // -------------------------------------------------------------
 const initialState = {
-    inventory: [
-        { id: 1, name: "Laptop", stock: 5, price: 1500 },
-        { id: 2, name: "Mouse", stock: 20, price: 25 }
-    ],
+    // inventory: [
+    //     { id: 1, name: "Laptop", stock: 5, price: 1500 },
+    //     { id: 2, name: "Mouse", stock: 20, price: 25 }
+    // ],
+    inventory: [],
     orders: [],
     payments: []
 };
@@ -169,10 +170,13 @@ export function ApiProvider({ children }) {
         orders: state.orders,
         payments: state.payments,
         createOrder,
-        payOrder
+        payOrder,
+        getOrderById
     };
 
-    return <ApiContext.Provider value={value}>{children}</ApiContext.Provider>;
+    return <ApiContext.Provider value={value}>
+                {children}
+            </ApiContext.Provider>;
 }
 
 // -------------------------------------------------------------
