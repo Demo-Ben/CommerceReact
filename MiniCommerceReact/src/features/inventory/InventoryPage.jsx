@@ -35,7 +35,7 @@ export default function InventoryPage() {
                 <thead>
                     <tr>
                         <th>Id</th>
-                        <th>Item</th>
+                        <th>Name</th>
                         <th>Stock</th>
                         <th>Price</th>
                     </tr>

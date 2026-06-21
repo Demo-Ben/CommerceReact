@@ -42,7 +42,6 @@ export async function getOrders() {
 
 
 // move to payment service port
-
 // export async function payOrder(orderId) {
 //     const res = await fetch(`${ORDER_BASE}/payments`, {
 //         method: "POST",

@@ -20,7 +20,7 @@ namespace PaymentService.Controllers
         // POST /payments
         // POST https://localhost:5004/payments
         [HttpPost]
-        public IActionResult Create([FromBody] CreatePaymentDto dto)
+        public async Task<IActionResult> CreateAsync([FromBody] CreatePaymentDto dto)
         {
             var newPayment = new Payment
             {
@@ -32,6 +32,13 @@ namespace PaymentService.Controllers
             };
 
             StaticPayments.Payments.Add(newPayment);
+            //return Ok(newPayment); // comment off to notify OrderService
+
+
+            // Notify OrderService
+            using var client = new HttpClient();
+            var updateBody = new { orderId = dto.OrderId };
+            await client.PostAsJsonAsync("https://localhost:5002/payments/update", updateBody);
 
             return Ok(newPayment);
         }

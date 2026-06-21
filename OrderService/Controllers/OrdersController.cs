@@ -47,16 +47,6 @@ namespace OrderService.Controllers
 
             return Ok(newOrder);
         }
-        //[HttpPost]
-        //public IActionResult Create([FromBody] Order newOrder)
-        //{
-        //    newOrder.Id = StaticOrders.Orders.Count + 1;
-        //    newOrder.Status = "Pending";
-
-        //    StaticOrders.Orders.Add(newOrder);
-
-        //    return Ok(newOrder);
-        //}
 
 
         // POST /payments
@@ -71,19 +61,7 @@ namespace OrderService.Controllers
 
             return Ok(order);
         }
-        //[HttpPost("/payments")]
-        //public IActionResult Pay([FromBody] dynamic body)
-        //{
-        //    int orderId = (int)body.orderId;
 
-        //    var order = StaticOrders.Orders.FirstOrDefault(o => o.Id == orderId);
-        //    if (order == null)
-        //        return NotFound();
-
-        //    order.Status = "Paid";
-
-        //    return Ok(order);
-        //}
 
 
         // GET /payments
@@ -96,6 +74,20 @@ namespace OrderService.Controllers
 
             return Ok(paidOrders);
         }
+
+
+        [HttpPost("/payments/update")]
+        public IActionResult UpdateOrderStatus([FromBody] PayOrderDto dto)
+        {
+            var order = StaticOrders.Orders.FirstOrDefault(o => o.Id == dto.OrderId);
+            if (order == null)
+                return NotFound();
+
+            order.Status = "Paid";
+
+            return Ok(order);
+        }
+
 
     }
 }
