@@ -1,3 +1,19 @@
+// Visual diagram(this is the real flow)
+//     index.js  ← React entry point
+//        ↓
+//     <ApiProvider>  ← global state + API orchestration
+//         ↓
+//     <App>         ← your root UI
+//         ↓
+//     <Route pages>  ← OrderPage, PaymentPage, InventoryPage
+//         ↓
+//     useApi()  ← access to state + createOrder + payOrder
+//         ↓
+//     apiClient.js  ← raw HTTP calls
+//         ↓
+//     Microservices  ← Inventory, Orders, Payments
+
+
 
 import React, { useState } from "react";
 import { ApiProvider } from "./context/ApiContext";
