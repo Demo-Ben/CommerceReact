@@ -36,6 +36,14 @@ export default function PaymentPage() {
         // Reset dropdown
         setSelectedOrderId("");
     };
+    // async function handlePay(payment) {
+    //     // payment.orderId must exist
+    //     const order = await getOrderById(payment.orderId);
+
+    //     if (!window.confirm(`Pay $${order.total} again?`)) return;
+
+    //     await payOrder(order.id, order.total);
+    // }
 
     return (
         <div>
@@ -95,12 +103,12 @@ export default function PaymentPage() {
                                    --------------------------------------------------------- */}
                                 <td>
                                     <button
-                                        onClick={async () => {
-                                            const order = await getOrderById(p.orderId);
-                                            await payOrder(order.id, order.total);
-                                        }}
-                                    >
-                                        Pay Again
+                                        // onClick={async () => {
+                                        //     const order = await getOrderById(p.orderId);
+                                        //     await payOrder(order.id, order.total);
+                                        // }}
+                                        onClick={() => handlePay(p)} 
+                                        >Pay Again
                                     </button>
                                 </td>
                             </tr>
