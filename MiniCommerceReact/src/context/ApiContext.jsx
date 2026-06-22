@@ -1,29 +1,41 @@
-// In short — ApiContext.jsx is:
-//      Your front‑end microservice orchestrator
-//      Your global state manager
-//      Your API gateway(client - side)
-//      Your single source of truth
-//      Your service container
-//      Your React - wide dependency injector
+// The architecture in one clean diagram
+// ************************************
+// main.jsx or index.jsx
+//     ↓
+// apiClient.js
+//     ↓
+// Defines HTTP service functions
+//     ↓
+// ApiContext.jsx
+//     ↓
+// Loads services + injects them into the app
+//     ↓
+// Provides global state + actions
+//     ↓
+// React pages
+//     ↓
+// GUI + consumers of injected services
 
-// What ApiContext.jsx is
-// ApiContext is your front‑end service container.
-// It centralizes:
-//  Shared state(inventory, orders, payments)
-//  API calls(createOrder, payOrder, getOrderById)
-//  Data loading on startup
-//  State updates through a reducer
-//  A single source of truth for all pages
 
-// Why your app NEEDS ApiContext
-// Without ApiContext:
-//  Each page would fetch its own data
-//  You’d have duplicated logic
-//  State would be inconsistent
-//  Payments wouldn’t update Orders
-//  Orders wouldn’t update Inventory
-//  You’d have race conditions
-//  You’d have stale UI everywhere
+// Visual flow of your app
+// ***********************************
+// Index.html  ← static HTML file to host main.jsx
+//        ↓
+// <div id="root"></div>
+//         ↓
+// main.jsx  ← React entry point
+//         ↓
+// <ApiProvider>  ← loads global state + services DI container
+//         ↓
+//   <App>        ← your root UI
+//         ↓
+// Pages (OrderPage, PaymentPage, etc.)
+//         ↓
+//  useApi()  ← access to global state + service functions
+//         ↓
+//  apiClient.js  ← HTTP service layer
+//         ↓
+//  Backend microservices
 
 
 import React, { createContext, useContext, useReducer, useEffect } from "react";
