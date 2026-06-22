@@ -22,8 +22,14 @@ import OrderPage from "./features/orders/OrderPage";
 import PaymentPage from "./features/payments/PaymentPage";
 
 function App() {
+    // — useState() is one of the core building blocks of React, and once you understand it, 
+    // everything about setPage(), setCount(), setOrders()
+
+    // When the button is clicked -> Call setPage("page name") -> React updates the page state -> React re-renders
     const [page, setPage] = useState("inventory");
 
+    //  {page === "inventory" && <InventoryPage />}
+    //It means: “If page equals 'inventory', then render <InventoryPage />.”
     return (
         <ApiProvider>
             <div style={{ padding: "1rem", fontFamily: "sans-serif" }}>
@@ -35,6 +41,7 @@ function App() {
                     <button onClick={() => setPage("payments")}>Payments</button>
                 </nav>
 
+                
                 {page === "inventory" && <InventoryPage />}
                 {page === "orders" && <OrderPage />}
                 {page === "payments" && <PaymentPage />}
