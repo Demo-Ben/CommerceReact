@@ -9,9 +9,7 @@
 
 
 //This is your React → Microservices gateway.
-
 // const API_BASE = "https://localhost:5001"; // your gateway or service URL
-//const API_BASE = "https://localhost:5002";      // OrderService port
 
 //const ORDER_BASE = "https://localhost:5002";
 export const ORDER_BASE = "https://localhost:5002";
@@ -26,6 +24,15 @@ export async function getInventory() {
     return res.json();
 }
 
+export async function getOrders() {
+    const res = await fetch(`${ORDER_BASE}/orders`);
+    return res.json();
+}
+
+export async function getPayments() {
+    const res = await fetch(`${PAYMENT_BASE}/payments`);
+    return res.json();
+}
 
 // OrdrerService port
 export async function createOrder(itemId, quantity) {
@@ -44,27 +51,6 @@ export async function createOrder(itemId, quantity) {
     return res.json();
 }
 
-export async function getOrders() {
-    const res = await fetch(`${ORDER_BASE}/orders`);
-    return res.json();
-}
-
-
-
-// move to payment service port
-// export async function payOrder(orderId) {
-//     const res = await fetch(`${ORDER_BASE}/payments`, {
-//         method: "POST",
-//         headers: { "Content-Type": "application/json" },
-//         body: JSON.stringify({ orderId })
-//     });
-//     return res.json();
-// }
-// export async function getPayments() {
-//     const res = await fetch(`${ORDER_BASE}/payments`);
-//     return res.json();
-// }
-
 
 //payment service port
 export async function payOrder(orderId, amount) {
@@ -76,8 +62,4 @@ export async function payOrder(orderId, amount) {
     return res.json();
 }
 
-export async function getPayments() {
-    const res = await fetch(`${PAYMENT_BASE}/payments`);
-    return res.json();
-}
 

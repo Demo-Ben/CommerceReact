@@ -6,8 +6,31 @@
 //      Your service container
 //      Your React - wide dependency injector
 
+// What ApiContext.jsx is
+// ApiContext is your front‑end service container.
+// It centralizes:
+//  Shared state(inventory, orders, payments)
+//  API calls(createOrder, payOrder, getOrderById)
+//  Data loading on startup
+//  State updates through a reducer
+//  A single source of truth for all pages
+
+// Why your app NEEDS ApiContext
+// Without ApiContext:
+//  Each page would fetch its own data
+//  You’d have duplicated logic
+//  State would be inconsistent
+//  Payments wouldn’t update Orders
+//  Orders wouldn’t update Inventory
+//  You’d have race conditions
+//  You’d have stale UI everywhere
+
 
 import React, { createContext, useContext, useReducer, useEffect } from "react";
+
+// -------------------------------------------------------------
+// apiClient.js — low‑level HTTP functions + base URLs
+// -------------------------------------------------------------
 import {
     getInventory,
     getOrders,
@@ -21,15 +44,14 @@ import {
 
 
 // -------------------------------------------------------------
-// ApiContext
-// Acts like a lightweight front-end "service container"
-// Provides shared state + service calls to all React components
+// Create the React Context container
+// This is the global “service container” for your frontend
 // -------------------------------------------------------------
 const ApiContext = createContext();
 
+
 // -------------------------------------------------------------
-// Initial state for the reducer
-// Mirrors the 3 microservices: Inventory, Orders, Payments
+// Initial global state for the reducer
 // -------------------------------------------------------------
 const initialState = {
     // inventory: [
@@ -43,16 +65,13 @@ const initialState = {
 
 
 // -------------------------------------------------------------
-// Reducer
-// Centralized state transitions triggered by service calls
+// Reducer — centralised state transitions
+// Every API action updates state through here
 // -------------------------------------------------------------
 function reducer(state, action) {
     switch (action.type) {
 
-        // ---------------------------------------------------------
-        // LOAD_DATA
-        // Fired once on startup after fetching all 3 services
-        // ---------------------------------------------------------
+        // Load all microservice data on startup
         case "LOAD_DATA":
             return {
                 ...state,
@@ -61,21 +80,17 @@ function reducer(state, action) {
                 payments: action.payload.payments
             };
 
-        // ---------------------------------------------------------
-        // ORDER_CREATED
+
         // Fired after POST /orders returns a new order
-        // ---------------------------------------------------------
         case "ORDER_CREATED":
             return {
                 ...state,
                 orders: [...state.orders, action.payload]
             };
 
-        // ---------------------------------------------------------
-        // ORDER_PAID
+
         // Fired after POST /payments returns a payment record
         // Also updates the order status to "Paid"
-        // ---------------------------------------------------------
         case "ORDER_PAID":
             return {
                 ...state,
@@ -93,9 +108,8 @@ function reducer(state, action) {
 }
 
 // -------------------------------------------------------------
-// loadData()
-// Fetches all 3 microservices on startup
-// Equivalent to orchestrating multiple backend calls
+// loadData() — fetches all microservice data on startup
+// Called once inside useEffect()
 // -------------------------------------------------------------
 async function loadData(dispatch) {
     const inventory = await getInventory();
@@ -109,10 +123,8 @@ async function loadData(dispatch) {
 }
 
 // -------------------------------------------------------------
-// ApiProvider
-// Wraps the entire React app and exposes:
-// - Shared state (inventory, orders, payments)
-// - Service functions (createOrder, payOrder)
+// ApiProvider — wraps the entire React app
+// Provides global state + service functions to all pages
 // -------------------------------------------------------------
 export function ApiProvider({ children }) {
     const [state, dispatch] = useReducer(reducer, initialState);
@@ -125,19 +137,11 @@ export function ApiProvider({ children }) {
         loadData(dispatch);
     }, []);
 
-    // -----------------------------------------------------------
-    // createOrder()
-    // Calls OrderService → POST /orders
-    // Then updates front-end state with the returned order
-    // -----------------------------------------------------------
-    // async function createOrder(itemId, quantity) {
-    //     const order = await apiCreateOrder(itemId, quantity);
 
-    //     dispatch({
-    //         type: "ORDER_CREATED",
-    //         payload: order
-    //     });
-    // }
+    // ---------------------------------------------------------
+    // createOrder() — POST /orders
+    // Creates a new order and updates global state
+    // ---------------------------------------------------------
     async function createOrder(itemId, quantity) {
         console.log("createOrder() called:", itemId, quantity);   // ← ADD THIS
 
@@ -152,13 +156,11 @@ export function ApiProvider({ children }) {
     }
 
 
-    // -----------------------------------------------------------
-    // payOrder()
-    // Calls PaymentService → POST /payments
-    // Then updates:
-    // - payments list
-    // - order status to "Paid"
-    // -----------------------------------------------------------
+    // ---------------------------------------------------------
+    // payOrder() — POST /payments
+    // IMPORTANT: must accept BOTH orderId + amount
+    // This is what fixes the “amount = 0” bug
+    // ---------------------------------------------------------
     async function payOrder(orderId, amount) {
         const payment = await apiPayOrder(orderId, amount);
 
@@ -169,6 +171,10 @@ export function ApiProvider({ children }) {
     }
 
 
+    // ---------------------------------------------------------
+    // getOrderById() — GET /orders/{id}
+    // Used by PaymentPage “Pay Again” to fetch the correct total
+    // ---------------------------------------------------------
     async function getOrderById(orderId) {
         const res = await fetch(`${ORDER_BASE}/orders/${orderId}`);
         return res.json();
@@ -193,9 +199,8 @@ export function ApiProvider({ children }) {
 }
 
 // -------------------------------------------------------------
-// useApi()
-// Custom hook for consuming the ApiContext
-// Makes calling services easy inside components
+// useApi() — custom hook for consuming ApiContext
+// Lets pages call createOrder(), payOrder(), etc.
 // -------------------------------------------------------------
 export function useApi() {
     return useContext(ApiContext);
