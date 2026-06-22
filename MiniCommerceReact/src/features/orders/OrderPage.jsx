@@ -22,12 +22,18 @@ export default function OrderPage() {
 
     // Create a new order
     async function handleCreateOrder(itemId) {
+        const ok = window.confirm("Create this order?");
+        if (!ok) return;
+
         const quantity = 1; // or use a UI input
         await createOrder(itemId, quantity);
     }
 
     // Pay for an order
     async function handlePay(order) {
+        const ok = window.confirm(`Pay $${order.total} for this order?`);
+        if (!ok) return;
+
         await payOrder(order.id, order.total);
     }
 
