@@ -124,7 +124,10 @@ function reducer(state, action) {
 // Called once inside useEffect()
 // -------------------------------------------------------------
 async function loadData(dispatch) {
+    onsole.log("🔥 loadData() fired");
     const inventory = await getInventory();
+    console.log("🔥 inventory fetched:", inventory);
+
     const orders = await getOrders();
     const payments = await getPayments();
 
@@ -219,99 +222,3 @@ export function useApi() {
 }
 
 
-
-
-// import React, { createContext, useContext, useReducer } from "react";
-
-// const ApiContext = createContext();
-
-// const initialState = {
-//   inventory: [
-//     { id: 1, name: "Laptop", stock: 5, price: 1500 },
-//     { id: 2, name: "Mouse", stock: 20, price: 25 }
-//   ],
-//   orders: [],
-//   payments: []
-// };
-
-// function reducer(state, action) {
-//   switch (action.type) {
-//     case "CREATE_ORDER": {
-//       const item = state.inventory.find(i => i.id === action.payload.itemId);
-//       if (!item || item.stock < action.payload.quantity) return state;
-
-//       const updatedInventory = state.inventory.map(i =>
-//         i.id === item.id ? { ...i, stock: i.stock - action.payload.quantity } : i
-//       );
-
-//       const newOrder = {
-//         id: state.orders.length + 1,
-//         itemId: item.id,
-//         quantity: action.payload.quantity,
-//         total: item.price * action.payload.quantity,
-//         status: "PendingPayment"
-//       };
-
-//       return {
-//         ...state,
-//         inventory: updatedInventory,
-//         orders: [...state.orders, newOrder]
-//       };
-//     }
-
-//     case "PAY_ORDER": {
-//       const order = state.orders.find(o => o.id === action.payload.orderId);
-//       if (!order || order.status === "Paid") return state;
-
-//       const updatedOrders = state.orders.map(o =>
-//         o.id === order.id ? { ...o, status: "Paid" } : o
-//       );
-
-//       const newPayment = {
-//         id: state.payments.length + 1,
-//         orderId: order.id,
-//         amount: order.total
-//       };
-
-//       return {
-//         ...state,
-//         orders: updatedOrders,
-//         payments: [...state.payments, newPayment]
-//       };
-//     }
-
-//     default:
-//       return state;
-//   }
-// }
-
-// export function ApiProvider({ children }) {
-//   const [state, dispatch] = useReducer(reducer, initialState);
-
-//   const value = {
-//     inventory: state.inventory,
-//     orders: state.orders,
-//     payments: state.payments,
-//     createOrder: (itemId, quantity) =>
-//       dispatch({ type: "CREATE_ORDER", payload: { itemId, quantity } }),
-//     payOrder: orderId =>
-//       dispatch({ type: "PAY_ORDER", payload: { orderId } })
-//   };
-
-//   return <ApiContext.Provider value={value}>{children}</ApiContext.Provider>;
-// }
-
-// export function useApi() {
-//   return useContext(ApiContext);
-// }
-
-
-
-
-// function ApiContext() {
-//   return (
-//     <p>Hello world!</p>
-//   );
-// }
-
-// export default ApiContext;
