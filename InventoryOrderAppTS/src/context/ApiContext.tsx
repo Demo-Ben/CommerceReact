@@ -1,0 +1,217 @@
+// function ApiContext() {
+//   return (
+//     <p>Hello world!</p>
+//   );
+// }
+
+// export default ApiContext;
+
+
+import React, { createContext, useContext, useReducer, useEffect, ReactNode } from "react";
+
+// -------------------------------------------------------------
+// apiClient.ts — low‑level HTTP functions + base URLs
+// -------------------------------------------------------------
+import {
+    getInventory,
+    getOrders,
+    getPayments,
+    createOrder as apiCreateOrder,
+    payOrder as apiPayOrder,
+    ORDER_BASE
+} from "../api/apiClient";
+
+
+// -------------------------------------------------------------
+// TypeScript interfaces for your domain models
+// -------------------------------------------------------------
+export interface InventoryItem {
+    id: number;
+    name: string;
+    stock: number;
+    price: number;
+}
+
+export interface Order {
+    id: number;
+    itemId: number;
+    quantity: number;
+    total: number;
+    status: string;
+}
+
+export interface Payment {
+    id: number;
+    orderId: number;
+    amount: number;
+}
+
+
+// -------------------------------------------------------------
+// TypeScript type for global state
+// -------------------------------------------------------------
+interface ApiState {
+    inventory: InventoryItem[];
+    orders: Order[];
+    payments: Payment[];
+}
+
+
+// -------------------------------------------------------------
+// TypeScript type for reducer actions
+// -------------------------------------------------------------
+type Action =
+    | { type: "LOAD_DATA"; payload: ApiState }
+    | { type: "ORDER_CREATED"; payload: Order }
+    | { type: "ORDER_PAID"; payload: Payment };
+
+
+// -------------------------------------------------------------
+// Create the React Context container
+// This is the global “service container” for your frontend
+// -------------------------------------------------------------
+interface ApiContextValue {
+    inventory: InventoryItem[];
+    orders: Order[];
+    payments: Payment[];
+    createOrder: (itemId: number, quantity: number) => Promise<void>;
+    payOrder: (orderId: number, amount: number) => Promise<void>;
+    getOrderById: (orderId: number) => Promise<Order>;
+}
+
+const ApiContext = createContext<ApiContextValue | undefined>(undefined);
+
+
+// -------------------------------------------------------------
+// Initial global state for the reducer
+// -------------------------------------------------------------
+const initialState: ApiState = {
+    inventory: [],
+    orders: [],
+    payments: []
+};
+
+
+// -------------------------------------------------------------
+// Reducer — centralised state transitions
+// Every API action updates state through here
+// -------------------------------------------------------------
+function reducer(state: ApiState, action: Action): ApiState {
+    switch (action.type) {
+
+        case "LOAD_DATA":
+            return {
+                ...state,
+                inventory: action.payload.inventory,
+                orders: action.payload.orders,
+                payments: action.payload.payments
+            };
+
+        case "ORDER_CREATED":
+            return {
+                ...state,
+                orders: [...state.orders, action.payload]
+            };
+
+        case "ORDER_PAID":
+            return {
+                ...state,
+                payments: [...state.payments, action.payload],
+                orders: state.orders.map(o =>
+                    o.id === action.payload.orderId
+                        ? { ...o, status: "Paid" }
+                        : o
+                )
+            };
+
+        default:
+            return state;
+    }
+}
+
+
+// -------------------------------------------------------------
+// loadData() — fetches all microservice data on startup
+// Called once inside useEffect()
+// -------------------------------------------------------------
+async function loadData(dispatch: React.Dispatch<Action>) {
+
+    console.log("🔥 loadData() fired");
+    const inventory = await getInventory();
+    console.log("🔥 inventory fetched:", inventory);
+
+
+    const orders = await getOrders();
+    const payments = await getPayments();
+
+    dispatch({
+        type: "LOAD_DATA",
+        payload: { inventory, orders, payments }
+    });
+}
+
+
+// -------------------------------------------------------------
+// ApiProvider — wraps the entire React app
+// Provides global state + service functions to all pages
+// -------------------------------------------------------------
+export function ApiProvider({ children }: { children: ReactNode }) {
+    const [state, dispatch] = useReducer(reducer, initialState);
+
+    useEffect(() => {
+        loadData(dispatch);
+    }, []);
+
+    async function createOrder(itemId: number, quantity: number) {
+        console.log("createOrder() called:", itemId, quantity);
+
+        const order = await apiCreateOrder(itemId, quantity);
+
+        console.log("Backend returned:", order);
+
+        dispatch({
+            type: "ORDER_CREATED",
+            payload: order
+        });
+    }
+
+    async function payOrder(orderId: number, amount: number) {
+        const payment = await apiPayOrder(orderId, amount);
+
+        dispatch({
+            type: "ORDER_PAID",
+            payload: payment
+        });
+    }
+
+    async function getOrderById(orderId: number): Promise<Order> {
+        const res = await fetch(`${ORDER_BASE}/orders/${orderId}`);
+        return res.json();
+    }
+
+    const value: ApiContextValue = {
+        inventory: state.inventory,
+        orders: state.orders,
+        payments: state.payments,
+        createOrder,
+        payOrder,
+        getOrderById
+    };
+
+    return (
+        <ApiContext.Provider value={value}>
+            {children}
+        </ApiContext.Provider>
+    );
+}
+
+
+// -------------------------------------------------------------
+// useApi() — custom hook for consuming ApiContext
+// Lets pages call createOrder(), payOrder(), etc.
+// -------------------------------------------------------------
+export function useApi(): ApiContextValue {
+    const ctx = useContext(ApiContext);
+    if (!ctx) throw new Error("useApi must be used inside ApiProvider");
+    return ctx;
+}

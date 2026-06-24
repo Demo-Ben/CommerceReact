@@ -1,0 +1,89 @@
+// console.log("Hello World!")
+
+
+//This is your React → Microservices gateway.
+//const API_BASE = "https://localhost:5001"; // your gateway or service URL
+
+//const ORDER_BASE = "https://localhost:5002";
+export const ORDER_BASE = "https://localhost:5002";
+
+const INVENTORY_BASE = "https://localhost:5003";
+const PAYMENT_BASE = "https://localhost:5004";
+
+
+// -------------------------------------------------------------
+// TypeScript interfaces for API responses
+// -------------------------------------------------------------
+export interface InventoryItem {
+    id: number;
+    name: string;
+    stock: number;
+    price: number;
+}
+
+export interface Order {
+    id: number;
+    itemId: number;
+    quantity: number;
+    total: number;
+    status: string;
+}
+
+export interface Payment {
+    id: number;
+    orderId: number;
+    amount: number;
+    status: string;
+}
+
+
+// -------------------------------------------------------------
+// Inventory Service
+// -------------------------------------------------------------
+export async function getInventory(): Promise<InventoryItem[]> {
+    const res = await fetch(`${INVENTORY_BASE}/inventory`);
+    return res.json();
+}
+
+
+// -------------------------------------------------------------
+// Order Service
+// -------------------------------------------------------------
+export async function getOrders(): Promise<Order[]> {
+    const res = await fetch(`${ORDER_BASE}/orders`);
+    return res.json();
+}
+
+export async function createOrder(itemId: number, quantity: number): Promise<Order> {
+
+    console.log("Calling API:", `${ORDER_BASE}/orders`);    // ← ADD THIS
+    console.log("Sending body:", { itemId, quantity });     // ← ADD THIS
+
+    const res = await fetch(`${ORDER_BASE}/orders`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ itemId, quantity })
+    });
+
+    console.log("Raw response:", res);   // ← ADD THIS
+
+    return res.json();
+}
+
+
+// -------------------------------------------------------------
+// Payment Service
+// -------------------------------------------------------------
+export async function getPayments(): Promise<Payment[]> {
+    const res = await fetch(`${PAYMENT_BASE}/payments`);
+    return res.json();
+}
+
+export async function payOrder(orderId: number, amount: number): Promise<Payment> {
+    const res = await fetch(`${PAYMENT_BASE}/payments`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderId, amount })
+    });
+    return res.json();
+}
