@@ -1,5 +1,5 @@
 <Solution>
-  <Project Path="../InventoryOrderAppTS/inventoryorderappts.esproj">
+  <Project Path="../InventoryOrderAppTS/InventoryOrderTS.esproj">
     <Build />
     <Deploy />
   </Project>
