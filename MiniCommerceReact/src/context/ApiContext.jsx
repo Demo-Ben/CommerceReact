@@ -124,9 +124,9 @@ function reducer(state, action) {
 // Called once inside useEffect()
 // -------------------------------------------------------------
 async function loadData(dispatch) {
-    onsole.log("🔥 loadData() fired");
+    // onsole.log("🔥 loadData() fired");
     const inventory = await getInventory();
-    console.log("🔥 inventory fetched:", inventory);
+    // console.log("🔥 inventory fetched:", inventory);
 
     const orders = await getOrders();
     const payments = await getPayments();
