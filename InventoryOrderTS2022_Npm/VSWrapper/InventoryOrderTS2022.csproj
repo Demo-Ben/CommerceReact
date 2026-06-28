@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>InventoryOrderTS2022</RootNamespace>
+  </PropertyGroup>
+
+  <!-- Link React/Vite files into the project -->
+  <ItemGroup>
+    <None Include="..\package.json" Link="package.json" />
+    <None Include="..\package-lock.json" Link="package-lock.json" />
+    <None Include="..\tsconfig.json" Link="tsconfig.json" />
+    <None Include="..\tsconfig.node.json" Link="tsconfig.node.json" />
+    <None Include="..\vite.config.ts" Link="vite.config.ts" />
+    <None Include="..\index.html" Link="index.html" />
+
+    <!-- Link all files inside src/ -->
+    <None Include="..\src\**\*" LinkBase="src" />
+  </ItemGroup>
+
+</Project>
