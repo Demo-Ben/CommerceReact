@@ -14,7 +14,7 @@
 //│
 //└── src /
 //    ├── main.tsx			← Entry point. Renders <App /> into the DOM
-//    ├── App.tsx			← Root component.
+//    ├── App.tsx			← Root component. /App.tsx in React plays the same role as _Layout.cshtml in ASP.NET MVC / Razor Pages.
 //    │
 //    ├── assets /			← Static images, logos, icons.
 //    │     └── react.svg

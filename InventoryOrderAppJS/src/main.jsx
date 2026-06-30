@@ -14,7 +14,7 @@
 //│
 //└── src /
 //    ├── main.jsx			← Entry point. Renders <App /> into the DOM
-//    ├── App.jsx			← Root component.
+//    ├── App.jsx			← Root component. /App.jsx in React plays the same role as _Layout.cshtml in ASP.NET MVC / Razor Pages.
 //    │
 //    ├── assets /			← Static images, logos, icons.
 //    │     └── react.svg

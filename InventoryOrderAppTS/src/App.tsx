@@ -1,34 +1,58 @@
 import React, { useState } from "react";
+
 import { ApiProvider } from "./context/ApiContext";
+
 import InventoryPage from "./features/inventory/InventoryPage";
 import OrderPage from "./features/orders/OrderPage";
 import PaymentPage from "./features/payments/PaymentPage";
 
 // Define allowed page names
+// Define allowed page names as a TypeScript union type.
+// This prevents invalid values like "inventroy" or "home".
+// Equivalent to an enum with strict string values.
 type Page = "inventory" | "orders" | "payments";
 
 function App() {
+    // React state hook.
+    //  page = current page name
+    //  setPage = function to update the page
+    //  useState<Page>("inventory") means:
+    //   - initial value is "inventory"
+    //   - TypeScript enforces Page type
     const [page, setPage] = useState<Page>("inventory");
 
+    // JSX returned by the component.
+    // React will re-render this UI whenever state changes (setPage).
     return (
         <ApiProvider>
+            {/* Inline styling for layout */}
             <div style={{ padding: "1rem", fontFamily: "sans-serif" }}>
+
                 <h1>Mini Commerce (React + TypeScript)</h1>
 
+                {/* Navigation bar */}
                 <nav style={{ marginBottom: "1rem" }}>
                     <button onClick={() => setPage("inventory")}>Inventory</button>
                     <button onClick={() => setPage("orders")}>Orders</button>
                     <button onClick={() => setPage("payments")}>Payments</button>
                 </nav>
 
+                {/* Conditional rendering */}
+                {/* If page === "inventory", show InventoryPage component */}
                 {page === "inventory" && <InventoryPage />}
+
+                {/* If page === "orders", show OrderPage component */}
                 {page === "orders" && <OrderPage />}
+
+                {/* If page === "payments", show PaymentPage component */}
                 {page === "payments" && <PaymentPage />}
             </div>
         </ApiProvider>
     );
 }
 
+// Export App as the default export of this module.
+// This allows other files to import it using: import App from "./App";
 export default App;
 
 
