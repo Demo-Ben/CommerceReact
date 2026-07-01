@@ -14,7 +14,6 @@ export default function InventoryPage() {
     // React state: when selectedId changes, React re-renders this component.
     const [selectedId, setSelectedId] = useState<string>("");
 
-    // *** my comment ***
     // useState<number>(1) means React will track this value and re-render when it changes.
     const [quantity, setQuantity] = useState<number>(1);
 
@@ -37,15 +36,13 @@ export default function InventoryPage() {
 
     return (
         <div>
-            {/* *** my comment ***
-                React components return JSX.
+            {/* React components return JSX.
                 JSX is NOT HTML — it's JavaScript that looks like HTML.
                 Every time state changes, React re-renders this return block.
             */}
             <h2>Inventory</h2>
 
-            {/* *** my comment ***
-                Tables in React work exactly like HTML tables.
+            {/* Tables in React work exactly like HTML tables.
                 The difference is: dynamic rows must be generated using .map().
             */}
             <div
@@ -66,13 +63,9 @@ export default function InventoryPage() {
                     </thead>
 
                     <tbody>
-                        {/* *** my comment ***
-                        inventory.map(...) loops through your inventory array.
-                        React requires a "key" for each row to track updates efficiently.
-                       
-                        // renamed from "inventory"
-                       */}
-                        {inventoryItems.map(item => (
+                        {/* inventoryItems.map(...) loops through your inventory array.
+                        React requires a "key" for each row to track updates efficiently. */}
+                        {inventoryItems.map(item => (   // renamed from "inventory"
                             <tr key={item.id}>
                                 <td>{item.id}</td>
                                 <td>{item.name}</td>
@@ -89,8 +82,7 @@ export default function InventoryPage() {
             <div>
                 <label>
                     Item:
-                    {/* *** my comment ***
-                        <select> always returns a string.
+                    {/*  <select> always returns a string.
                         That's why selectedId is stored as a string.
                         React's onChange gives you the event, and you read e.target.value.
                     */}
@@ -100,14 +92,11 @@ export default function InventoryPage() {
                     >
                         <option value="">-- select --</option>
 
-                        {/* *** my comment ***
-                            Same pattern: map inventory into <option> elements.
+                        {/* Same pattern: map inventory into <option> elements.
                             The "value" is the item.id, which is a number,
                             but HTML always returns it as a string.
-
-                            // renamed from "inventory"
                         */}
-                        {inventoryItems.map(item => (
+                        {inventoryItems.map(item => (               // renamed from "inventory"
                             <option key={item.id} value={item.id}>
                                 {item.name} (stock: {item.stock})
                             </option>
@@ -119,8 +108,7 @@ export default function InventoryPage() {
             <div>
                 <label>
                     Quantity:
-                    {/* *** my comment ***
-                        <input type="number"> returns a string too.
+                    {/* <input type="number"> returns a string too.
                         So we convert it using Number(...).
                         React re-renders when quantity changes.
                     */}
@@ -133,8 +121,7 @@ export default function InventoryPage() {
                 </label>
             </div>
 
-            {/* *** my comment ***
-                Clicking this button calls handleCreateOrder().
+            {/* Clicking this button calls handleCreateOrder().
                 React does NOT refresh the page — it updates state and re-renders.
             */}
             <button onClick={handleCreateOrder}>Create Order</button>
