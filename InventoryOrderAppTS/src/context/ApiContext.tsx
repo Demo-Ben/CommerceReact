@@ -87,7 +87,7 @@ const ApiContext = createContext<ApiContextValue | undefined>(undefined);
 // Initial global state for the reducer
 // -------------------------------------------------------------
 const initialState: ApiState = {
-    inventoryItems: [],   // renamed from "inventory"
+    inventoryItems: [],         // renamed from "inventory"
     orders: [],
     payments: []
 };
@@ -103,7 +103,7 @@ function reducer(state: ApiState, action: Action): ApiState {
         case "LOAD_DATA":
             return {
                 ...state,
-                inventoryItems: action.payload.inventoryItems,   // renamed from inventory: action.payload.inventory,             
+                inventoryItems: action.payload.inventoryItems,   // renamed from "inventory",             
                 orders: action.payload.orders,
                 payments: action.payload.payments
             };
@@ -138,8 +138,8 @@ function reducer(state: ApiState, action: Action): ApiState {
 async function loadData(dispatch: React.Dispatch<Action>) {
 
     console.log("🔥 loadData() fired");
-    const inventoryItems = await getInventory();            // renamed from inventory;
-    console.log("🔥 inventory fetched:", inventoryItems);   // renamed
+    const inventoryItems = await getInventory();            // renamed from "inventory"
+    console.log("🔥 inventory fetched:", inventoryItems);   // renamed from "inventory"
 
 
     const orders = await getOrders();
@@ -147,7 +147,7 @@ async function loadData(dispatch: React.Dispatch<Action>) {
 
     dispatch({
         type: "LOAD_DATA",
-        payload: { inventoryItems, orders, payments }   // rename  inventory
+        payload: { inventoryItems, orders, payments }       // renamed from "inventory"
     });
 }
 
@@ -191,7 +191,7 @@ export function ApiProvider({ children }: { children: ReactNode }) {
     }
 
     const value: ApiContextValue = {
-        inventoryItems: state.inventoryItems,   // renamed inventory
+        inventoryItems: state.inventoryItems,               // renamed from "inventory"
         orders: state.orders,
         payments: state.payments,
         createOrder,

@@ -9,7 +9,7 @@ export default function InventoryPage() {
     //     inventory
     //     createOrder
     // that's why you need "import { useApi } from "../../context/ApiContext""
-    const { inventoryItems, createOrder } = useApi();    // renamed inventory → inventoryItems
+    const { inventoryItems, createOrder } = useApi();               // renamed from "inventory"
 
     // React state: when selectedId changes, React re-renders this component.
     const [selectedId, setSelectedId] = useState<string>("");
@@ -69,7 +69,8 @@ export default function InventoryPage() {
                         {/* *** my comment ***
                         inventory.map(...) loops through your inventory array.
                         React requires a "key" for each row to track updates efficiently.
-                        // renamed inventory → inventoryItems
+                       
+                        // renamed from "inventory"
                        */}
                         {inventoryItems.map(item => (
                             <tr key={item.id}>
@@ -103,6 +104,8 @@ export default function InventoryPage() {
                             Same pattern: map inventory into <option> elements.
                             The "value" is the item.id, which is a number,
                             but HTML always returns it as a string.
+
+                            // renamed from "inventory"
                         */}
                         {inventoryItems.map(item => (
                             <option key={item.id} value={item.id}>

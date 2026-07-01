@@ -11,12 +11,12 @@ import React from "react";
 import { useApi } from "../../context/ApiContext";
 
 export default function OrderPage() {
-    const { inventoryItems, orders, createOrder, payOrder } = useApi();  // renamed inventory → inventoryItems
+    const { inventoryItems, orders, createOrder, payOrder } = useApi();         // renamed from "inventory"
 
     // Helper: get item name from inventory
     // TypeScript ensures itemId is a number and inventory items are typed
     function getItemName(itemId: number): string {
-        const item = inventoryItems.find(i => i.id === itemId);         // renamed inventory → inventoryItems
+        const item = inventoryItems.find(i => i.id === itemId);                 // renamed from "inventory"
         return item ? item.name : "Unknown";
     }
 
@@ -64,7 +64,7 @@ export default function OrderPage() {
                         </tr>
                     </thead>
                     <tbody>
-                        {inventoryItems.map(item => (   // renamed inventory → inventoryItems
+                        {inventoryItems.map(item => (           // renamed from "inventory"
                             <tr key={item.id}>
                                 <td>{item.id}</td>
                                 <td>{item.name}</td>
