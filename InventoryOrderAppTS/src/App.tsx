@@ -8,7 +8,7 @@ import InventoryPage from "./features/inventory/InventoryPage";
 import OrderPage from "./features/orders/OrderPage";
 import PaymentPage from "./features/payments/PaymentPage";
 
-// Define allowed page names
+
 // Define allowed page names as a TypeScript union type.
 // This prevents invalid values like "inventroy" or "home".
 // Equivalent to an enum with strict string values.
@@ -131,16 +131,10 @@ function App() {
                     </div>
                 </div>
 
-                {/* *** your comment ***
-                    right side container,  contains top banner + page content
-                */}
+                {/* right side container, contains top banner + page content   */}
                 <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
 
-                    {/* *** your comment ***
-                        top banner
-                        *** my comment ***
-                        sky blue background showing current page title
-                    */}
+                    {/* ky blue background showing current page title*/}
                     <div
                         style={{
                             backgroundColor: "#4361EE", // sky blue
@@ -154,7 +148,7 @@ function App() {
                     </div>
 
                     {/* *** your comment ***
-                        page body,  conditional rendering based on page value
+                        page body, conditional rendering based on page value
                     */}
                     <div style={{ padding: "1rem" }}>
                         {page === "inventory" && <InventoryPage />}
