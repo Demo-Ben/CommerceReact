@@ -78,33 +78,40 @@ export default function PaymentPage() {
             {payments.length === 0 && <p>No payments yet.</p>}
 
             {payments.length > 0 && (
-                <table border={1} cellPadding={4}>
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>OrderId</th>
-                            <th>Amount</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {payments.map(p => (
-                            <tr key={p.id}>
-                                <td>{p.id}</td>
-                                <td>{p.orderId}</td>
-                                <td>${p.amount}</td>
-                                <td>{p.status}</td>
-
-                                <td>
-                                    <button onClick={() => handlePayAgain(p)}>
-                                        Pay Again
-                                    </button>
-                                </td>
+                <div
+                    style={{
+                        display: "flex",              // enable flexbox
+                        justifyContent: "center",     // center horizontally
+                        marginTop: "20px"             // optional spacing
+                    }}
+                >
+                    <table border={1} cellPadding={4}>
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>OrderId</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Action</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {payments.map(p => (
+                                <tr key={p.id}>
+                                    <td>{p.id}</td>
+                                    <td>{p.orderId}</td>
+                                    <td>${p.amount}</td>
+                                    <td>{p.status}</td>
+                                    <td>
+                                        <button onClick={() => handlePayAgain(p)}>
+                                            Pay Again
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             )}
         </div>
     );

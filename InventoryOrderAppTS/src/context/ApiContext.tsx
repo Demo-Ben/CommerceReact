@@ -44,6 +44,7 @@ export interface Payment {
     id: number;
     orderId: number;
     amount: number;
+    status: string;   // add this
 }
 
 
@@ -51,7 +52,7 @@ export interface Payment {
 // TypeScript type for global state
 // -------------------------------------------------------------
 interface ApiState {
-    inventory: InventoryItem[];
+    inventoryItems: InventoryItem[];   // renamed from "inventory"
     orders: Order[];
     payments: Payment[];
 }
@@ -71,7 +72,7 @@ type Action =
 // This is the global “service container” for your frontend
 // -------------------------------------------------------------
 interface ApiContextValue {
-    inventory: InventoryItem[];
+    inventoryItems: InventoryItem[];   // renamed from "inventory"
     orders: Order[];
     payments: Payment[];
     createOrder: (itemId: number, quantity: number) => Promise<void>;
@@ -86,7 +87,7 @@ const ApiContext = createContext<ApiContextValue | undefined>(undefined);
 // Initial global state for the reducer
 // -------------------------------------------------------------
 const initialState: ApiState = {
-    inventory: [],
+    inventoryItems: [],   // renamed from "inventory"
     orders: [],
     payments: []
 };
@@ -102,7 +103,7 @@ function reducer(state: ApiState, action: Action): ApiState {
         case "LOAD_DATA":
             return {
                 ...state,
-                inventory: action.payload.inventory,
+                inventoryItems: action.payload.inventoryItems,   // renamed from inventory: action.payload.inventory,             
                 orders: action.payload.orders,
                 payments: action.payload.payments
             };
@@ -116,7 +117,7 @@ function reducer(state: ApiState, action: Action): ApiState {
         case "ORDER_PAID":
             return {
                 ...state,
-                payments: [...state.payments, action.payload],
+                payments: [...state.payments, { ...action.payload, status: "Paid" }],
                 orders: state.orders.map(o =>
                     o.id === action.payload.orderId
                         ? { ...o, status: "Paid" }
@@ -137,8 +138,8 @@ function reducer(state: ApiState, action: Action): ApiState {
 async function loadData(dispatch: React.Dispatch<Action>) {
 
     console.log("🔥 loadData() fired");
-    const inventory = await getInventory();
-    console.log("🔥 inventory fetched:", inventory);
+    const inventoryItems = await getInventory();            // renamed from inventory;
+    console.log("🔥 inventory fetched:", inventoryItems);   // renamed
 
 
     const orders = await getOrders();
@@ -146,7 +147,7 @@ async function loadData(dispatch: React.Dispatch<Action>) {
 
     dispatch({
         type: "LOAD_DATA",
-        payload: { inventory, orders, payments }
+        payload: { inventoryItems, orders, payments }   // rename  inventory
     });
 }
 
@@ -190,7 +191,7 @@ export function ApiProvider({ children }: { children: ReactNode }) {
     }
 
     const value: ApiContextValue = {
-        inventory: state.inventory,
+        inventoryItems: state.inventoryItems,   // renamed inventory
         orders: state.orders,
         payments: state.payments,
         createOrder,

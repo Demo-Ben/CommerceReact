@@ -2,24 +2,17 @@ import React, { useState } from "react";
 import { useApi } from "../../context/ApiContext";
 
 export default function InventoryPage() {
-    const { inventory, createOrder } = useApi();
+
+    // When You are calling your custom hook useApi()
+    // That hook returns an "object""
+    // You extract two properties from that "object":
+    //     inventory
+    //     createOrder
+    // that's why you need "import { useApi } from "../../context/ApiContext""
+    const { inventoryItems, createOrder } = useApi();    // renamed inventory → inventoryItems
 
     // React state: when selectedId changes, React re-renders this component.
     const [selectedId, setSelectedId] = useState<string>("");
-
-    //roughly equal to in C#
-    // private string _selectedId = "";
-    // public string SelectedId
-    // {
-    //     get => _selectedId;
-    //     set
-    //     {
-    //         _selectedId = value;
-    //         StateHasChanged(); // re-render UI
-    //     }
-    // }
-
-
 
     // *** my comment ***
     // useState<number>(1) means React will track this value and re-render when it changes.
@@ -76,8 +69,9 @@ export default function InventoryPage() {
                         {/* *** my comment ***
                         inventory.map(...) loops through your inventory array.
                         React requires a "key" for each row to track updates efficiently.
+                        // renamed inventory → inventoryItems
                        */}
-                        {inventory.map(item => (
+                        {inventoryItems.map(item => (
                             <tr key={item.id}>
                                 <td>{item.id}</td>
                                 <td>{item.name}</td>
@@ -110,7 +104,7 @@ export default function InventoryPage() {
                             The "value" is the item.id, which is a number,
                             but HTML always returns it as a string.
                         */}
-                        {inventory.map(item => (
+                        {inventoryItems.map(item => (
                             <option key={item.id} value={item.id}>
                                 {item.name} (stock: {item.stock})
                             </option>

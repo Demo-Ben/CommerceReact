@@ -11,12 +11,12 @@ import React from "react";
 import { useApi } from "../../context/ApiContext";
 
 export default function OrderPage() {
-    const { inventory, orders, createOrder, payOrder } = useApi();
+    const { inventoryItems, orders, createOrder, payOrder } = useApi();  // renamed inventory → inventoryItems
 
     // Helper: get item name from inventory
     // TypeScript ensures itemId is a number and inventory items are typed
     function getItemName(itemId: number): string {
-        const item = inventory.find(i => i.id === itemId);
+        const item = inventoryItems.find(i => i.id === itemId);         // renamed inventory → inventoryItems
         return item ? item.name : "Unknown";
     }
 
@@ -45,67 +45,85 @@ export default function OrderPage() {
                 Inventory List (Create Order)
             --------------------------------------------------------- */}
             <h3>Inventory</h3>
-            <table border={1} cellPadding={4}>
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Stock</th>
-                        <th>Price</th>
-                        <th>Create Order</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {inventory.map(item => (
-                        <tr key={item.id}>
-                            <td>{item.id}</td>
-                            <td>{item.name}</td>
-                            <td>{item.stock}</td>
-                            <td>${item.price}</td>
-                            <td>
-                                <button onClick={() => handleCreateOrder(item.id)}>
-                                    Create Order
-                                </button>
-                            </td>
+
+            <div
+                style={{
+                    display: "flex",              // enable flexbox
+                    justifyContent: "center",     // center horizontally
+                    marginTop: "20px"             // optional spacing
+                }}
+            >
+                <table border={1} cellPadding={4}>
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Stock</th>
+                            <th>Price</th>
+                            <th>Create Order</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {inventoryItems.map(item => (   // renamed inventory → inventoryItems
+                            <tr key={item.id}>
+                                <td>{item.id}</td>
+                                <td>{item.name}</td>
+                                <td>{item.stock}</td>
+                                <td>${item.price}</td>
+                                <td>
+                                    <button onClick={() => handleCreateOrder(item.id)}>
+                                        Create Order
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
 
             {/* ---------------------------------------------------------
                 Orders List (Pay Button)
             --------------------------------------------------------- */}
             <h3>Orders</h3>
-            <table border={1} cellPadding={4}>
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Item</th>
-                        <th>Quantity</th>
-                        <th>Total</th>
-                        <th>Status</th>
-                        <th>Pay</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {orders.map(order => (
-                        <tr key={order.id}>
-                            <td>{order.id}</td>
-                            <td>{getItemName(order.itemId)}</td>
-                            <td>{order.quantity}</td>
-                            <td>${order.total}</td>
-                            <td>{order.status}</td>
-                            <td>
-                                {order.status !== "Paid" && (
-                                    <button onClick={() => handlePay(order)}>
-                                        Pay
-                                    </button>
-                                )}
-                            </td>
+
+            <div
+                style={{
+                    display: "flex",              // enable flexbox
+                    justifyContent: "center",     // center horizontally
+                    marginTop: "20px"             // optional spacing
+                }}
+            >
+                <table border={1} cellPadding={4}>
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Item</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Pay</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {orders.map(order => (
+                            <tr key={order.id}>
+                                <td>{order.id}</td>
+                                <td>{getItemName(order.itemId)}</td>
+                                <td>{order.quantity}</td>
+                                <td>${order.total}</td>
+                                <td>{order.status}</td>
+                                <td>
+                                    {order.status !== "Paid" && (
+                                        <button onClick={() => handlePay(order)}>
+                                            Pay
+                                        </button>
+                                    )}
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }
