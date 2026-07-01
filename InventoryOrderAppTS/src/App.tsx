@@ -16,13 +16,12 @@ type Page = "inventory" | "orders" | "payments";
 
 function App() {
 
-    // *** your comment ***
+    // *** How does App.tsx ***
     // When the button is clicked -> Call setPage("page name") -> React updates the page state -> React re-renders
     // *** my comment ***
     // page state controls which component is shown on the right side
     const [page, setPage] = useState<Page>("inventory");
 
-    // *** my comment ***
     // map page string → readable banner title
     const pageTitleMap = {
         inventory: "Inventory",
