@@ -33,39 +33,30 @@ function App() {
     return (
         <ApiProvider>
 
-            {/* *** your comment ***
-                main layout container
-                flex layout: left sidebar + right content
-            */}
+            {/* main layout container, flex layout: left sidebar + right content */}
             <div style={{ display: "flex", height: "100vh", fontFamily: "sans-serif" }}>
 
-                {/* *** your comment ***
-                    left side menu,  deep blue background, vertical menu
-                */}
+                {/* left side menu,  deep blue background, vertical menu */}
                 <div
                     style={{
                         width: "200px",
-                        backgroundColor: "#2B35AF", // deep blue
+                        backgroundColor: "#2B35AF", // blue
                         color: "white",
                         padding: "1rem"
                     }}>
 
                     <h2
                         style={{
-                            backgroundColor: "transparent",    // *** my comment *** transparent background
-                            color: "white",                    // *** my comment *** white font
-                            textAlign: "center",               // *** my comment *** center the title
-                            margin: 0,                         // *** my comment *** remove default margin
-                            padding: "0.5rem"                  // *** my comment *** add slight spacing
+                            backgroundColor: "transparent",    // transparent background
+                            color: "white",                    // white font
+                            textAlign: "center",               // center the title
+                            margin: 0,                         // remove default margin
+                            padding: "0.5rem"                  // add slight spacing
                         }}>
                         Menu
                     </h2>
 
-                    {/* *** your comment ***
-                        menu buttons
-                        *** my comment ***
-                        clicking sets the page state
-                    */}
+                    {/* clicking sets the page state */}
                     <div style={{
                             marginTop: "1rem",
                             display: "flex",
@@ -83,10 +74,10 @@ function App() {
                                 color: "white",
                                 border: "none",
                                 padding: "0.75rem",
-                                fontSize: "1.1rem",        // *** my comment *** increase font size
-                                textAlign: "center",       // *** my comment *** center text
+                                fontSize: "1.1rem",        // increase font size
+                                textAlign: "center",       // center text
                                 cursor: "pointer",
-                                width: "100%"              // *** my comment *** full width button
+                                width: "100%"              // full width button
                             }}
                         >
                             Inventory
@@ -127,14 +118,13 @@ function App() {
                         >
                             Payments
                         </button>
-
                     </div>
                 </div>
 
-                {/* right side container, contains top banner + page content   */}
+                {/* right side container, contains top banner + page content */}
                 <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
 
-                    {/* ky blue background showing current page title*/}
+                    {/* sky blue background showing current page title*/}
                     <div
                         style={{
                             backgroundColor: "#4895EF", // sky blue
@@ -147,9 +137,7 @@ function App() {
                         {pageTitleMap[page]}
                     </div>
 
-                    {/* *** your comment ***
-                        page body, conditional rendering based on page value
-                    */}
+                    {/* page body, conditional rendering based on page value */}
                     <div style={{ padding: "1rem" }}>
                         {page === "inventory" && <InventoryPage />}
                         {page === "orders" && <OrderPage />}
