@@ -137,10 +137,10 @@ function App() {
                     {/* ky blue background showing current page title*/}
                     <div
                         style={{
-                            backgroundColor: "#4361EE", // sky blue
+                            backgroundColor: "#4895EF", // sky blue
                             padding: "1rem",
-                            color: "darkred",
-                            fontSize: "1.5rem",
+                            color: "white",
+                            fontSize: "1.9rem",
                             fontWeight: "bold"
                         }}
                     >
