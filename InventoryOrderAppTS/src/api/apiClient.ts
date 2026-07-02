@@ -14,7 +14,7 @@ const PAYMENT_BASE = "https://localhost:5004";
 // -------------------------------------------------------------
 // TypeScript interfaces for API responses
 // -------------------------------------------------------------
-export interface InventoryItem {
+export interface InventoryItem {  // renamed from "inventory"
     id: number;
     name: string;
     stock: number;
@@ -40,7 +40,7 @@ export interface Payment {
 // -------------------------------------------------------------
 // Inventory Service
 // -------------------------------------------------------------
-export async function getInventory(): Promise<InventoryItem[]> {
+export async function getInventory(): Promise<InventoryItem[]> {  // renamed from "inventory"
     const res = await fetch(`${INVENTORY_BASE}/inventory`);
     return res.json();
 }
