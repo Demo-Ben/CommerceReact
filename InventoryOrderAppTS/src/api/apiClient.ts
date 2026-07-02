@@ -66,7 +66,6 @@ export async function createOrder(itemId: number, quantity: number): Promise<Ord
     });
 
     console.log("Raw response:", res);   // ← ADD THIS
-
     return res.json();
 }
 
