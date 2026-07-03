@@ -8,16 +8,11 @@ import React, { createContext, useContext, useReducer, useEffect, type ReactNode
 import type { InventoryItem, Order, Payment } from "../models/apiModels";
 
 // -------------------------------------------------------------
-// apiClient.ts — low‑level HTTP functions + base URLs
+// Inventory / Order / Payment Services (enterprise‑grade)
 // -------------------------------------------------------------
-import {
-    getInventory,
-    getOrders,
-    getPayments,
-    createOrder as apiCreateOrder,
-    payOrder as apiPayOrder,
-    ORDER_BASE
-} from "../api/apiClient";
+import { getInventory } from "../httpServices/inventoryService";
+import { getOrders, createOrder as apiCreateOrder } from "../httpServices/orderService";
+import { getPayments, payOrder as apiPayOrder } from "../httpServices/paymentService";
 
 
 // -------------------------------------------------------------
@@ -28,7 +23,6 @@ interface ApiState {
     orders: Order[];
     payments: Payment[];
 }
-
 
 // -------------------------------------------------------------
 // TypeScript type for reducer actions
