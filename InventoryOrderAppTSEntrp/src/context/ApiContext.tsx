@@ -3,9 +3,10 @@ import React, { createContext, useContext, useReducer, useEffect, type ReactNode
 // -------------------------------------------------------------
 // Shared domain models (DTOs + frontend state)
 // Enterprise-grade: single source of truth for types
-//introduced in TypeScript 3.8 and recommended in TypeScript 5+.
+// introduced in TypeScript 3.8 and recommended in TypeScript 5+.
 // -------------------------------------------------------------
-import type { InventoryItem, OrderItem, PaymentItem } from "../models/dtoModels";
+// import type { InventoryItem, OrderItem, PaymentItem } from "../models/dtoModels";
+import type { dtoInventory, dtoOrder, dtoPayment } from "../models/dtoModels";
 
 // -------------------------------------------------------------
 // Inventory / Order / Payment Services (enterprise‑grade)
@@ -21,9 +22,9 @@ import { ORDER_BASE } from "../api/apiClient";
 // TypeScript type for global state
 // -------------------------------------------------------------
 interface ApiState {
-    inventoryItems: InventoryItem[];            // renamed from "inventory"
-    orders: OrderItem[];
-    payments: PaymentItem[];
+    inventorys: dtoInventory[];             
+    orders: dtoOrder[];
+    payments: dtoPayment[];
 }
 
 // -------------------------------------------------------------
@@ -31,8 +32,8 @@ interface ApiState {
 // -------------------------------------------------------------
 type Action =
     | { type: "LOAD_DATA"; payload: ApiState }
-    | { type: "ORDER_CREATED"; payload: OrderItem }
-    | { type: "ORDER_PAID"; payload: PaymentItem };
+    | { type: "ORDER_CREATED"; payload: dtoOrder }
+    | { type: "ORDER_PAID"; payload: dtoPayment };
 
 
 // -------------------------------------------------------------
@@ -40,12 +41,12 @@ type Action =
 // This is the global “service container” for your frontend
 // -------------------------------------------------------------
 interface ApiContextValue {
-    inventoryItems: InventoryItem[];        // renamed from "inventory"
-    orders: OrderItem[];
-    payments: PaymentItem[];
+    inventorys: dtoInventory[];        // renamed from "inventory"
+    orders: dtoOrder[];
+    payments: dtoPayment[];
     createOrder: (itemId: number, quantity: number) => Promise<void>;
     payOrder: (orderId: number, amount: number) => Promise<void>;
-    getOrderById: (orderId: number) => Promise<OrderItem>;
+    getOrderById: (orderId: number) => Promise<dtoOrder>;
 }
 
 const ApiContext = createContext<ApiContextValue | undefined>(undefined);
@@ -55,7 +56,7 @@ const ApiContext = createContext<ApiContextValue | undefined>(undefined);
 // Initial global state for the reducer
 // -------------------------------------------------------------
 const initialState: ApiState = {
-    inventoryItems: [],                      // renamed from "inventory"
+    inventorys: [],                       
     orders: [],
     payments: []
 };
@@ -71,7 +72,7 @@ function reducer(state: ApiState, action: Action): ApiState {
         case "LOAD_DATA":
             return {
                 ...state,
-                inventoryItems: action.payload.inventoryItems,   // renamed from "inventory",             
+                inventorys: action.payload.inventorys,                 
                 orders: action.payload.orders,
                 payments: action.payload.payments
             };
@@ -106,15 +107,15 @@ function reducer(state: ApiState, action: Action): ApiState {
 async function loadData(dispatch: React.Dispatch<Action>) {
 
     console.log("🔥 loadData() fired");
-    const inventoryItems = await getInventory();            // renamed from "inventory"
-    console.log("🔥 inventory fetched:", inventoryItems);   // renamed from "inventory"
+    const inventorys = await getInventory();             
+    console.log("🔥 inventory fetched:", inventorys);   
 
     const orders = await getOrders();
     const payments = await getPayments();
 
     dispatch({
         type: "LOAD_DATA",
-        payload: { inventoryItems, orders, payments }       // renamed from "inventory"
+        payload: { inventorys, orders, payments }       
     });
 }
 
@@ -152,13 +153,13 @@ export function ApiProvider({ children }: { children: ReactNode }) {
         });
     }
 
-    async function getOrderById(orderId: number): Promise<OrderItem> {
+    async function getOrderById(orderId: number): Promise<dtoOrder> {
         const res = await fetch(`${ORDER_BASE}/orders/${orderId}`);
         return res.json();
     }
 
     const value: ApiContextValue = {
-        inventoryItems: state.inventoryItems,               // renamed from "inventory"
+        inventorys: state.inventorys,                
         orders: state.orders,
         payments: state.payments,
         createOrder,
