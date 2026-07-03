@@ -15,8 +15,8 @@ export async function getOrders(): Promise<dtoOrder[]> {
 
 export async function createOrder(itemId: number, quantity: number): Promise<dtoOrder> {
 
-    console.log("Calling API:", `${ORDER_BASE}/orders`);    // ← ADD THIS
-    console.log("Sending body:", { itemId, quantity });     // ← ADD THIS
+    console.log("Calling API:", `${ORDER_BASE}/orders`);    
+    console.log("Sending body:", { itemId, quantity });      
 
     const res = await fetch(`${ORDER_BASE}/orders`, {
         method: "POST",
@@ -24,7 +24,7 @@ export async function createOrder(itemId: number, quantity: number): Promise<dto
         body: JSON.stringify({ itemId, quantity })
     });
 
-    console.log("Raw response:", res);   // ← ADD THIS
+    console.log("Raw response:", res);    
     return res.json();
 }
 
