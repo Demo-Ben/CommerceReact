@@ -5,7 +5,7 @@ import React, { createContext, useContext, useReducer, useEffect, type ReactNode
 // Enterprise-grade: single source of truth for types
 //introduced in TypeScript 3.8 and recommended in TypeScript 5+.
 // -------------------------------------------------------------
-import type { InventoryItem, OrderItem, PaymentItem } from "../models/apiModels";
+import type { InventoryItem, OrderItem, PaymentItem } from "../models/dtoModels";
 
 // -------------------------------------------------------------
 // Inventory / Order / Payment Services (enterprise‑grade)

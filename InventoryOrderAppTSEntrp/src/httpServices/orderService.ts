@@ -5,7 +5,7 @@ import { ORDER_BASE } from "../api/apiClient";
 // (Now imported from shared enterprise-grade model file)
 //introduced in TypeScript 3.8 and recommended in TypeScript 5+.
 // -------------------------------------------------------------
-import type { OrderItem } from "../models/apiModels";
+import type { OrderItem } from "../models/dtoModels";
 
 // -------------------------------------------------------------
 // Order Service
