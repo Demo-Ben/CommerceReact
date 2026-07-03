@@ -14,7 +14,6 @@ namespace InventoryService.Controllers
         }
     
 
-
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
@@ -24,7 +23,5 @@ namespace InventoryService.Controllers
 
             return Ok(item);
         }
-
-
     } 
 }
