@@ -3,6 +3,7 @@ import React, { createContext, useContext, useReducer, useEffect, type ReactNode
 // -------------------------------------------------------------
 // Shared domain models (DTOs + frontend state)
 // Enterprise-grade: single source of truth for types
+//introduced in TypeScript 3.8 and recommended in TypeScript 5+.
 // -------------------------------------------------------------
 import type { InventoryItem, Order, Payment } from "../models/apiModels";
 

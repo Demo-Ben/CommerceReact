@@ -5,6 +5,7 @@ const PAYMENT_BASE = "https://localhost:5004";
 // -------------------------------------------------------------
 // TypeScript interfaces for API responses
 // (Now imported from shared enterprise-grade model file)
+//introduced in TypeScript 3.8 and recommended in TypeScript 5+.
 // -------------------------------------------------------------
 import type { InventoryItem, Order, Payment } from "../models/apiModels";
 
