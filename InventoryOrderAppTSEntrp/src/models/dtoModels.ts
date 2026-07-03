@@ -1,8 +1,3 @@
-// -------------------------------------------------------------
-// Shared domain models (DTOs + frontend state)
-// Single source of truth for types
-// -------------------------------------------------------------
-
 export interface dtoInventory {
     id: number;
     name: string;

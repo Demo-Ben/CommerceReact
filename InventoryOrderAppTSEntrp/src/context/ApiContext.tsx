@@ -1,11 +1,21 @@
+
+// Clean architecture mapping(React → .NET)
+// Layer	                    React                                       .NET
+// Startup bootstrap	    loadData() inside useEffect()	    Program.cs / Startup.cs
+// Dependency injection     <ApiProvider>                       services.AddScoped()
+// Global state	            useReducer()	                    Singleton / Scoped services
+// Transport layer	        httpServices	                    HttpClient / API services
+// DTOs	                    dtoModels.ts	                    OrderDto.cs
+
 import React, { createContext, useContext, useReducer, useEffect, type ReactNode } from "react";
+
+import { ORDER_BASE } from "../api/apiClient";
 
 // -------------------------------------------------------------
 // Shared domain models (DTOs + frontend state)
 // Enterprise-grade: single source of truth for types
 // introduced in TypeScript 3.8 and recommended in TypeScript 5+.
 // -------------------------------------------------------------
-// import type { InventoryItem, OrderItem, PaymentItem } from "../models/dtoModels";
 import type { dtoInventory, dtoOrder, dtoPayment } from "../models/dtoModels";
 
 // -------------------------------------------------------------
@@ -14,9 +24,6 @@ import type { dtoInventory, dtoOrder, dtoPayment } from "../models/dtoModels";
 import { getInventory } from "../httpServices/inventoryService";
 import { getOrders, createOrder as apiCreateOrder } from "../httpServices/orderService";
 import { getPayments, payOrder as apiPayOrder } from "../httpServices/paymentService";
-
-import { ORDER_BASE } from "../api/apiClient";
-
 
 // -------------------------------------------------------------
 // TypeScript type for global state
@@ -101,7 +108,7 @@ function reducer(state: ApiState, action: Action): ApiState {
 
 
 // -------------------------------------------------------------
-// loadData() — fetches all microservice data on startup
+// loadData() — fetches all Microservices data on startup
 // Called once inside useEffect()
 // -------------------------------------------------------------
 async function loadData(dispatch: React.Dispatch<Action>) {

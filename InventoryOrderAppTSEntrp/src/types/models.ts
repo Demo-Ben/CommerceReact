@@ -1,7 +1,6 @@
 // -------------------------------------------------------------
 // TypeScript interfaces for your domain models
 // -------------------------------------------------------------
-
 export interface InventoryItem {
     id: number;
     name: string;
