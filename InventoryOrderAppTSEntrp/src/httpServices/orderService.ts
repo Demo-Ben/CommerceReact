@@ -5,17 +5,17 @@ import { ORDER_BASE } from "../api/apiClient";
 // (Now imported from shared enterprise-grade model file)
 //introduced in TypeScript 3.8 and recommended in TypeScript 5+.
 // -------------------------------------------------------------
-import type { Order } from "../models/apiModels";
+import type { OrderItem } from "../models/apiModels";
 
 // -------------------------------------------------------------
 // Order Service
 // -------------------------------------------------------------
-export async function getOrders(): Promise<Order[]> {
+export async function getOrders(): Promise<OrderItem[]> {
     const res = await fetch(`${ORDER_BASE}/orders`);
     return res.json();
 }
 
-export async function createOrder(itemId: number, quantity: number): Promise<Order> {
+export async function createOrder(itemId: number, quantity: number): Promise<OrderItem> {
 
     console.log("Calling API:", `${ORDER_BASE}/orders`);    // ← ADD THIS
     console.log("Sending body:", { itemId, quantity });     // ← ADD THIS

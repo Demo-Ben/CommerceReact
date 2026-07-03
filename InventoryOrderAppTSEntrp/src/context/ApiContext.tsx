@@ -5,7 +5,7 @@ import React, { createContext, useContext, useReducer, useEffect, type ReactNode
 // Enterprise-grade: single source of truth for types
 //introduced in TypeScript 3.8 and recommended in TypeScript 5+.
 // -------------------------------------------------------------
-import type { InventoryItem, Order, Payment } from "../models/apiModels";
+import type { InventoryItem, OrderItem, PaymentItem } from "../models/apiModels";
 
 // -------------------------------------------------------------
 // Inventory / Order / Payment Services (enterprise‑grade)
@@ -14,14 +14,16 @@ import { getInventory } from "../httpServices/inventoryService";
 import { getOrders, createOrder as apiCreateOrder } from "../httpServices/orderService";
 import { getPayments, payOrder as apiPayOrder } from "../httpServices/paymentService";
 
+import { ORDER_BASE } from "../api/apiClient";
+
 
 // -------------------------------------------------------------
 // TypeScript type for global state
 // -------------------------------------------------------------
 interface ApiState {
     inventoryItems: InventoryItem[];            // renamed from "inventory"
-    orders: Order[];
-    payments: Payment[];
+    orders: OrderItem[];
+    payments: PaymentItem[];
 }
 
 // -------------------------------------------------------------
@@ -29,8 +31,8 @@ interface ApiState {
 // -------------------------------------------------------------
 type Action =
     | { type: "LOAD_DATA"; payload: ApiState }
-    | { type: "ORDER_CREATED"; payload: Order }
-    | { type: "ORDER_PAID"; payload: Payment };
+    | { type: "ORDER_CREATED"; payload: OrderItem }
+    | { type: "ORDER_PAID"; payload: PaymentItem };
 
 
 // -------------------------------------------------------------
@@ -39,11 +41,11 @@ type Action =
 // -------------------------------------------------------------
 interface ApiContextValue {
     inventoryItems: InventoryItem[];        // renamed from "inventory"
-    orders: Order[];
-    payments: Payment[];
+    orders: OrderItem[];
+    payments: PaymentItem[];
     createOrder: (itemId: number, quantity: number) => Promise<void>;
     payOrder: (orderId: number, amount: number) => Promise<void>;
-    getOrderById: (orderId: number) => Promise<Order>;
+    getOrderById: (orderId: number) => Promise<OrderItem>;
 }
 
 const ApiContext = createContext<ApiContextValue | undefined>(undefined);
@@ -150,7 +152,7 @@ export function ApiProvider({ children }: { children: ReactNode }) {
         });
     }
 
-    async function getOrderById(orderId: number): Promise<Order> {
+    async function getOrderById(orderId: number): Promise<OrderItem> {
         const res = await fetch(`${ORDER_BASE}/orders/${orderId}`);
         return res.json();
     }

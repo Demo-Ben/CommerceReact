@@ -10,7 +10,7 @@ export interface InventoryItem {
     price: number;
 }
 
-export interface Order {
+export interface OrderItem {
     id: number;
     itemId: number;
     quantity: number;
@@ -18,7 +18,7 @@ export interface Order {
     status: string;
 }
 
-export interface Payment {
+export interface PaymentItem {
     id: number;
     orderId: number;
     amount: number;

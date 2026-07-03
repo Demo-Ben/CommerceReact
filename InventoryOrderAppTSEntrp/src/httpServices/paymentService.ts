@@ -5,17 +5,17 @@ import {  PAYMENT_BASE } from "../api/apiClient";
 // (Now imported from shared enterprise-grade model file)
 //introduced in TypeScript 3.8 and recommended in TypeScript 5+.
 // -------------------------------------------------------------
-import type { Payment } from "../models/apiModels";
+import type { PaymentItem } from "../models/apiModels";
 
 // -------------------------------------------------------------
 // Payment Service
 // -------------------------------------------------------------
-export async function getPayments(): Promise<Payment[]> {
+export async function getPayments(): Promise<PaymentItem[]> {
     const res = await fetch(`${PAYMENT_BASE}/payments`);
     return res.json();
 }
 
-export async function payOrder(orderId: number, amount: number): Promise<Payment> {
+export async function payOrder(orderId: number, amount: number): Promise<PaymentItem> {
     const res = await fetch(`${PAYMENT_BASE}/payments`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
