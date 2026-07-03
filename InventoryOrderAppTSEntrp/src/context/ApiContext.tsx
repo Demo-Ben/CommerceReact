@@ -25,8 +25,18 @@ import { getInventory } from "../httpServices/inventoryService";
 import { getOrders, createOrder as apiCreateOrder } from "../httpServices/orderService";
 import { getPayments, payOrder as apiPayOrder } from "../httpServices/paymentService";
 
+
 // -------------------------------------------------------------
 // TypeScript type for global state
+// This interface defines what your entire application stores in memory inside the React Context.
+// This is your frontend database — the in‑memory state that all pages read from.
+//
+// .NET equivalent: a singleton service that stores the same data in memory for all pages to read from.
+//  public class GlobalState {
+//     public List <InventoryDto> Inventorys { get; set; }
+//     public List <OrderDto > Orders { get; set; }
+//     public List <PaymentDto > Payments { get; set; }
+//  }
 // -------------------------------------------------------------
 interface ApiState {
     inventorys: dtoInventory[];             
@@ -36,6 +46,14 @@ interface ApiState {
 
 // -------------------------------------------------------------
 // TypeScript type for reducer actions
+// This defines every possible state change your app can perform.
+// These are instructions telling the reducer how to update the global state.
+//
+// .NET equivalent: a set of methods on a singleton service that update the in-memory state.
+//                  This is like commands in CQRS (Command Query Responsibility Segregation) pattern:
+// public record LoadData(GlobalState State);
+// public record OrderCreated(OrderDto Order);
+// public record OrderPaid(PaymentDto Payment);
 // -------------------------------------------------------------
 type Action =
     | { type: "LOAD_DATA"; payload: ApiState }
@@ -45,10 +63,19 @@ type Action =
 
 // -------------------------------------------------------------
 // Create the React Context container
-// This is the global “service container” for your frontend
+// This is the global “service container” for your front end
+//
+// This interface defines what your entire app can access through useApi().
+// This is your front end service container — the functions and data exposed to all pages.
+//
+// .NET equivalent: a singleton service that exposes the same functions and data to all pages.
+//                  This is like registering services in DI:
+// services.AddScoped<IOrderService, OrderService>();
+// services.AddScoped<IPaymentService, PaymentService>();
+// services.AddScoped<IInventoryService, InventoryService>();
 // -------------------------------------------------------------
 interface ApiContextValue {
-    inventorys: dtoInventory[];        // renamed from "inventory"
+    inventorys: dtoInventory[];        
     orders: dtoOrder[];
     payments: dtoPayment[];
     createOrder: (itemId: number, quantity: number) => Promise<void>;
@@ -58,9 +85,17 @@ interface ApiContextValue {
 
 const ApiContext = createContext<ApiContextValue | undefined>(undefined);
 
-
 // -------------------------------------------------------------
 // Initial global state for the reducer
+// This defines the initial empty state before data is loaded.
+// our app starts with no data until loadData() runs.
+
+// .NET equivalent:
+// var state = new GlobalState {
+//     Inventorys = new (),
+//     Orders = new (),
+//     Payments = new ()
+// };
 // -------------------------------------------------------------
 const initialState: ApiState = {
     inventorys: [],                       
@@ -68,9 +103,20 @@ const initialState: ApiState = {
     payments: []
 };
 
+// - Workflow -
+// **********
+// App starts
+// → initialState is loaded.
+// → loadData() runs → loadData() fetches all data
+// → dispatch() sends "LOAD_DATA" action : dispatch({ type: "LOAD_DATA", payload: { inventorys, orders, payments } });
+// → reducer updates state →  case "LOAD_DATA":
+//                                  return { ...state, inventorys, orders, payments
+//                                  all pages re - render with new data
+// → ApiContextValue exposes updated state:  const { inventorys, orders, payments } = useApi();
+
 
 // -------------------------------------------------------------
-// Reducer — centralised state transitions
+// Reducer — centralized state transitions
 // Every API action updates state through here
 // -------------------------------------------------------------
 function reducer(state: ApiState, action: Action): ApiState {
