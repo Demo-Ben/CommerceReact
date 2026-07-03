@@ -12,3 +12,8 @@ export async function getInventory(): Promise<dtoInventory[]> {  // renamed from
     const res = await fetch(`${INVENTORY_BASE}/inventory`);
     return res.json();
 }
+
+export async function getInventoryById(id: number): Promise<dtoInventory> {  
+    const res = await fetch(`${INVENTORY_BASE}/inventory/{Id}`);
+    return res.json();
+}
