@@ -3,14 +3,14 @@
 // Single source of truth for types
 // -------------------------------------------------------------
 
-export interface InventoryItem {
+export interface dtoInventory {
     id: number;
     name: string;
     stock: number;
     price: number;
 }
 
-export interface OrderItem {
+export interface dtoOrder {
     id: number;
     itemId: number;
     quantity: number;
@@ -18,7 +18,7 @@ export interface OrderItem {
     status: string;
 }
 
-export interface PaymentItem {
+export interface dtoPayment {
     id: number;
     orderId: number;
     amount: number;

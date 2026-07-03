@@ -5,12 +5,12 @@ import { INVENTORY_BASE } from "../api/apiClient";
 // (Now imported from shared enterprise-grade model file)
 //introduced in TypeScript 3.8 and recommended in TypeScript 5+.
 // -------------------------------------------------------------
-import type { InventoryItem } from "../models/dtoModels";
+import type { dtoInventory } from "../models/dtoModels";
 
 // -------------------------------------------------------------
 // Inventory Service
 // -------------------------------------------------------------
-export async function getInventory(): Promise<InventoryItem[]> {  // renamed from "inventory"
+export async function getInventory(): Promise<dtoInventory[]> {  // renamed from "inventory"
     const res = await fetch(`${INVENTORY_BASE}/inventory`);
     return res.json();
 }
