@@ -10,7 +10,23 @@ import type { dtoOrder } from "../models/dtoModels";
 // -------------------------------------------------------------
 export async function getOrders(): Promise<dtoOrder[]> {
     const res = await fetch(`${ORDER_BASE}/orders`);
-    return res.json();
+    const data = await res.json();
+    // return data;
+
+    // return data.map((o: any) => ({
+    //     id: o.id,                // or o.orderId
+    //     itemId: o.itemId,        // or o.productId
+    //     quantity: o.quantity,    // or o.qty
+    //     status: o.status,        // or o.orderStatus
+    //     createdAt: o.createdAt   // or o.timestamp
+    // }));
+    return data.map((o: any) => ({
+        id: o.id,
+        itemId: o.itemId,
+        quantity: o.quantity,
+        status: o.status,
+        total: o.total
+    }));
 }
 
 export async function createOrder(itemId: number, quantity: number): Promise<dtoOrder> {
@@ -24,7 +40,16 @@ export async function createOrder(itemId: number, quantity: number): Promise<dto
         body: JSON.stringify({ itemId, quantity })
     });
 
-    console.log("Raw response:", res);    
-    return res.json();
+    const o = await res.json();
+    return {
+        id: o.id,
+        itemId: o.itemId,
+        quantity: o.quantity,
+        status: o.status,
+        total: o.total
+    };
+
+    // console.log("Raw response:", res);    
+    // return res.json();
 }
 

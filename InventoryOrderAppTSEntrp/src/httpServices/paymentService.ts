@@ -10,7 +10,15 @@ import type { dtoPayment } from "../models/dtoModels";
 // -------------------------------------------------------------
 export async function getPayments(): Promise<dtoPayment[]> {
     const res = await fetch(`${PAYMENT_BASE}/payments`);
-    return res.json();
+    const data = await res.json();
+    // return data;
+
+    return data.map((p: any) => ({
+        id: p.id,
+        orderId: p.orderId,
+        amount: p.amount,
+        status: p.status
+    }));
 }
 
 export async function payOrder(orderId: number, amount: number): Promise<dtoPayment> {
@@ -19,6 +27,14 @@ export async function payOrder(orderId: number, amount: number): Promise<dtoPaym
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ orderId, amount })
     });
-    return res.json();
+    const p = await res.json();
+
+    return {
+        id: p.id,
+        orderId: p.orderId,
+        amount: p.amount,
+        status: p.status
+    };
+    // return res.json();
 }
 
