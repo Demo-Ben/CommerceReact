@@ -109,9 +109,13 @@ interface ApiMetaState {
 // public record LoadData(GlobalState State);
 // public record OrderCreated(OrderDto Order);
 // public record OrderPaid(PaymentDto Payment);
+
 // -------------------------------------------------------------
+// Hi reducer, 
+// I’m sending you a LOAD_DATA action.
+// Here is the full dataset(inventorys, orders, payments).Please update the global state with this data.”
 type Action =
-    | { type: "LOAD_DATA"; payload: ApiState }
+    | { type: "LOAD_DATA"; payload: ApiState }   
     | { type: "ORDER_CREATED"; payload: dtoOrder }
     | { type: "ORDER_PAID"; payload: dtoPayment }
     | { type: "SET_LOADING"; payload: boolean }             // NEW
@@ -202,6 +206,9 @@ function reducer(state: CombinedState, action: Action): CombinedState {   //NEW 
         case "SET_ERROR":
             return { ...state, error: action.payload };
 
+        //“Reducer, I’m giving you fresh data (inventorys, orders, payments).
+        // Replace the old data with this new data.
+        // Also mark loading as finished and clear any errors.”
         case "LOAD_DATA":
             return {
                 ...state,
