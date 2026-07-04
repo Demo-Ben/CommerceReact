@@ -1,4 +1,5 @@
 import { ORDER_BASE } from "../api/apiClient";
+import { mapOrder } from "./mappers";
 
 // -------------------------------------------------------------
 // import type introduced in TypeScript 3.8 and recommended in TypeScript 5+.
@@ -14,19 +15,13 @@ export async function getOrders(): Promise<dtoOrder[]> {
     // return data;
 
     // return data.map((o: any) => ({
-    //     id: o.id,                // or o.orderId
-    //     itemId: o.itemId,        // or o.productId
-    //     quantity: o.quantity,    // or o.qty
-    //     status: o.status,        // or o.orderStatus
-    //     createdAt: o.createdAt   // or o.timestamp
+    //     id: o.id,
+    //     itemId: o.itemId,
+    //     quantity: o.quantity,
+    //     status: o.status,
+    //     total: o.total
     // }));
-    return data.map((o: any) => ({
-        id: o.id,
-        itemId: o.itemId,
-        quantity: o.quantity,
-        status: o.status,
-        total: o.total
-    }));
+    return data.map(mapOrder);
 }
 
 export async function createOrder(itemId: number, quantity: number): Promise<dtoOrder> {
@@ -40,16 +35,19 @@ export async function createOrder(itemId: number, quantity: number): Promise<dto
         body: JSON.stringify({ itemId, quantity })
     });
 
-    const o = await res.json();
-    return {
-        id: o.id,
-        itemId: o.itemId,
-        quantity: o.quantity,
-        status: o.status,
-        total: o.total
-    };
-
-    // console.log("Raw response:", res);    
+    // console.log("Raw response:", res);
     // return res.json();
+
+    const o = await res.json();
+
+    // return {
+    //     id: o.id,
+    //     itemId: o.itemId,
+    //     quantity: o.quantity,
+    //     status: o.status,
+    //     total: o.total
+    // };
+    return mapOrder(o);
+
 }
 
