@@ -95,56 +95,56 @@ import { getPayments, payOrder as apiPayOrder } from "../httpServices/paymentSer
 // └──────────────────────────────────────────────┘
 //                          ↓
 // ┌──────────────────────────────────────────────┐
-// │   ApiProvider initializes reducer state       │
-// │   const [state, dispatch] = useReducer(...)   │
-// │   → initialState loaded                       │
+// │   ApiProvider initializes reducer state      │
+// │   const [state, dispatch] = useReducer(...)  │
+// │   → initialState loaded                      │
 // └──────────────────────────────────────────────┘
 //                          ↓
 // ┌──────────────────────────────────────────────┐
-// │   ApiProvider useEffect() fires once          │
-// │   useEffect(() => loadData(dispatch), [])     │
-// │   → loadData() begins startup fetch           │
+// │   ApiProvider useEffect() fires once         │
+// │   useEffect(() => loadData(dispatch), [])    │
+// │   → loadData() begins startup fetch          │
 // └──────────────────────────────────────────────┘
 //                          ↓
 // ┌──────────────────────────────────────────────┐
-// │   loadData() calls service layer              │
-// │   → getInventory()                            │
-// │   → getOrders()                               │
-// │   → getPayments()                             │
-// │   (backend JSON → DTO mapping)                │
+// │   loadData() calls service layer             │
+// │   → getInventory()                           │
+// │   → getOrders()                              │
+// │   → getPayments()                            │
+// │   (backend JSON → DTO mapping)               │
 // └──────────────────────────────────────────────┘
 //                       ↓
 // ┌──────────────────────────────────────────────┐
-// │   loadData() dispatches LOAD_DATA action      │
-// │   dispatch({                                  │
-// │     type: "LOAD_DATA",                        │
-// │     payload: {inventorys, orders, payments}   │
-// │   })                                          │
+// │   loadData() dispatches LOAD_DATA action     │
+// │   dispatch({                                 │
+// │     type: "LOAD_DATA",                       │
+// │     payload: {inventorys, orders, payments}  │
+// │   })                                         │
 // └──────────────────────────────────────────────┘
 //                      ↓
 // ┌──────────────────────────────────────────────┐
-// │   Reducer receives LOAD_DATA                  │
-// │   case "LOAD_DATA":                           │
-// │       return {...state, inventorys, orders,   │
-// │                payments }                     │
-// │   → global state updated                      │
+// │   Reducer receives LOAD_DATA                 │
+// │   case "LOAD_DATA":                          │
+// │       return {...state, inventorys, orders,  │
+// │                payments }                    │
+// │   → global state updated                     │
 // └──────────────────────────────────────────────┘
 //                      ↓
 // ┌──────────────────────────────────────────────┐
-// │   ApiProvider re-renders                      │
-// │   ApiContext.Provider supplies new value      │
-// │   const value: ApiContextValue = {            │
-// │       inventorys, orders, payments,           │
-// │       createOrder, payOrder                   │
-// │   }                                           │
+// │   ApiProvider re-renders                     │
+// │   ApiContext.Provider supplies new value     │
+// │   const value: ApiContextValue = {           │
+// │       inventorys, orders, payments,          │
+// │       createOrder, payOrder                  │
+// │   }                                          │
 // └──────────────────────────────────────────────┘
 //                      ↓
 // ┌──────────────────────────────────────────────┐
-// │   Pages re-render                             │
-// │   Components call useContext(ApiContext)      │
+// │   Pages re-render                            │
+// │   Components call useContext(ApiContext)     │
 // │   const {inventorys, orders, payments} =     │
-// │         useApi();                             │
-// │   → UI updates with fresh data                │
+// │         useApi();                            │
+// │   → UI updates with fresh data               │
 // └──────────────────────────────────────────────┘
 
 
