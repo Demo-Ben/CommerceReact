@@ -52,18 +52,20 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
+import { ApiProvider } from './context/ApiContext.tsx';
 
 console.log("main.tsx loaded"); // breakpoint here
 const root = ReactDOM.createRoot(document.getElementById("root")!);
-root.render(
-    <React.StrictMode>
-        <App />
-    </React.StrictMode>
-);
+    root.render(
+        <React.StrictMode>
+            <App />
+        </React.StrictMode>
+    );
 
-// break down of the above code:
-// ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-//     <React.StrictMode>
-//         <App />
-//     </React.StrictMode>
-// )
+// or
+// ReactDOM.createRoot(document.getElementById("root")!)
+//     .render(
+//         <ApiProvider>
+//             <App />
+//         </ApiProvider>
+//     );
