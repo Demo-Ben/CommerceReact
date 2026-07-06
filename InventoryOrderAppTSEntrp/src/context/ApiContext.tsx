@@ -204,7 +204,9 @@ interface ApiMetaState {
 // 3 shapes for now, but we can add more later.
 // Why just 3 shapes? Because we only have 3 actions right now: LOAD_DATA, ORDER_CREATED, ORDER_PAID.
 type Action =
-    | { type: "LOAD_DATA"; payload: ApiState }   
+    | {
+        type: "LOAD_DATA"; payload: ApiState
+      }   
     | { type: "ORDER_CREATED"; payload: dtoOrder }
     | { type: "ORDER_PAID"; payload: dtoPayment }
     | { type: "SET_LOADING"; payload: boolean }             // NEW  
@@ -298,11 +300,13 @@ const initialCombinedState: CombinedState = {
 };
 
 // -------------------------------------------------------------
-// Reducer — centralized state transitions
+// fnReducer — centralized state transitions
 // Every API action updates state through here
 // -------------------------------------------------------------
-// function reducer(state: ApiState, action: Action): ApiState {
-function reducer(state: CombinedState, action: Action): CombinedState {   //NEW — combined state type
+// function fnReducer(state: ApiState, action: Action): ApiState {
+function fnReducer(state: CombinedState, action: Action): CombinedState {   //NEW — combined state type
+    console.log("REDUCER ACTION:", action.type);
+
     switch (action.type) {
 
         case "SET_LOADING":
@@ -348,10 +352,10 @@ function reducer(state: CombinedState, action: Action): CombinedState {   //NEW 
 
 
 // -------------------------------------------------------------
-// loadData() — fetches all Microservices data on startup
+// fnloadData() — fetches all Microservices data on startup
 // Called once inside useEffect()
 // -------------------------------------------------------------
-async function loadData(dispatch: React.Dispatch<Action>) {
+async function fnloadData(dispatch: React.Dispatch<Action>) {
 
     try {
         // debugger; // <— THIRD BREAKPOINT
@@ -382,11 +386,12 @@ async function loadData(dispatch: React.Dispatch<Action>) {
 
 
 // -------------------------------------------------------------
-// 7. (NEW) refreshAll() — enterprise-grade manual reload
+// 7. (NEW) fnRefreshAll() — enterprise-grade manual reload
 // -------------------------------------------------------------
-async function refreshAll(dispatch: React.Dispatch<Action>) {
-    console.log("🔄 Manual refreshAll() triggered");
-    await loadData(dispatch);
+async function fnRefreshAll(dispatch: React.Dispatch<Action>) {
+    console.log("🔄 Manual fnRefreshAll() triggered");
+
+    await fnloadData(dispatch);
 }
 
 
@@ -394,19 +399,43 @@ async function refreshAll(dispatch: React.Dispatch<Action>) {
 // ApiProvider — wraps the entire React app
 // Provides global state + service functions to all pages
 // It’s a custom React component that wraps your app and provides context.
+//
+// ApiProvider(component)
+// │
+// ├── inside functions(have state + dispatch)
+// │     ├── createOrder()
+// │     ├── payOrder()
+// │     └── loadData()
+// │
+// └── outside functions(no state, no dispatch)
+//       ├── mapOrder()
+//       ├── mapInventory()
+//       └── calculateTotal()
 // -------------------------------------------------------------
 export function ApiProvider({ children }: { children: ReactNode }) {
     // debugger; // <— FIRST BREAKPOINT
 
     //const [state, dispatch] = useReducer(reducer, initialState);
-    const [state, dispatch] = useReducer(reducer, initialCombinedState);  //NEW — combined state
+    const [state, dispatch] = useReducer(fnReducer, initialCombinedState);  //NEW — combined state
 
     // debugger; // <— SECOND BREAKPOINT
     console.log("STATE:", state);
+    console.table(state.inventorys);
+    console.table(state.orders);
+    console.table(state.payments);
+    state.inventorys.forEach((item, index) => {
+        console.log(`Inventory[${index}]`, item);
+    });
 
-    useEffect(() => {
-        loadData(dispatch);
-    }, []);
+    state.orders.forEach((order, index) => {
+        console.log(`Order[${index}]`, order);
+    });
+
+    state.payments.forEach((payment, index) => {
+        console.log(`Payment[${index}]`, payment);
+    });
+
+    useEffect( () => { fnloadData(dispatch); }, []);
 
     async function createOrder(itemId: number, quantity: number) {
 
@@ -450,7 +479,7 @@ export function ApiProvider({ children }: { children: ReactNode }) {
         getOrderById,
 
         // NEW refresh-all
-        refreshAll: () => refreshAll(dispatch)
+        refreshAll: () => fnRefreshAll(dispatch)
     };
 
     return (
