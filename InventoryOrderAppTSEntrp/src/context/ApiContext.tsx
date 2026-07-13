@@ -21,7 +21,7 @@ import React, { createContext, useContext, useReducer, useEffect, type ReactNode
 
 import { ORDER_BASE } from "../api/apiClient";
 import type { dtoInventory, dtoOrder, dtoPayment } from "../models/dtoModels";
-import { getInventory } from "../httpServices/inventoryService";
+import { getInventory as apiGetInventory} from "../httpServices/inventoryService";
 import { getOrders, createOrder as apiCreateOrder } from "../httpServices/orderService";
 import { getPayments, payOrder as apiPayOrder } from "../httpServices/paymentService";
 
@@ -363,7 +363,7 @@ async function fnloadData(dispatch: React.Dispatch<Action>) {
         dispatch({ type: "SET_LOADING", payload: true });
 
         console.log("🔥 loadData() fired");
-        const inventorys = await getInventory();
+        const inventorys = await apiGetInventory();
         console.log("🔥 inventory fetched:", inventorys);
 
         const orders = await getOrders();
