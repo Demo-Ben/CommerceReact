@@ -1,25 +1,43 @@
-import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { ApplicationConfig } from '@angular/core';
+import { provideRouter } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
 
-import { AppRoutingModule } from './app-routing-module';
-import { App } from './app';
+import { routes } from './app-routing-modules';
 
-import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
-
-@NgModule({
-  declarations: [
-    App
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    RouterModule,
-    HttpClientModule
-  ],
+export const appConfig: ApplicationConfig = {
   providers: [
-    provideBrowserGlobalErrorListeners(),
-  ],
-  bootstrap: [App]
-})
-export class AppModule { }
+    provideRouter(routes),
+    provideHttpClient()
+  ]
+};
+
+
+
+
+
+// import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
+// import { BrowserModule } from '@angular/platform-browser';
+
+// import { AppRoutingModule } from './app-routing';
+// import { App } from './app-component';
+
+// import { HttpClientModule } from '@angular/common/http';
+// import { RouterModule } from '@angular/router';
+
+// @NgModule({
+//   declarations: [
+//     App
+//   ],
+//   imports: [
+//     BrowserModule,
+//     AppRoutingModule,
+//     RouterModule,
+//     HttpClientModule
+//   ],
+//   providers: [
+//     provideBrowserGlobalErrorListeners(),
+//   ],
+//   bootstrap: [App]
+// })
+// export class AppModule { }
+

@@ -1,9 +1,55 @@
-import { Component } from '@angular/core';
+// import { Component } from '@angular/core';
+
+// @Component({
+//   selector: 'app-inventory',
+//   standalone: false,
+//   templateUrl: './inventory.component.html',
+//   styleUrl: './inventory.component.css',
+// })
+// export class InventoryComponent {}
+
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
+import { InventoryService, InventoryItem } from '../../services/inventory.service';
+import { OrdersService } from '../../services/orders.service';
 
 @Component({
   selector: 'app-inventory',
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './inventory.component.html',
-  styleUrl: './inventory.component.css',
+  styleUrls: ['./inventory.component.css']
 })
-export class InventoryComponent {}
+export class InventoryComponent implements OnInit {
+
+  inventory: InventoryItem[] = [];
+  selectedId: number | null = null;
+  quantity: number = 1;
+
+  constructor(
+    private inventoryService: InventoryService,
+    private ordersService: OrdersService
+  ) { }
+
+  ngOnInit(): void {
+    this.loadInventory();
+  }
+
+  loadInventory(): void {
+    this.inventoryService.getItems().subscribe(items => {
+      this.inventory = items;
+    });
+  }
+
+  createOrder(): void {
+    if (!this.selectedId) return;
+
+    this.ordersService.createOrder(this.selectedId, this.quantity)
+      .subscribe(() => {
+        this.quantity = 1;
+        this.loadInventory();
+      });
+  }
+}

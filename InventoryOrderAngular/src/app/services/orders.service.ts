@@ -1,26 +1,27 @@
-// import { Service } from '@angular/core';
-
-// @Service()
-// export class OrdersService {}
-
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrdersService {
 
-  private baseUrl = '/api/orders';
+  //private baseUrl = '/api/orders';
+  //private baseUrl = 'https://localhost:5002/orders';
+  private baseUrl = environment.ordersApi;
 
   constructor(private http: HttpClient) { }
 
-  getOrders(): Observable<any> {
-    return this.http.get(`${this.baseUrl}`);
+  getOrders(): Observable<any[]> {
+    return this.http.get<any[]>(this.baseUrl);
   }
 
-  getOrder(id: number): Observable<any> {
-    return this.http.get(`${this.baseUrl}/${id}`);
+  createOrder(itemId: number, quantity: number): Observable<any> {
+    return this.http.post(this.baseUrl, {
+      itemId,
+      quantity
+    });
   }
 }
