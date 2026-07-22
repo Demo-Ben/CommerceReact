@@ -13,5 +13,8 @@ export const routes: Routes = [
   { path: 'payments', component: PaymentsComponent },
 
   // default route
-  { path: '', redirectTo: 'inventory', pathMatch: 'full' }
+  { path: '', redirectTo: 'inventory', pathMatch: 'full' },
+
+  // Catch-all route (optional)
+  { path: '**', redirectTo: 'inventory' }
 ];
