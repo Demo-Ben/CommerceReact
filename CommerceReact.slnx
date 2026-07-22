@@ -1,4 +1,8 @@
 <Solution>
+  <Project Path="InventoryOrderAngular/InventoryOrderAngular.esproj">
+    <Build />
+    <Deploy />
+  </Project>
   <Project Path="InventoryOrderAppJS/InventoryOrderJS.esproj">
     <Build />
     <Deploy />
