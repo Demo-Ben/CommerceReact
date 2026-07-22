@@ -6,8 +6,8 @@ import { environment } from '../../environments/environment';
 export interface InventoryItem {
   id: number;
   name: string;
-  stock: number;
   price: number;
+  stock: number;
 }
 
 @Injectable({
@@ -15,16 +15,16 @@ export interface InventoryItem {
 })
 export class InventoryService {
 
-  // private baseUrl = '/api/inventory';
   private baseUrl = 'https://localhost:5003/inventory';
   //private baseUrl = environment.inventoryApi;
 
   constructor(private http: HttpClient) { }
 
   getItems(): Observable<InventoryItem[]> {
-
     console.log("InventoryService.getItems() called");   // ← FIRST BREAKPOINT
-    return this.http.get<InventoryItem[]>(this.baseUrl);
+
+    var rtn = this.http.get<InventoryItem[]>(this.baseUrl);
+    return rtn;
   }
 
   getItem(id: number): Observable<InventoryItem> {

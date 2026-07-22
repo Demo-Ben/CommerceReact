@@ -28,13 +28,29 @@ export class InventoryComponent implements OnInit {
   selectedId: number | null = null;
   quantity: number = 1;
 
-  constructor(
-    private inventoryService: InventoryService,
-    private ordersService: OrdersService
-  ) { }
+  constructor(private inventoryService: InventoryService,
+            private ordersService: OrdersService)
+  {
+    console.log("InventoryComponent constructor fired");   // ← breakpoint #1
+  }
+
+  // ngOnInit(): void {
+  //   this.loadInventory();
+  // }
 
   ngOnInit(): void {
-    this.loadInventory();
+    console.log("InventoryComponent ngOnInit fired");       // ← breakpoint #2
+
+    // this.inventoryService.getItems().subscribe(items => {
+    //   console.log("InventoryService returned items:", items); // ← breakpoint #3
+    //   this.inventory = items;
+    // });
+    setTimeout(() => {
+      this.inventoryService.getItems().subscribe(items => {
+        console.log("Items:", items);
+        this.inventory = items;
+      });
+    }, 2000);   // 2‑second delay
   }
 
   loadInventory(): void {

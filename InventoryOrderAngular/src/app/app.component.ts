@@ -15,4 +15,12 @@ import { routes } from './app-routing-modules';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent { }
+export class AppComponent {
+  constructor() {
+    console.log("AppComponent constructor fired");   // ← FIRST BREAKPOINT
+  }
+
+  ngOnInit(): void {
+    console.log("AppComponent ngOnInit fired");       // ← ngOnInit breakpoint
+  }
+}
