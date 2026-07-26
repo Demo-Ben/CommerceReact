@@ -8,13 +8,13 @@ import { OrdersComponent } from './pages/orders/orders.component';
 import { PaymentsComponent } from './pages/payments/payments.component';
 
 export const routes: Routes = [
-  { path: 'inventory', component: InventoryComponent },
-  { path: 'orders', component: OrdersComponent },
-  { path: 'payments', component: PaymentsComponent },
+    { path: 'inventory', component: InventoryComponent },
+    { path: 'orders', component: OrdersComponent },
+    { path: 'payments', component: PaymentsComponent },
 
-  // default route
-  { path: '', redirectTo: 'inventory', pathMatch: 'full' },
+    // default route
+    { path: '', redirectTo: 'inventory', pathMatch: 'full' },
 
-  // Catch-all route (optional)
-  { path: '**', redirectTo: 'inventory' }
+    // Catch-all route (optional)
+    { path: '**', redirectTo: 'inventory' }
 ];
