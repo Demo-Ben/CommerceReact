@@ -1,13 +1,3 @@
-// import { Component } from '@angular/core';
-
-// @Component({
-//   selector: 'app-inventory',
-//   standalone: false,
-//   templateUrl: './inventory.component.html',
-//   styleUrl: './inventory.component.css',
-// })
-// export class InventoryComponent {}
-
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -28,34 +18,28 @@ export class InventoryComponent implements OnInit {
     selectedId: number | null = null;
     quantity: number = 1;
 
-    constructor(private inventoryService: InventoryService,
-        private ordersService: OrdersService) {
+    constructor(
+        private inventoryService: InventoryService,
+        private ordersService: OrdersService)
+    {
         console.log("InventoryComponent constructor fired");   // ← breakpoint #1
     }
 
     // or
-    // ngOnInit(): void {
-    //   this.loadInventory();
-    // }
-
     ngOnInit(): void {
-        this.inventoryService.getItems().subscribe(items => {
-            console.log("InventoryService returned items:", items); // ← breakpoint #3
-            this.inventory = items;     //← triggers Angular change detection
-        });
-
-        // setTimeout(() => {
-        //   this.inventoryService.getItems().subscribe(items => {
-        //     console.log("Items:", items);
-        //     this.inventory = items;
-        //   });
-        // }, 2000);   // 2‑second delay
+        console.log("InventoryComponent ngOnInit fired");
+        this.loadInventory();
     }
 
     loadInventory(): void {
-        this.inventoryService.getItems().subscribe(items => {
-            console.log("InventoryService returned items:", items); // ← breakpoint #3
-            this.inventory = items;
+        this.inventoryService.getItems().subscribe({
+            next: items => {
+                console.log("InventoryService returned items:", items);
+                this.inventory = items;
+            },
+            error: err => {
+                console.error("Error loading inventory:", err);
+            }
         });
     }
 
@@ -63,9 +47,44 @@ export class InventoryComponent implements OnInit {
         if (!this.selectedId) return;
 
         this.ordersService.createOrder(this.selectedId, this.quantity)
-            .subscribe(() => {
-                this.quantity = 1;
-                this.loadInventory();
+            .subscribe({
+                next: () => {
+                    this.quantity = 1;
+                    this.loadInventory();   // refresh inventory after order
+                },
+                error: err => {
+                    console.error("Error creating order:", err);
+                }
             });
     }
+    // ngOnInit(): void {
+    //     this.inventoryService.getItems().subscribe(items => {
+    //         console.log("InventoryService returned items:", items); // ← breakpoint #3
+    //         this.inventory = items;     //← triggers Angular change detection
+    //     });
+
+    //     // setTimeout(() => {
+    //     //   this.inventoryService.getItems().subscribe(items => {
+    //     //     console.log("Items:", items);
+    //     //     this.inventory = items;
+    //     //   });
+    //     // }, 2000);   // 2‑second delay
+    // }
+
+    // loadInventory(): void {
+    //     this.inventoryService.getItems().subscribe(items => {
+    //         console.log("InventoryService returned items:", items); // ← breakpoint #3
+    //         this.inventory = items;
+    //     });
+    // }
+
+    // createOrder(): void {
+    //     if (!this.selectedId) return;
+
+    //     this.ordersService.createOrder(this.selectedId, this.quantity)
+    //         .subscribe(() => {
+    //             this.quantity = 1;
+    //             this.loadInventory();
+    //         });
+    // }
 }
