@@ -1,1 +1,28 @@
-<p>orders works!</p>
+<h2>Orders</h2>
+
+<table border="1" cellpadding="4">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Item</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let order of orders">
+            <td>{{ order.id }}</td>
+            <td>{{ order.itemId }}</td>
+            <td>{{ order.quantity }}</td>
+            <td>${{ order.total }}</td>
+            <td>{{ order.status }}</td>
+            <td>
+                <button (click)="payOrder(order.id, order.total)">Pay</button>
+                <button (click)="deleteOrder(order.id)">Delete</button>
+            </td>
+        </tr>
+    </tbody>
+</table>

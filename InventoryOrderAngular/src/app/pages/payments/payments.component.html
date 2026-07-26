@@ -1,1 +1,27 @@
-<p>payments works!</p>
+<h2>Payments</h2>
+
+<table border="1" cellpadding="4">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Order Id</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Paid On</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let p of payments">
+            <td>{{ p.id }}</td>
+            <td>{{ p.orderId }}</td>
+            <td>${{ p.total }}</td>
+            <td>{{ p.status }}</td>
+            <td>{{ p.paidOn }}</td>
+            <td>
+                <button (click)="payAgain(p.id, p.total)">Pay Again</button>
+            </td>
+        </tr>
+    </tbody>
+</table>

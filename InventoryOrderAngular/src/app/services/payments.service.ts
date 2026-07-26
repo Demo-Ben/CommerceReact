@@ -1,26 +1,31 @@
-// import { Service } from '@angular/core';
-
-// @Service()
-// export class PaymentsService {}
-
-
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment';
+
+export interface PaymentItem {
+    id: number;
+    orderId: number;
+    total: number;
+    status: string;
+    paidOn: string;
+}
 
 @Injectable({
     providedIn: 'root'
 })
 export class PaymentsService {
 
-    //private baseUrl = '/api/payments';
-    //private baseUrl = 'https://localhost:5004/payments';
-    private baseUrl = environment.paymentsApi;
+    private baseUrl = 'https://localhost:5004/payments';
 
     constructor(private http: HttpClient) { }
 
-    getPayments(): Observable<any[]> {
-        return this.http.get<any[]>(this.baseUrl);
+    getPayments(): Observable<PaymentItem[]> {
+        console.log("PaymentsService.getPayments() called");
+        return this.http.get<PaymentItem[]>(this.baseUrl);
+    }
+
+    payAgain(id: number, total: number): Observable<void> {
+        console.log("PaymentsService.payAgain() called:", id, total);
+        return this.http.post<void>(`${this.baseUrl}/${id}/payagain`, { total });
     }
 }
