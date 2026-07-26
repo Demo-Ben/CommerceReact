@@ -41,16 +41,17 @@ export class InventoryComponent implements OnInit {
   ngOnInit(): void {
     console.log("InventoryComponent ngOnInit fired");       // ← breakpoint #2
 
-    // this.inventoryService.getItems().subscribe(items => {
-    //   console.log("InventoryService returned items:", items); // ← breakpoint #3
-    //   this.inventory = items;
-    // });
-    setTimeout(() => {
-      this.inventoryService.getItems().subscribe(items => {
-        console.log("Items:", items);
-        this.inventory = items;
-      });
-    }, 2000);   // 2‑second delay
+    this.inventoryService.getItems().subscribe(items => {
+      console.log("InventoryService returned items:", items); // ← breakpoint #3
+      this.inventory = items;
+    });
+
+    // setTimeout(() => {
+    //   this.inventoryService.getItems().subscribe(items => {
+    //     console.log("Items:", items);
+    //     this.inventory = items;
+    //   });
+    // }, 2000);   // 2‑second delay
   }
 
   loadInventory(): void {
