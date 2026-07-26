@@ -1,12 +1,66 @@
+/* ===== Inventory Table ===== */
+
 table {
-  margin-top: 10px;
-  border-collapse: collapse;
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 15px;
+}
+
+thead {
+    background-color: #003366;
+    color: white;
 }
 
 th, td {
-  padding: 6px 10px;
+    padding: 10px 14px;
+    text-align: left;
 }
 
-h3 {
-  margin-top: 20px;
+tr:nth-child(even) {
+    background-color: #f7faff;
 }
+
+tr:hover {
+    background-color: #e0edff;
+}
+
+/* ===== Form Controls ===== */
+
+label {
+    display: block;
+    margin: 12px 0;
+    font-weight: 600;
+}
+
+select,
+input[type="number"] {
+    padding: 6px 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-left: 8px;
+    min-width: 180px;
+}
+
+    select:focus,
+    input[type="number"]:focus {
+        border-color: #0055aa;
+        outline: none;
+    }
+
+/* ===== Buttons ===== */
+
+button {
+    background-color: #003366;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+    button:hover {
+        background-color: #0055aa;
+    }
