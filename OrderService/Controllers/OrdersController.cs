@@ -16,7 +16,6 @@ namespace OrderService.Controllers
             return Ok(StaticOrders.Orders);
         }
 
-
         // POST /orders
         [HttpPost]
         public async Task<IActionResult> CreateAsync([FromBody] CreateOrderDto dto)
@@ -28,7 +27,6 @@ namespace OrderService.Controllers
                 Quantity = dto.Quantity,
                 Status = "Pending"
             };
-
 
             using var client = new HttpClient();
             var item = await client.GetFromJsonAsync<InventoryItemDto>(

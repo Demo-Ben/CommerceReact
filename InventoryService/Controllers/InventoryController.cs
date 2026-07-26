@@ -13,7 +13,6 @@ namespace InventoryService.Controllers
             return Ok(StaticInventory.Items);
         }
     
-
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
