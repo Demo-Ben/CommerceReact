@@ -3,31 +3,31 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 export interface InventoryItem {
-  id: number;
-  name: string;
-  price: number;
-  stock: number;
+    id: number;
+    name: string;
+    price: number;
+    stock: number;
 }
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class InventoryService {
 
-  private baseUrl = 'https://localhost:5003/inventory';
-  //private baseUrl = environment.inventoryApi;
+    private baseUrl = 'https://localhost:5003/inventory';
+    //private baseUrl = environment.inventoryApi;
 
-  constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient) { }
 
-  getItems(): Observable<InventoryItem[]> {
-    console.log("InventoryService.getItems() called");   // ← FIRST BREAKPOINT
+    getItems(): Observable<InventoryItem[]> {
+        console.log("InventoryService.getItems() called");   // ← FIRST BREAKPOINT
 
-    var rtn = this.http.get<InventoryItem[]>(this.baseUrl);
-    return rtn;
-  }
+        var rtn = this.http.get<InventoryItem[]>(this.baseUrl);
+        return rtn;
+    }
 
-  getItem(id: number): Observable<InventoryItem> {
+    getItem(id: number): Observable<InventoryItem> {
 
-    return this.http.get<InventoryItem>(`${this.baseUrl}/${id}`);
-  }
+        return this.http.get<InventoryItem>(`${this.baseUrl}/${id}`);
+    }
 }

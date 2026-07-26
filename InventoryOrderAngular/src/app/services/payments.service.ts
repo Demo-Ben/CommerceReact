@@ -10,17 +10,17 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class PaymentsService {
 
-  //private baseUrl = '/api/payments';
-  //private baseUrl = 'https://localhost:5004/payments';
-  private baseUrl = environment.paymentsApi;
+    //private baseUrl = '/api/payments';
+    //private baseUrl = 'https://localhost:5004/payments';
+    private baseUrl = environment.paymentsApi;
 
-  constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient) { }
 
-  getPayments(): Observable<any[]> {
-    return this.http.get<any[]>(this.baseUrl);
-  }
+    getPayments(): Observable<any[]> {
+        return this.http.get<any[]>(this.baseUrl);
+    }
 }
