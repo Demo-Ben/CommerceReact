@@ -1,33 +1,42 @@
+/* ===== Orders Table ===== */
+
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 16px;
+    margin-top: 20px;
+    font-size: 15px;
+}
+
+thead {
+    background-color: #003366;
+    color: white;
 }
 
 th, td {
-    padding: 8px 12px;
+    padding: 10px 14px;
     text-align: left;
 }
 
-th {
-    background-color: #f0f0f0;
-    font-weight: bold;
-}
-
 tr:nth-child(even) {
-    background-color: #fafafa;
+    background-color: #f7faff;
 }
 
 tr:hover {
-    background-color: #e8f4ff;
+    background-color: #e0edff;
 }
 
+/* ===== Buttons ===== */
+
 button {
-    margin-right: 8px;
-    padding: 4px 10px;
+    background-color: #003366;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 4px;
     cursor: pointer;
+    margin-right: 8px;
 }
 
     button:hover {
-        background-color: #d0e8ff;
+        background-color: #0055aa;
     }
