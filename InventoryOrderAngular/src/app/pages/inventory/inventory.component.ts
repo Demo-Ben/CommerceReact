@@ -32,15 +32,27 @@ export class InventoryComponent implements OnInit {
     }
 
     loadInventory(): void {
-        this.inventoryService.getItems().subscribe({
-            next: items => {
-                console.log("InventoryService returned items:", items);
-                this.inventory = items;
-            },
-            error: err => {
-                console.error("Error loading inventory:", err);
-            }
-        });
+        // this.inventoryService.getItems().subscribe({
+        //     next: items => {
+        //         console.log("InventoryService returned items:", items);
+        //         this.inventory = items;
+        //     },
+        //     error: err => {
+        //         console.error("Error loading inventory:", err);
+        //     }
+        // });
+
+        setTimeout(() => {
+            this.inventoryService.getItems().subscribe({
+                next: items => {
+                    console.log("InventoryService returned items:", items);
+                    this.inventory = items;
+                },
+                error: err => {
+                    console.error("Error loading inventory:", err);
+                }
+            });
+        }, 2000);   // 2‑second delay
     }
 
     createOrder(): void {
