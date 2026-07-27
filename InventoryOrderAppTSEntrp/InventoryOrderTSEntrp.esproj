@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.VisualStudio.JavaScript.Sdk/1.0.5277448">
+﻿<Project Sdk="Microsoft.VisualStudio.JavaScript.Sdk/1.0.5277448">
   <PropertyGroup>
     <StartupCommand>npm run dev</StartupCommand>
     <JavaScriptTestRoot>src\</JavaScriptTestRoot>
@@ -8,4 +8,51 @@
     <!-- Folder where production build objects will be placed -->
     <BuildOutputFolder>$(MSBuildProjectDirectory)\dist</BuildOutputFolder>
   </PropertyGroup>
+  <ItemGroup>
+    <None Include="node_modules\.bin\acorn" />
+    <None Include="node_modules\.bin\acorn.cmd" />
+    <None Include="node_modules\.bin\acorn.ps1" />
+    <None Include="node_modules\.bin\baseline-browser-mapping" />
+    <None Include="node_modules\.bin\baseline-browser-mapping.cmd" />
+    <None Include="node_modules\.bin\baseline-browser-mapping.ps1" />
+    <None Include="node_modules\.bin\browserslist" />
+    <None Include="node_modules\.bin\browserslist.cmd" />
+    <None Include="node_modules\.bin\browserslist.ps1" />
+    <None Include="node_modules\.bin\eslint" />
+    <None Include="node_modules\.bin\eslint.cmd" />
+    <None Include="node_modules\.bin\eslint.ps1" />
+    <None Include="node_modules\.bin\jsesc" />
+    <None Include="node_modules\.bin\jsesc.cmd" />
+    <None Include="node_modules\.bin\jsesc.ps1" />
+    <None Include="node_modules\.bin\json5" />
+    <None Include="node_modules\.bin\json5.cmd" />
+    <None Include="node_modules\.bin\json5.ps1" />
+    <None Include="node_modules\.bin\nanoid" />
+    <None Include="node_modules\.bin\nanoid.cmd" />
+    <None Include="node_modules\.bin\nanoid.ps1" />
+    <None Include="node_modules\.bin\node-which" />
+    <None Include="node_modules\.bin\node-which.cmd" />
+    <None Include="node_modules\.bin\node-which.ps1" />
+    <None Include="node_modules\.bin\parser" />
+    <None Include="node_modules\.bin\parser.cmd" />
+    <None Include="node_modules\.bin\parser.ps1" />
+    <None Include="node_modules\.bin\rolldown" />
+    <None Include="node_modules\.bin\rolldown.cmd" />
+    <None Include="node_modules\.bin\rolldown.ps1" />
+    <None Include="node_modules\.bin\semver" />
+    <None Include="node_modules\.bin\semver.cmd" />
+    <None Include="node_modules\.bin\semver.ps1" />
+    <None Include="node_modules\.bin\tsc" />
+    <None Include="node_modules\.bin\tsc.cmd" />
+    <None Include="node_modules\.bin\tsc.ps1" />
+    <None Include="node_modules\.bin\tsserver" />
+    <None Include="node_modules\.bin\tsserver.cmd" />
+    <None Include="node_modules\.bin\tsserver.ps1" />
+    <None Include="node_modules\.bin\update-browserslist-db" />
+    <None Include="node_modules\.bin\update-browserslist-db.cmd" />
+    <None Include="node_modules\.bin\update-browserslist-db.ps1" />
+    <None Include="node_modules\.bin\vite" />
+    <None Include="node_modules\.bin\vite.cmd" />
+    <None Include="node_modules\.bin\vite.ps1" />
+  </ItemGroup>
 </Project>
