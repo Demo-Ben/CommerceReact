@@ -54,5 +54,32 @@
     <None Include="node_modules\.bin\vite" />
     <None Include="node_modules\.bin\vite.cmd" />
     <None Include="node_modules\.bin\vite.ps1" />
+    <None Include="node_modules\react\cjs\react-compiler-runtime.development.js" />
+    <None Include="node_modules\react\cjs\react-compiler-runtime.production.js" />
+    <None Include="node_modules\react\cjs\react-compiler-runtime.profiling.js" />
+    <None Include="node_modules\react\cjs\react-jsx-dev-runtime.development.js" />
+    <None Include="node_modules\react\cjs\react-jsx-dev-runtime.production.js" />
+    <None Include="node_modules\react\cjs\react-jsx-dev-runtime.profiling.js" />
+    <None Include="node_modules\react\cjs\react-jsx-dev-runtime.react-server.development.js" />
+    <None Include="node_modules\react\cjs\react-jsx-dev-runtime.react-server.production.js" />
+    <None Include="node_modules\react\cjs\react-jsx-runtime.development.js" />
+    <None Include="node_modules\react\cjs\react-jsx-runtime.production.js" />
+    <None Include="node_modules\react\cjs\react-jsx-runtime.profiling.js" />
+    <None Include="node_modules\react\cjs\react-jsx-runtime.react-server.development.js" />
+    <None Include="node_modules\react\cjs\react-jsx-runtime.react-server.production.js" />
+    <None Include="node_modules\react\cjs\react.development.js" />
+    <None Include="node_modules\react\cjs\react.production.js" />
+    <None Include="node_modules\react\cjs\react.react-server.development.js" />
+    <None Include="node_modules\react\cjs\react.react-server.production.js" />
+    <None Include="node_modules\react\compiler-runtime.js" />
+    <None Include="node_modules\react\index.js" />
+    <None Include="node_modules\react\jsx-dev-runtime.js" />
+    <None Include="node_modules\react\jsx-dev-runtime.react-server.js" />
+    <None Include="node_modules\react\jsx-runtime.js" />
+    <None Include="node_modules\react\jsx-runtime.react-server.js" />
+    <None Include="node_modules\react\LICENSE" />
+    <None Include="node_modules\react\package.json" />
+    <None Include="node_modules\react\react.react-server.js" />
+    <None Include="node_modules\react\README.md" />
   </ItemGroup>
 </Project>
