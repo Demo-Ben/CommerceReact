@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { PaymentsService, PaymentItem } from '../../services/payments.service';
@@ -14,7 +14,9 @@ export class PaymentComponent implements OnInit {
 
     payments: PaymentItem[] = [];
 
-    constructor(private paymentsService: PaymentsService) {
+    constructor(private paymentsService: PaymentsService,
+                private cdr: ChangeDetectorRef)
+    {
         console.log("PaymentComponent constructor fired");
     }
 
@@ -28,6 +30,7 @@ export class PaymentComponent implements OnInit {
             next: items => {
                 console.log("PaymentsService returned payments:", items);
                 this.payments = items;
+                this.cdr.detectChanges(); // Force UI refresh
             },
             error: err => {
                 console.error("Error loading payments:", err);

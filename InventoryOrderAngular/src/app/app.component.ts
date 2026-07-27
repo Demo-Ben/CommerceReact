@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { RouterOutlet } from '@angular/router';
+
+// import { RouterOutlet } from '@angular/router';
 // import { provideRouter } from '@angular/router';
 // import { HttpClientModule } from '@angular/common/http';
-import { routes } from './app-routing-modules';
+// import { routes } from './app-routing-modules';
 
 @Component({
     selector: 'app-root',

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { OrdersService, OrderItem } from '../../services/orders.service';
@@ -14,7 +14,9 @@ export class OrdersComponent implements OnInit {
 
     orders: OrderItem[] = [];
 
-    constructor(private ordersService: OrdersService) {
+    constructor(private ordersService: OrdersService,
+                private cdr: ChangeDetectorRef)
+    {
         console.log("OrdersComponent constructor fired");
     }
 
@@ -28,6 +30,7 @@ export class OrdersComponent implements OnInit {
             next: items => {
                 console.log("OrdersService returned orders:", items);
                 this.orders = items;
+                this.cdr.detectChanges(); // Force UI refresh
             },
             error: err => {
                 console.error("Error loading orders:", err);

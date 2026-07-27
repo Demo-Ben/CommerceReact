@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, NgZone, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -18,9 +18,17 @@ export class InventoryComponent implements OnInit {
     selectedId: number | null = null;
     quantity: number = 1;
 
+
+    // ** Zone.js / Asynchronous Timing Issues **
+    // If your API call is triggered from outside Angular's Zone
+    // (such as a third - party JavaScript library, a web socket event, or certain setTimeout blocks),
+    // the UI may not refresh automatically.
     constructor(
         private inventoryService: InventoryService,
-        private ordersService: OrdersService)
+        private ordersService: OrdersService,
+        private cdr: ChangeDetectorRef,
+        //private ngZone: NgZone,
+    )
     {
         console.log("InventoryComponent constructor fired");   // ← breakpoint #1
     }
@@ -32,27 +40,38 @@ export class InventoryComponent implements OnInit {
     }
 
     loadInventory(): void {
-        // this.inventoryService.getItems().subscribe({
-        //     next: items => {
-        //         console.log("InventoryService returned items:", items);
-        //         this.inventory = items;
-        //     },
-        //     error: err => {
-        //         console.error("Error loading inventory:", err);
-        //     }
+        this.inventoryService.getItems().subscribe({
+            next: items => {
+                console.log("InventoryService returned items:", items);
+                this.inventory = items;
+                this.cdr.detectChanges(); //Force UI refresh
+            },
+            error: err => {console.error("Error loading inventory:", err);
+            }
+        });
+
+        // this.ngZone.run(() => {
+        //     setTimeout(() => {
+        //         this.inventoryService.getItems().subscribe(items => {
+        //             this.inventory = items;
+        //         });
+        //     }, 2000);
         // });
 
-        setTimeout(() => {
-            this.inventoryService.getItems().subscribe({
-                next: items => {
-                    console.log("InventoryService returned items:", items);
-                    this.inventory = items;
-                },
-                error: err => {
-                    console.error("Error loading inventory:", err);
-                }
-            });
-        }, 2000);   // 2‑second delay
+        // setTimeout(() => {
+        //     this.inventoryService.getItems().subscribe({
+        //         next: items => {
+        //             console.log("InventoryService returned items:", items);
+        //             this.inventory = items;
+        //             this.cdr.detectChanges(); // Force UI refresh
+        //         },
+        //         error: err => {
+        //             console.error("Error loading inventory:", err);
+        //         }
+        //     });
+        // }, 2000);   // 2‑second delay
+
+        
     }
 
     createOrder(): void {
