@@ -15,6 +15,10 @@
     <Build />
     <Deploy />
   </Project>
+  <Project Path="InventoryOrderTSReact/inventoryordertsreact.esproj">
+    <Build />
+    <Deploy />
+  </Project>
   <Project Path="InventoryService/InventoryService.csproj" />
   <Project Path="OrderService/OrderService.csproj" />
   <Project Path="PaymentService/PaymentService.csproj" Id="b7648460-86fa-47aa-a2d5-b4b630b4b3c9" />
