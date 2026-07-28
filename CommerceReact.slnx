@@ -11,7 +11,7 @@
     <Build />
     <Deploy />
   </Project>
-  <Project Path="InventoryOrderAppTSEntrp/InventoryOrderTSEntrp.esproj">
+  <Project Path="InventoryOrderReact/InventoryOrderReact.esproj">
     <Build />
     <Deploy />
   </Project>
