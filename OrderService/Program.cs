@@ -16,7 +16,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowReact", policy =>
     {
         // "http://localhost:63387" for Angular web client
-        policy.WithOrigins("http://localhost:52136", "http://localhost:49978", "http://localhost:63387")
+        policy.WithOrigins("http://localhost:52136", "http://localhost:49978", "http://localhost:63387", "http://localhost:60695")
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
