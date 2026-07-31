@@ -21,3 +21,11 @@ export class AppComponent {
         console.log("AppComponent ngOnInit fired");       // ← ngOnInit breakpoint
     }
 }
+
+
+// How the Match Works: Exact Case Sensitivity, Curly Braces { }, Correct File Path
+// my-component.component.ts file
+// export class MyComponent { ... }
+
+// my-component.component.spec.ts
+// import { MyComponent } from './my-component.component';
