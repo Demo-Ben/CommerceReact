@@ -18,7 +18,6 @@ export class InventoryComponent implements OnInit {
     selectedId: number | null = null;
     quantity: number = 1;
 
-
     // ** Zone.js / Asynchronous Timing Issues **
     // If your API call is triggered from outside Angular's Zone
     // (such as a third - party JavaScript library, a web socket event, or certain setTimeout blocks),
@@ -88,34 +87,4 @@ export class InventoryComponent implements OnInit {
                 }
             });
     }
-    // ngOnInit(): void {
-    //     this.inventoryService.getItems().subscribe(items => {
-    //         console.log("InventoryService returned items:", items); // ← breakpoint #3
-    //         this.inventory = items;     //← triggers Angular change detection
-    //     });
-
-    //     // setTimeout(() => {
-    //     //   this.inventoryService.getItems().subscribe(items => {
-    //     //     console.log("Items:", items);
-    //     //     this.inventory = items;
-    //     //   });
-    //     // }, 2000);   // 2‑second delay
-    // }
-
-    // loadInventory(): void {
-    //     this.inventoryService.getItems().subscribe(items => {
-    //         console.log("InventoryService returned items:", items); // ← breakpoint #3
-    //         this.inventory = items;
-    //     });
-    // }
-
-    // createOrder(): void {
-    //     if (!this.selectedId) return;
-
-    //     this.ordersService.createOrder(this.selectedId, this.quantity)
-    //         .subscribe(() => {
-    //             this.quantity = 1;
-    //             this.loadInventory();
-    //         });
-    // }
 }

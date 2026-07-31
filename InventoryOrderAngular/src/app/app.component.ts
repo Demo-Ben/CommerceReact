@@ -1,11 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-// import { RouterOutlet } from '@angular/router';
-// import { provideRouter } from '@angular/router';
-// import { HttpClientModule } from '@angular/common/http';
-// import { routes } from './app-routing-modules';
-
 @Component({
     selector: 'app-root',
     standalone: true,
@@ -26,3 +21,11 @@ export class AppComponent {
         console.log("AppComponent ngOnInit fired");       // ← ngOnInit breakpoint
     }
 }
+
+
+// How the Match Works: Exact Case Sensitivity, Curly Braces { }, Correct File Path
+// my-component.component.ts file
+// export class MyComponent { ... }
+
+// my-component.component.spec.ts
+// import { MyComponent } from './my-component.component';
