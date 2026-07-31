@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-
+import { remoteUrl } from '../../environments/environment';
 export interface PaymentItem {
     id: number;
     orderId: number;
@@ -15,7 +15,8 @@ export interface PaymentItem {
 })
 export class PaymentsService {
 
-    private baseUrl = 'https://localhost:5004/payments';
+    //private baseUrl = 'https://localhost:5004/payments';
+    private baseUrl = remoteUrl.paymentsApi;
 
     constructor(private http: HttpClient) { }
 

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { remoteUrl } from '../../environments/environment';
 
 export interface OrderItem {
     id: number;
@@ -15,8 +16,8 @@ export interface OrderItem {
 })
 export class OrdersService {
 
-    private baseUrl = 'https://localhost:5002/orders';
-    // private baseUrl = environment.ordersApi;
+    //private baseUrl = 'https://localhost:5002/orders';
+    private baseUrl = remoteUrl.ordersApi;
 
     constructor(private http: HttpClient) { }
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment';
+import { remoteUrl } from '../../environments/environment';
 export interface InventoryItem {
     id: number;
     name: string;
@@ -14,8 +14,8 @@ export interface InventoryItem {
 })
 export class InventoryService {
 
-    private baseUrl = 'https://localhost:5003/inventory';
-    //private baseUrl = environment.inventoryApi;
+    //private baseUrl = 'https://localhost:5003/inventory';
+    private baseUrl = remoteUrl.inventoryApi;
 
     constructor(private http: HttpClient) { }
 
