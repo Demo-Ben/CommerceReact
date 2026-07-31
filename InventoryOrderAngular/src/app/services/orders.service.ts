@@ -16,7 +16,6 @@ export interface OrderItem {
 export class OrdersService {
 
     private baseUrl = 'https://localhost:5002/orders';
-    // If using environment:
     // private baseUrl = environment.ordersApi;
 
     constructor(private http: HttpClient) { }
