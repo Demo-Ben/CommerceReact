@@ -46,6 +46,12 @@ export async function createOrder(itemId: number, quantity: number): Promise<dto
     //     total: o.total
     // };
     return mapOrder(o);
+}
 
+// Added: getOrderById to centralize call logic in the service layer
+export async function getOrderById(orderId: number): Promise<dtoOrder> {
+    const res = await fetch(`${ORDER_BASE}/orders/${orderId}`);
+    const o = await res.json();
+    return mapOrder(o);
 }
 

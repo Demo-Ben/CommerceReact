@@ -21,9 +21,18 @@ import React, { createContext, useContext, useReducer, useEffect, type ReactNode
 import { ORDER_BASE } from "../api/apiClient";
 import type { dtoInventory, dtoOrder, dtoPayment } from "../models/dtoModels";
 
-import { getInventorys as apiGetInventory} from "../httpServices/inventoryService";
-import { getOrders, createOrder as apiCreateOrder } from "../httpServices/orderService";
-import { getPayments, payOrder as apiPayOrder } from "../httpServices/paymentService";
+// exported functions as properties on that object
+// Benefits:
+// •	Makes the origin of the function explicit.
+// •	Avoids name collisions with local variables.
+// •	Easier to see related functions grouped together.
+import * as inventoryService from "../httpServices/inventoryService";
+import * as orderService from "../httpServices/orderService";
+import * as paymentService from "../httpServices/paymentService";
+// import { getInventorys as apiGetInventory } from "../httpServices/inventoryService";
+// import { getOrders, createOrder as apiCreateOrder, getOrderById as apiGetOrderById } from "../httpServices/orderService";
+// import { getPayments, payOrder as apiPayOrder } from "../httpServices/paymentService";
+
 
 // Visual Summary (the order you should always follow)
 // -------------------------------------------------------------
@@ -370,13 +379,16 @@ async function fnloadData(dispatch: React.Dispatch<Action>) {
         dispatch({ type: "SET_LOADING", payload: true });
 
         console.log("🔥 loadData() fired");
-        const inventorys = await apiGetInventory();
+        //const inventorys = await apiGetInventory();
+        const inventorys = await inventoryService.getInventorys();
         console.log("🔥 inventory fetched:", inventorys);
 
-        const orders = await getOrders();
+        //const orders = await getOrders();
+        const orders = await orderService.getOrders();
         console.log("🔥 order fetched:", orders);
 
-        const payments = await getPayments();
+        //const payments = await getPayments();
+        const payments = await paymentService.getPayments();
         console.log("🔥 payment fetched:", payments);
 
         dispatch({
@@ -447,7 +459,8 @@ export function ApiProvider({ children }: { children: ReactNode }) {
     async function createOrder(itemId: number, quantity: number) {
 
         console.log("🔥 createOrder() called:", itemId, quantity);
-        const order = await apiCreateOrder(itemId, quantity);
+        //const order = await apiCreateOrder(itemId, quantity);
+        const order = await orderService.createOrder(itemId, quantity);
         console.log("🔥 Backend returned:", order);
 
         dispatch({
@@ -458,7 +471,8 @@ export function ApiProvider({ children }: { children: ReactNode }) {
 
     async function payOrder(orderId: number, amount: number) {
         console.log("🔥 apiPayOrder() called:", orderId, amount);
-        const payment = await apiPayOrder(orderId, amount);
+        //const payment = await apiPayOrder(orderId, amount);
+        const payment = await paymentService.payOrder(orderId, amount);
 
         dispatch({
             type: "ORDER_PAID",
@@ -466,11 +480,20 @@ export function ApiProvider({ children }: { children: ReactNode }) {
         });
     }
 
+
+    // use Local wrapper that delegates to the http service 
     async function getOrderById(orderId: number): Promise<dtoOrder> {
-        console.log("🔥 fetch() called:", orderId);
-        const res = await fetch(`${ORDER_BASE}/orders/${orderId}`);
-        return res.json();
+        console.log("🔥 getOrderById() called (delegating to service):", orderId);
+
+        //return await apiGetOrderById(orderId);
+        return await orderService.getOrderById(orderId);
     }
+    // or directly call the service function (no wrapper)
+    // async function getOrderById(orderId: number): Promise<dtoOrder> {
+    //     console.log("🔥 fetch() called:", orderId);
+    //     const res = await fetch(`${ORDER_BASE}/orders/${orderId}`);
+    //     return res.json();
+    // }
 
     const value: ApiContextValue = {
         inventorys: state.inventorys,
@@ -483,7 +506,11 @@ export function ApiProvider({ children }: { children: ReactNode }) {
 
         createOrder,
         payOrder,
-        getOrderById,
+
+        getOrderById, // uses local wrapper
+
+        // use the service function instead of direct fetch
+        // getOrderById: apiGetOrderById,
 
         // NEW refresh-all
         refreshAll: () => fnRefreshAll(dispatch)
