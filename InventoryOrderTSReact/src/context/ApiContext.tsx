@@ -331,7 +331,14 @@ function fnReducer(state: CombinedState, action: Action): CombinedState {   //NE
         case "ORDER_CREATED":
             return {
                 ...state,
-                orders: [...state.orders, action.payload]
+                // append the new order
+                orders: [...state.orders, action.payload],
+                // decrement stock for the item in the order (immutable update)
+                inventorys: state.inventorys.map(i =>
+                    i.id === action.payload.itemId
+                        ? { ...i, stock: Math.max(0, i.stock - action.payload.quantity) }
+                        : i
+                )
             };
 
         case "ORDER_PAID":

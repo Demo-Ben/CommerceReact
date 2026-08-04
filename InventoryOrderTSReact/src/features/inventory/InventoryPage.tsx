@@ -25,9 +25,26 @@ export default function InventoryPage() {
             return;
         }
 
+        const qty = Number(quantity);
+        if (isNaN(qty) || qty < 1) {
+            console.log("Invalid quantity");
+            return;
+        }
+
+        // Find item name for a clearer confirmation message
+        const item = inventorys.find(i => String(i.id) === selectedId);
+        const itemName = item ? item.name : `#${selectedId}`;
+
+        // Confirmation dialog before proceeding
+        const confirmed = window.confirm(`Create order for "${itemName}" (quantity: ${quantity})?`);
+        if (!confirmed) {
+            console.log("Order creation cancelled by user");
+            return;
+        }
+
         // React event handlers are just functions.
         // Calling createOrder triggers your API context logic.
-        createOrder(Number(selectedId), Number(quantity));
+        createOrder(Number(selectedId), qty);
 
         // Reset quantity after creating an order.
         // This triggers a re-render because state changed.
