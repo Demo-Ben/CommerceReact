@@ -22,10 +22,3 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-
-# Visual Studio local settings
-.vs/
-*.user
-*.suo
-*.cache
-*.db
