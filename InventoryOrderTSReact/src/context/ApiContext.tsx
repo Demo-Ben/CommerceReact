@@ -1,13 +1,12 @@
-
 // Clean architecture mapping(React → .NET)
-// -------------------------------------------------------------
+// --------------------------------------------------------------------------------------
 // Layer	                    React                                       .NET
 // Startup bootstrap	    loadData() inside useEffect()	    Program.cs / Startup.cs
 // Dependency injection     <ApiProvider>                       services.AddScoped()
 // Global state	            useReducer()	                    Singleton / Scoped services
 // Transport layer	        httpServices	                    HttpClient / API services
 // DTOs	                    dtoModels.ts	                    OrderDto.cs
-// -------------------------------------------------------------
+// ---------------------------------------------------------------------------------------
 
 import React, { createContext, useContext, useReducer, useEffect, type ReactNode } from "react";
 // 1. createContext — creates a global container for shared data
@@ -21,7 +20,8 @@ import React, { createContext, useContext, useReducer, useEffect, type ReactNode
 
 import { ORDER_BASE } from "../api/apiClient";
 import type { dtoInventory, dtoOrder, dtoPayment } from "../models/dtoModels";
-import { getInventory as apiGetInventory} from "../httpServices/inventoryService";
+
+import { getInventorys as apiGetInventory} from "../httpServices/inventoryService";
 import { getOrders, createOrder as apiCreateOrder } from "../httpServices/orderService";
 import { getPayments, payOrder as apiPayOrder } from "../httpServices/paymentService";
 

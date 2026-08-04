@@ -10,7 +10,7 @@ import { INVENTORY_BASE } from "../api/apiClient";
 import type { dtoInventory } from "../models/dtoModels";
 import { mapInventory } from "./mappers";
 
-export async function getInventory(): Promise<dtoInventory[]> {
+export async function getInventorys(): Promise<dtoInventory[]> {
     const res = await fetch(`${INVENTORY_BASE}/inventory`);
     const data = await res.json();
     // return data;
