@@ -34,8 +34,6 @@ export async function createOrder(itemId: number, quantity: number): Promise<dto
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ itemId, quantity })
     });
-
-    // console.log("Raw response:", res);
     // return res.json();
 
     const o = await res.json();
