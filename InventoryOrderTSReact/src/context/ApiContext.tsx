@@ -434,7 +434,7 @@ async function fnloadData(dispatch: React.Dispatch<Action>) {
 
 // -------------------------------------------------------------
 // 7. fnRefreshAll() — enterprise-grade manual reload
-//                     fnRefreshAll — Internal helper(thin wrapper that calls fnloadData)
+//                     Internal helper(thin wrapper that calls fnloadData)
 // -------------------------------------------------------------
 async function fnRefreshAll(dispatch: React.Dispatch<Action>) {
     console.log("🔄 Manual fnRefreshAll() triggered");
@@ -494,6 +494,7 @@ export function ApiProvider({ children }: { children: ReactNode }) {
     console.table(state.inventorys);
     console.table(state.orders);
     console.table(state.payments);
+
     state.inventorys.forEach((item, index) => {
         console.log(`Inventory[${index}]`, item);
     });
