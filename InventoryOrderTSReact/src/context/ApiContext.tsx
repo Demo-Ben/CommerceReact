@@ -467,6 +467,7 @@ export function calculateInventoryValue(state: CombinedState) {
 
 // -------------------------------------------------------------
 // 12.ApiProvider — wraps the entire React app
+//                  Runs useReducer, useEffect, loads data, exposes context.
 // -------------------------------------------------------------
 // Provides global state + service functions to all pages
 // It’s a custom React component that wraps your app and provides context.
