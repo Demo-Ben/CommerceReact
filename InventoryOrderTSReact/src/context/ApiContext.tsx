@@ -201,6 +201,36 @@ interface ApiMetaState {
     error?: string;          // set if any API call fails
 }
 
+
+// -------------------------------------------------------------
+// 5. Action is the union type that defines every possible message/action your reducer can receive. 
+//    
+//      This defines every possible state change your app can perform.
+//      These are instructions telling the reducer how to update the global state.
+//
+// .NET equivalent: a set of methods on a singleton service that update the in-memory state.
+//                  This is like commands in CQRS (Command Query Responsibility Segregation) pattern:
+// public record LoadData(GlobalState State);
+// public record OrderCreated(OrderDto Order);
+// public record OrderPaid(PaymentDto Payment);
+type Action =
+    | { type: "LOAD_DATA"; payload: ApiState }
+    | { type: "ORDER_CREATED"; payload: dtoOrder }
+    | { type: "ORDER_PAID"; payload: dtoPayment }
+    | { type: "SET_LOADING"; payload: boolean }             // NEW  
+    | { type: "SET_ERROR"; payload: string | undefined };   // NEW;
+// -------------------------------------------------------------
+// Hi reducer,
+// I’m sending you a LOAD_DATA action.
+// Here is the full ApiState (inventorys, orders, payments).Please update the global state with this data.”
+//
+// Define a TYPE called Action, and this type can be one of several shapes.
+// Each shape is an object with a "type" property and a "payload" property.
+// 3 shapes for now, but we can add more later.
+// Why just 3 shapes? Because we only have 3 actions right now: LOAD_DATA, ORDER_CREATED, ORDER_PAID.
+
+
+
 // -------------------------------------------------------------
 // 6. ApiContextValue is the public API your entire React app can access through your Context.  
 //    It exposes all global data + all service functions + meta state in one typed interface.
@@ -233,35 +263,6 @@ interface ApiContextValue {
     // NEW — refresh-all function
     refreshAll: () => Promise<void>;
 }
-
-
-// -------------------------------------------------------------
-// 5. Action is the union type that defines every possible message/action your reducer can receive. 
-//    
-//      This defines every possible state change your app can perform.
-//      These are instructions telling the reducer how to update the global state.
-//
-// .NET equivalent: a set of methods on a singleton service that update the in-memory state.
-//                  This is like commands in CQRS (Command Query Responsibility Segregation) pattern:
-// public record LoadData(GlobalState State);
-// public record OrderCreated(OrderDto Order);
-// public record OrderPaid(PaymentDto Payment);
-
-// -------------------------------------------------------------
-// Hi reducer,
-// I’m sending you a LOAD_DATA action.
-// Here is the full ApiState (inventorys, orders, payments).Please update the global state with this data.”
-//
-// Define a TYPE called Action, and this type can be one of several shapes.
-// Each shape is an object with a "type" property and a "payload" property.
-// 3 shapes for now, but we can add more later.
-// Why just 3 shapes? Because we only have 3 actions right now: LOAD_DATA, ORDER_CREATED, ORDER_PAID.
-type Action =
-    | { type: "LOAD_DATA"; payload: ApiState }
-    | { type: "ORDER_CREATED"; payload: dtoOrder }
-    | { type: "ORDER_PAID"; payload: dtoPayment }
-    | { type: "SET_LOADING"; payload: boolean }             // NEW  
-    | { type: "SET_ERROR"; payload: string | undefined };   // NEW;
 
 
 // -------------------------------------------------------------
