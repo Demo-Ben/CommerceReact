@@ -219,17 +219,6 @@ type Action =
     | { type: "ORDER_PAID"; payload: dtoPayment }
     | { type: "SET_LOADING"; payload: boolean }             // NEW  
     | { type: "SET_ERROR"; payload: string | undefined };   // NEW;
-// -------------------------------------------------------------
-// Hi reducer,
-// I’m sending you a LOAD_DATA action.
-// Here is the full ApiState (inventorys, orders, payments).Please update the global state with this data.”
-//
-// Define a TYPE called Action, and this type can be one of several shapes.
-// Each shape is an object with a "type" property and a "payload" property.
-// 3 shapes for now, but we can add more later.
-// Why just 3 shapes? Because we only have 3 actions right now: LOAD_DATA, ORDER_CREATED, ORDER_PAID.
-
-
 
 // -------------------------------------------------------------
 // 6. ApiContextValue is the public API your entire React app can access through your Context.  
@@ -323,11 +312,24 @@ const initialCombinedState: CombinedState = {
     ...initialMetaState
 };
 
+
 // -------------------------------------------------------------
-// fnReducer — centralized state transitions
-//             Every API action updates state through here
+// 9. Reducer - Pure function handling all Action transitions.
+//              Every API action updates state through here
+//              fnReducer — centralized state transitions
+//
+// signature and behavior of reducer:
+// function reducer(state: AppState, action: Action): AppState {
+//     switch (action.type) {
+//         case "LOAD": 
+//              return { ...state, items: action.payload };
+//         case "ERROR": 
+//              return { ...state, error: action.payload };
+//         default: 
+//              return state;
+//     }
+// }
 // -------------------------------------------------------------
-// function fnReducer(state: ApiState, action: Action): ApiState {
 function fnReducer(state: CombinedState, action: Action): CombinedState {   //NEW — combined state type
     console.log("REDUCER ACTION:", action.type);
 
@@ -380,11 +382,22 @@ function fnReducer(state: CombinedState, action: Action): CombinedState {   //NE
             return state;
     }
 }
+// -------------------------------------------------------------
+// Hi reducer,
+// I’m sending you a LOAD_DATA action.
+// Here is the full ApiState (inventorys, orders, payments).Please update the global state with this data.”
+//
+// Define a TYPE called Action, and this type can be one of several shapes.
+// Each shape is an object with a "type" property and a "payload" property.
+// 3 shapes for now, but we can add more later.
+// Why just 3 shapes? Because we only have 3 actions right now: LOAD_DATA, ORDER_CREATED, ORDER_PAID.
 
 
 // -------------------------------------------------------------
-// fnloadData() — fetches all Microservices data on startup
+// fnloadData() — fnloadData — Internal helper(startup loader; performs async fetches and dispatches actions)
+//                fetches all Microservices data on startup
 //                Called once inside useEffect()
+//                it performs fetches and dispatches actions (SET_LOADING, LOAD_DATA, SET_ERROR) to the reducer.
 // -------------------------------------------------------------
 async function fnloadData(dispatch: React.Dispatch<Action>) {
 
@@ -421,6 +434,7 @@ async function fnloadData(dispatch: React.Dispatch<Action>) {
 
 // -------------------------------------------------------------
 // 7. fnRefreshAll() — enterprise-grade manual reload
+//                     fnRefreshAll — Internal helper(thin wrapper that calls fnloadData)
 // -------------------------------------------------------------
 async function fnRefreshAll(dispatch: React.Dispatch<Action>) {
     console.log("🔄 Manual fnRefreshAll() triggered");
@@ -430,8 +444,30 @@ async function fnRefreshAll(dispatch: React.Dispatch<Action>) {
 
 
 // -------------------------------------------------------------
-// ApiProvider — wraps the entire React app
-//
+// 10. Selectors (optional)
+// -------------------------------------------------------------
+// Selector examples (pure, no dispatch / side effects)
+export function selectInventoryById(state: CombinedState, id: number) {
+    return state.inventorys.find(i => i.id === id);
+}
+
+export function selectOrdersByStatus(state: CombinedState, status: string) {
+    return state.orders.filter(o => o.status === status);
+}
+
+export function calculateInventoryValue(state: CombinedState) {
+    return state.inventorys.reduce((sum, it) => sum + it.price * it.stock, 0);
+}
+
+
+// -------------------------------------------------------------
+// 11. Internal helper functions
+// -------------------------------------------------------------
+
+
+// -------------------------------------------------------------
+// 12.ApiProvider — wraps the entire React app
+// -------------------------------------------------------------
 // Provides global state + service functions to all pages
 // It’s a custom React component that wraps your app and provides context.
 //
@@ -540,8 +576,8 @@ export function ApiProvider({ children }: { children: ReactNode }) {
 
 
 // -------------------------------------------------------------
-// useApi() — custom hook for consuming ApiContext
-//            Lets pages call createOrder(), payOrder(), etc.
+// 13. useApi() — custom hook for consuming ApiContext
+//               Lets pages call createOrder(), payOrder(), etc.
 // -------------------------------------------------------------
 export function useApi(): ApiContextValue {
     const ctx = useContext(ApiContext);
