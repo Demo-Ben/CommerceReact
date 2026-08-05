@@ -8,60 +8,6 @@
 // DTOs	                    dtoModels.ts	                    OrderDto.cs
 // ---------------------------------------------------------------------------------------
 
-import React, { createContext, useContext, useReducer, useEffect, type ReactNode } from "react";
-// 1. createContext — creates a global container for shared data
-//      Example: const MyContext = createContext<MyContextType | undefined>(undefined);
-// 2. useContext — reads from a context
-//      Example: const ctx = useContext(MyContext);
-// 3. useReducer — manages complex state with actions
-//      Example: const [state, dispatch] = useReducer(reducer, initialState);
-// 4. useEffect — runs side effects (fetching, subscriptions, timers)
-//      Example: useEffect(() => { fetchData(); }, []);
-
-// import { ORDER_BASE } from "../api/apiClient";
-import type { dtoInventory, dtoOrder, dtoPayment } from "../models/dtoModels";
-
-// exported functions as properties on that object
-// Benefits:
-// •	Makes the origin of the function explicit.
-// •	Avoids name collisions with local variables.
-// •	Easier to see related functions grouped together.
-import * as inventoryService from "../httpServices/inventoryService";
-import * as orderService from "../httpServices/orderService";
-import * as paymentService from "../httpServices/paymentService";
-// import { getInventorys as apiGetInventory } from "../httpServices/inventoryService";
-// import { getOrders, createOrder as apiCreateOrder, getOrderById as apiGetOrderById } from "../httpServices/orderService";
-// import { getPayments, payOrder as apiPayOrder } from "../httpServices/paymentService";
-
-
-// Visual Summary (the order you should always follow)
-// -------------------------------------------------------------
-// 1. ApiState          ← defines the shape of global state
-// 2. Action            ← defines allowed state transitions
-// 3. ApiContextValue   ← defines what the app can access
-// 4. initialState      ← defines the starting state
-// (NEW)
-// 5. Loading/Error State (optional but enterprise-grade)
-// 6. Selectors (optional)
-// 7. Refresh-all function (optional)
-
-
-// -------------------------------------------------------------
-// The full correct code order is:
-// -------------------------------------------------------------
-// 1.Imports
-// 2.DTO imports
-// 3.ApiState
-// 4.Action
-// 5.ApiContextValue
-// 6.createContext
-// 7.initialState
-// 8.reducer
-// 9.internal helper functions(loadData, etc.)
-// 10.ApiProvider
-// 11.useApi
-
-
 // - Workflow -
 // -------------------------------------------------------------
 // Browser loads index.html
@@ -159,7 +105,73 @@ import * as paymentService from "../httpServices/paymentService";
 
 
 // -------------------------------------------------------------
-// 1. ApiState — the global state shape
+// Unified Correct Order for ApiContext.tsx
+// -------------------------------------------------------------
+// 1. Imports -  React, hooks, services, constants, utilities
+//               → Required before anything else.
+// 2. DTO Imports
+//      Your backend DTO models
+//      → Needed before defining state shape.
+// 3. ApiState
+//      Defines the global data structure stored in Context.
+// 4. ApiMetaState(optional but recommended)
+//      Loading + error status block.
+// 5. Action
+//      Union type describing all reducer transitions.
+// 6. ApiContextValue
+//      Defines what the app can read + call from the context.
+// 7. createContext
+//      Creates the DI container typed with ApiContextValue.
+// 8. initialState
+//      Starting values for ApiState + optional ApiMetaState.
+// 9. reducer
+//      Pure function handling all Action transitions.
+// 10. Selectors(optional)
+//      Derived data helpers(e.g., selectPaidOrders).
+// 11. Internal helper functions
+//      loadData, refreshAll, API wrappers, etc.
+// 12. ApiProvider
+//      Runs useReducer, useEffect, loads data, exposes context.
+// 13. useApi
+//      Custom hook returning the context value.
+
+
+// -------------------------------------------------------------
+// 1. Imports - React, hooks, services, constants, utilities
+// -------------------------------------------------------------
+import React, { createContext, useContext, useReducer, useEffect, type ReactNode } from "react";
+// 1. createContext — creates a global container for shared data
+//      Example: const MyContext = createContext<MyContextType | undefined>(undefined);
+// 2. useContext — reads from a context
+//      Example: const ctx = useContext(MyContext);
+// 3. useReducer — manages complex state with actions
+//      Example: const [state, dispatch] = useReducer(reducer, initialState);
+// 4. useEffect — runs side effects (fetching, subscriptions, timers)
+//      Example: useEffect(() => { fetchData(); }, []);
+
+
+// -------------------------------------------------------------
+// 2. DTO Imports
+// -------------------------------------------------------------
+// import { ORDER_BASE } from "../api/apiClient";
+import type { dtoInventory, dtoOrder, dtoPayment } from "../models/dtoModels";
+
+// Exported functions as properties on that object
+// Benefits:
+// •	Makes the origin of the function explicit.
+// •	Avoids name collisions with local variables.
+// •	Easier to see related functions grouped together.
+import * as inventoryService from "../httpServices/inventoryService";
+import * as orderService from "../httpServices/orderService";
+import * as paymentService from "../httpServices/paymentService";
+// or
+// import { getInventorys as apiGetInventory } from "../httpServices/inventoryService";
+// import { getOrders, createOrder as apiCreateOrder, getOrderById as apiGetOrderById } from "../httpServices/orderService";
+// import { getPayments, payOrder as apiPayOrder } from "../httpServices/paymentService";
+
+
+// -------------------------------------------------------------
+// 3. ApiState — the global state shape
 // -------------------------------------------------------------
 // ApiState is the shape of your entire React global data store.  
 //            stores in memory inside the React Context.
@@ -179,7 +191,7 @@ interface ApiState {
 }
 
 // -------------------------------------------------------------
-// 2. ApiMetaState is the small “status block” that tracks the loading/error state of your API calls.
+// 4. ApiMetaState is the small “status block” that tracks the loading/error state of your API calls.
 //    These states are NOT part of ApiState above
 //
 // .NET equivalent: a singleton service that stores the same data in memory for all pages to read from.
@@ -190,7 +202,7 @@ interface ApiMetaState {
 }
 
 // -------------------------------------------------------------
-// 3. ApiContextValue is the public API your entire React app can access through your Context.  
+// 6. ApiContextValue is the public API your entire React app can access through your Context.  
 //    It exposes all global data + all service functions + meta state in one typed interface.
 // -------------------------------------------------------------
 // Create the React Context container
@@ -224,7 +236,7 @@ interface ApiContextValue {
 
 
 // -------------------------------------------------------------
-// 4. Action is the union type that defines every possible message /"action, commands" your reducer can receive. 
+// 5. Action is the union type that defines every possible message/action your reducer can receive. 
 //    
 //      This defines every possible state change your app can perform.
 //      These are instructions telling the reducer how to update the global state.
@@ -245,25 +257,23 @@ interface ApiContextValue {
 // 3 shapes for now, but we can add more later.
 // Why just 3 shapes? Because we only have 3 actions right now: LOAD_DATA, ORDER_CREATED, ORDER_PAID.
 type Action =
-    | {
-        type: "LOAD_DATA"; payload: ApiState
-    }
+    | { type: "LOAD_DATA"; payload: ApiState }
     | { type: "ORDER_CREATED"; payload: dtoOrder }
     | { type: "ORDER_PAID"; payload: dtoPayment }
     | { type: "SET_LOADING"; payload: boolean }             // NEW  
     | { type: "SET_ERROR"; payload: string | undefined };   // NEW;
 
 
-
-// Notes: calling a React function "createContext" to create a new context object for the API", 
-// this context will store either ApiContextValue or undefine
+// -------------------------------------------------------------
+// 7. const ApiContext = … is the actual React Context object
+//          that holds your entire global API state and functions.
+//          Creates the DI container typed with ApiContextValue.
+// -------------------------------------------------------------
 const ApiContext = createContext<ApiContextValue | undefined>(undefined);
 
 
-
-
 // -------------------------------------------------------------
-// 4. initialState — the starting point
+// 8. initialState — Starting values for ApiState + ApiMetaState (optional).
 // -------------------------------------------------------------
 // Initial global state for the reducer
 // This defines the initial empty state before data is loaded.
@@ -314,7 +324,7 @@ const initialCombinedState: CombinedState = {
 
 // -------------------------------------------------------------
 // fnReducer — centralized state transitions
-// Every API action updates state through here
+//             Every API action updates state through here
 // -------------------------------------------------------------
 // function fnReducer(state: ApiState, action: Action): ApiState {
 function fnReducer(state: CombinedState, action: Action): CombinedState {   //NEW — combined state type
@@ -373,7 +383,7 @@ function fnReducer(state: CombinedState, action: Action): CombinedState {   //NE
 
 // -------------------------------------------------------------
 // fnloadData() — fetches all Microservices data on startup
-// Called once inside useEffect()
+//                Called once inside useEffect()
 // -------------------------------------------------------------
 async function fnloadData(dispatch: React.Dispatch<Action>) {
 
@@ -409,7 +419,7 @@ async function fnloadData(dispatch: React.Dispatch<Action>) {
 
 
 // -------------------------------------------------------------
-// 7. (NEW) fnRefreshAll() — enterprise-grade manual reload
+// 7. fnRefreshAll() — enterprise-grade manual reload
 // -------------------------------------------------------------
 async function fnRefreshAll(dispatch: React.Dispatch<Action>) {
     console.log("🔄 Manual fnRefreshAll() triggered");
@@ -420,6 +430,7 @@ async function fnRefreshAll(dispatch: React.Dispatch<Action>) {
 
 // -------------------------------------------------------------
 // ApiProvider — wraps the entire React app
+//
 // Provides global state + service functions to all pages
 // It’s a custom React component that wraps your app and provides context.
 //
@@ -484,7 +495,6 @@ export function ApiProvider({ children }: { children: ReactNode }) {
         });
     }
 
-
     // use Local wrapper that delegates to the http service 
     async function getOrderById(orderId: number): Promise<dtoOrder> {
         console.log("🔥 getOrderById() called (delegating to service):", orderId);
@@ -530,7 +540,7 @@ export function ApiProvider({ children }: { children: ReactNode }) {
 
 // -------------------------------------------------------------
 // useApi() — custom hook for consuming ApiContext
-// Lets pages call createOrder(), payOrder(), etc.
+//            Lets pages call createOrder(), payOrder(), etc.
 // -------------------------------------------------------------
 export function useApi(): ApiContextValue {
     const ctx = useContext(ApiContext);
