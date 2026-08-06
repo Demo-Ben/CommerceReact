@@ -127,3 +127,34 @@ export default function OrderPage() {
         </div>
     );
 }
+
+
+
+
+// ========================================================
+// FILE: OrderPage.tsx template
+// ========================================================
+
+// import { useState } from 'react';
+// 1. The main function contains your LOGIC
+// export default function OrderPage() {
+//     // LOGIC ZONE
+//     const [totalPrice, setTotalPrice] = useState(0);
+
+//     function applyDiscount() {
+//         setTotalPrice(prev => prev * 0.9); // 10% off logic
+//      }
+
+//     2. The return statement outputs your WEB UI
+//     return (
+//         <div className="page-layout">
+//             <h1>Order Summary</h1>
+
+//             {/* Visual representation of the logic variable */}
+//             <p>Total: ${totalPrice}</p>
+
+//             {/* Clicking this UI element fires the logic function above */}
+//             <button onClick={applyDiscount}>Apply Coupon</button>
+//         </div>
+//     );
+// }
