@@ -166,13 +166,29 @@
 //                                 default: return state;
 //                             }
 //                       },
-//                      { count: 0 } 
+//                      { count: 0 }
 //
 //      Example: const [state, dispatch] = useReducer(reducer, initialState);
-//               const [state, dispatch] = useReducer(fnReducer, initialCombinedState);  
+//               const [state, dispatch] = useReducer(fnReducer, initialCombinedState);
 //
 // 4. useEffect — runs side effects (fetching, subscriptions, timers)
-//      Example: useEffect(() => { fetchData(); }, []);
+//                Use useEffect whenever your React component needs to synchronise with systems
+//                outside of React, such as
+//                1. Fetching Data from an API:
+//                 useEffect(() => {
+//                     fetch('https://example.com')
+//                         .then(res => res.json())
+//                         .then(data => dispatch({ type: 'FETCH_SUCCESS', payload: data }));
+//                 }, []); // Empty array means this runs exactly ONCE on initial launch
+//                 2. Subscribing to External Events
+//                     useEffect(() => {
+//                              function handleResize() { console.log(window.innerWidth); }
+//                 3. Managing Non-React Browser APIs
+//                    useEffect(() => {
+//                        const timer = setInterval(() => {
+//                            console.log('Tick');
+//                        }, 1000);
+//                 Example: useEffect(() => { fetchData(); }, []);
 // -------------------------------------------------------------
 import React, {createContext, useContext, useReducer, useEffect, type ReactNode } from "react";
 
