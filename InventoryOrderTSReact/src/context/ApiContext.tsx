@@ -34,14 +34,14 @@
 
 
 // ┌──────────────────────────────────────────────┐
-// │                Browser loads                 │
+// │              Browser loads                   │
 // │                index.html                    │
-// │        <div id="root"></div>                 │
+// │           <div id="root"></div>              │
 // └──────────────────────────────────────────────┘
 //                          ↓
 // ┌──────────────────────────────────────────────┐
 // │        ReactDOM.createRoot() runs            │
-// │        (main.tsx entry point)                │
+// │          (main.tsx entry point)              │
 // └──────────────────────────────────────────────┘
 //                          ↓
 // ┌──────────────────────────────────────────────┐
@@ -63,25 +63,25 @@
 //                          ↓
 // ┌──────────────────────────────────────────────┐
 // │   loadData() calls service layer             │
-// │   → getInventory()                           │
-// │   → getOrders()                              │
-// │   → getPayments()                            │
+// │     → getInventory()                         │
+// │     → getOrders()                            │
+// │     → getPayments()                          │
 // │   (backend JSON → DTO mapping)               │
 // └──────────────────────────────────────────────┘
 //                       ↓
 // ┌──────────────────────────────────────────────┐
 // │   loadData() dispatches LOAD_DATA action     │
-// │   dispatch({                                 │
-// │     type: "LOAD_DATA",                       │
-// │     payload: {inventorys, orders, payments}  │
-// │   })                                         │
+// │     dispatch({                               │
+// │      type: "LOAD_DATA",                      │
+// │      payload: {inventorys, orders, payments} │
+// │     })                                       │
 // └──────────────────────────────────────────────┘
 //                      ↓
 // ┌──────────────────────────────────────────────┐
 // │   Reducer receives LOAD_DATA                 │
-// │   case "LOAD_DATA":                          │
-// │       return {...state, inventorys, orders,  │
-// │                payments }                    │
+// │     case "LOAD_DATA":                        │
+// │        return {...state, inventorys,         │
+// │                  orders, payments            │
 // │   → global state updated                     │
 // └──────────────────────────────────────────────┘
 //                      ↓
@@ -101,7 +101,6 @@
 // │         useApi();                            │
 // │   → UI updates with fresh data               │
 // └──────────────────────────────────────────────┘
-
 
 
 // -------------------------------------------------------------
