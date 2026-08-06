@@ -141,16 +141,36 @@
 //
 // createContext:   React API Function      Creates the context container
 // useContext:      React Hook              Reads data from a context container
-// useReducer:      React Hook              Manages complex component state
+// useReducer:      React Hook              Manages complex component state (both ApiState and ApiMetaState )
 // useEffect:       React Hook              Handles side effects (APIs, timers)
 // ReactNode        TypeScript Type         Describes anything React can render
 //
-// 1. createContext — creates a global container for shared data
-//      Example: const MyContext = createContext<MyContextType | undefined>(undefined);
+// 1. createContext — it is factory machine, it can return what you request. Creates a global container for shared data
+//      Example: const ApiContext = createContext<ApiContextValue | undefined>(undefined);
+//      Example: const AuthContext = createContext<AuthContextType | null>(null);
+//
 // 2. useContext — reads from a context
-//      Example: const ctx = useContext(MyContext);
+//      Example: const ctx = useContext(AuthContext);
+//
 // 3. useReducer — manages complex state with actions
+//                 you need to explicitly type two core things: the State structure and the allowed Actions
+//                 1. Define what your state object looks like
+//                     interface StateType { count: number }
+//                 2. Define the exact action objects allowed
+//                     type ActionType = { type: 'increment' } | { type: 'decrement' };
+//                 3. const [state, dispatch] = useReducer(
+//                         (state: StateType, action: ActionType): StateType => {
+//                             switch (action.type) {
+//                                 case 'increment': return { count: state.count + 1 };
+//                                 case 'decrement': return { count: state.count - 1 };
+//                                 default: return state;
+//                             }
+//                       },
+//                      { count: 0 } 
+//
 //      Example: const [state, dispatch] = useReducer(reducer, initialState);
+//               const [state, dispatch] = useReducer(fnReducer, initialCombinedState);  
+//
 // 4. useEffect — runs side effects (fetching, subscriptions, timers)
 //      Example: useEffect(() => { fetchData(); }, []);
 // -------------------------------------------------------------
