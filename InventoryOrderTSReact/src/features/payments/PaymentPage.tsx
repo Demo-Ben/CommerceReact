@@ -1,24 +1,21 @@
-// function PaymentPage() {
-//   return (
-//     <p>Hello world!</p>
-//   );
-// }
-
-// export default PaymentPage;
-
+//1️. Imports
 import React, { useState } from "react";
 import { useApi } from "../../context/ApiContext";
 
 export default function PaymentPage() {
-    // Pull everything we need from ApiContext
+    // 1.Pull values from context
     const { orders, payments, payOrder, getOrderById } = useApi();
 
-    // Track which order is selected in the dropdown
+    // 2.Local state
     const [selectedOrderId, setSelectedOrderId] = useState<string>("");
 
+
+    //3. Derived data (computed on every render)
     // Only show orders that are not yet paid
     const unpaidOrders = orders.filter(o => o.status !== "Paid");
 
+
+    //4. First‑time payment handler
     // ---------------------------------------------------------
     // Pay button for the dropdown (first-time payment)
     // Must be async because we use await inside
@@ -34,6 +31,8 @@ export default function PaymentPage() {
         setSelectedOrderId("");
     };
 
+
+    //5. Pay‑again handler
     // ---------------------------------------------------------
     // Pay Again handler (used in payment history)
     // Must fetch the order to get the correct total
