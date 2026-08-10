@@ -1,44 +1,44 @@
-<h2>Inventory</h2>
+<h2>Available Inventory</h2>
 
 <table border="1" cellpadding="4">
-  <thead>
-    <tr>
-      <th>Id</th>
-      <th>Name</th>
-      <th>Stock</th>
-      <th>Price</th>
-    </tr>
-  </thead>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Stock</th>
+            <th>Price</th>
+        </tr>
+    </thead>
 
-  <tbody>
-    <tr *ngFor="let item of inventory">
-      <td>{{ item.id }}</td>
-      <td>{{ item.name }}</td>
-      <td>{{ item.stock }}</td>
-      <td>${{ item.price }}</td>
-    </tr>
-  </tbody>
+    <tbody>
+        <tr *ngFor="let item of inventory">
+            <td>{{ item.id }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.stock }}</td>
+            <td>${{ item.price }}</td>
+        </tr>
+    </tbody>
 </table>
 
 <h3>Create Order</h3>
 
 <div>
-  <label>
-    Item:
-    <select [(ngModel)]="selectedId">
-      <option [ngValue]="null">-- select --</option>
-      <option *ngFor="let item of inventory" [ngValue]="item.id">
-        {{ item.name }} (stock: {{ item.stock }})
-      </option>
-    </select>
-  </label>
+    <label>
+        Item:
+        <select [(ngModel)]="selectedId">
+            <option [ngValue]="null">-- select --</option>
+            <option *ngFor="let item of inventory" [ngValue]="item.id">
+                {{ item.name }} (stock: {{ item.stock }})
+            </option>
+        </select>
+    </label>
 </div>
 
 <div>
-  <label>
-    Quantity:
-    <input type="number" min="1" [(ngModel)]="quantity">
-  </label>
+    <label>
+        Quantity:
+        <input type="number" min="1" [(ngModel)]="quantity">
+    </label>
 </div>
 
 <button (click)="createOrder()">Create Order</button>

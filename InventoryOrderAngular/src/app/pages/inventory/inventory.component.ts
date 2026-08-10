@@ -5,23 +5,36 @@ import { FormsModule } from '@angular/forms';
 import { InventoryService, InventoryItem } from '../../services/inventory.service';
 import { OrdersService } from '../../services/orders.service';
 
+
+// 1. Component Metadata (Decorator)
 @Component({
-    selector: 'app-inventory',
-    standalone: true,
-    imports: [CommonModule, FormsModule],
-    templateUrl: './inventory.component.html',
+    selector: 'app-inventory',   //the tag used in HTML.
+    standalone: true,            //This component does not belong to an NgModule
+                                 //Angular 15+ allows standalone components that import their own dependencies.
+
+    imports: [CommonModule, FormsModule],       // CommonModule → enables *ngIf, *ngFor, etc.
+                                                // FormsModule → enables [(ngModel)] two‑way binding.
+
+    templateUrl: './inventory.component.html',  //templateUrl / styleUrls:  External HTML + CSS files.
     styleUrls: ['./inventory.component.css']
 })
+
+
+// 2. Component Class
 export class InventoryComponent implements OnInit {
 
-    inventory: InventoryItem[] = [];
-    selectedId: number | null = null;
-    quantity: number = 1;
+    // 2.1 Component State (Properties)
+    // These properties are reactive: When they change, Angular re-renders the UI — but only if Angular knows they changed.
+    inventory: InventoryItem[] = [];        //Holds the list of items returned from the API.
+    selectedId: number | null = null;       //Bound to a dropdown or list selection.
+    quantity: number = 1;                   //Bound to an input field for order creation.
 
     // ** Zone.js / Asynchronous Timing Issues **
     // If your API call is triggered from outside Angular's Zone
     // (such as a third - party JavaScript library, a web socket event, or certain setTimeout blocks),
     // the UI may not refresh automatically.
+
+    // 2.2 Constructor + Dependency Injection
     constructor(
         private inventoryService: InventoryService,
         private ordersService: OrdersService,
@@ -33,11 +46,14 @@ export class InventoryComponent implements OnInit {
     }
 
     // or
+    // 2.3 Lifecycle Hook: ngOnInit - Angular calls ngOnInit() once, after the constructor.
     ngOnInit(): void {
         console.log("InventoryComponent ngOnInit fired");
         this.loadInventory();
     }
 
+
+    // 2.4 loadInventory(): API Call + Change Detection
     loadInventory(): void {
         this.inventoryService.getItems().subscribe({
             next: items => {
@@ -73,6 +89,8 @@ export class InventoryComponent implements OnInit {
         
     }
 
+
+    // createOrder(): API Call + Refresh
     createOrder(): void {
         if (!this.selectedId) return;
 
