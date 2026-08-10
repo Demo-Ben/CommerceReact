@@ -7,6 +7,12 @@ namespace InventoryService.Controllers
     [Route("inventory")]
     public class InventoryController : ControllerBase
     {
+        // DTO for reduce stock
+        public class ReduceStockDto
+        {
+            public int Quantity { get; set; }
+        }
+
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -19,6 +25,25 @@ namespace InventoryService.Controllers
             var item = StaticInventory.Items.FirstOrDefault(i => i.Id == id);
             if (item == null)
                 return NotFound();
+
+            return Ok(item);
+        }
+
+        // POST /inventory/{id}/reduce
+        [HttpPost("{id}/reduce")]
+        public IActionResult ReduceStock(int id, [FromBody] ReduceStockDto dto)
+        {
+            var item = StaticInventory.Items.FirstOrDefault(i => i.Id == id);
+            if (item == null)
+                return NotFound();
+
+            if (dto == null || dto.Quantity <= 0)
+                return BadRequest("Invalid quantity");
+
+            if (item.Stock < dto.Quantity)
+                return BadRequest("Insufficient stock");
+
+            item.Stock -= dto.Quantity;
 
             return Ok(item);
         }
