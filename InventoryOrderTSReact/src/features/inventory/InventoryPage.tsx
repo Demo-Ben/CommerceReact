@@ -102,7 +102,7 @@ export default function InventoryPage() {
                     <tbody>
                         {/* inventoryItems.map(...) loops through your inventory array.
                         React requires a "key" for each row to track updates efficiently. */}
-                        {inventorys.map(item => (   // renamed from "inventory"
+                        {inventorys.map(item => (   
                             <tr key={item.id}>
                                 <td>{item.id}</td>
                                 <td>{item.name}</td>
@@ -123,17 +123,14 @@ export default function InventoryPage() {
                         That's why selectedId is stored as a string.
                         React's onChange gives you the event, and you read e.target.value.
                     */}
-                    <select
-                        value={selectedId}
-                        onChange={e => setSelectedId(e.target.value)}
-                    >
-                        <option value="">-- select --</option>
+                    <select value={selectedId} onChange={e => setSelectedId(e.target.value)} >
 
+                        <option value="">-- select --</option>
                         {/* Same pattern: map inventory into <option> elements.
                             The "value" is the item.id, which is a number,
                             but HTML always returns it as a string.
                         */}
-                        {inventorys.map(item => (               // renamed from "inventory"
+                        {inventorys.map(item => (               
                             <option key={item.id} value={item.id}>
                                 {item.name} (stock: {item.stock})
                             </option>
@@ -149,10 +146,7 @@ export default function InventoryPage() {
                         So we convert it using Number(...).
                         React re-renders when quantity changes.
                     */}
-                    <input
-                        type="number"
-                        min={1}
-                        value={quantity}
+                    <input type="number" min={1} value={quantity}
                         onChange={e => setQuantity(Number(e.target.value))}
                     />
                 </label>
