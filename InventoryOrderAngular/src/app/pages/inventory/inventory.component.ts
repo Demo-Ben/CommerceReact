@@ -89,12 +89,41 @@ export class InventoryComponent implements OnInit {
         
     }
 
+    // Helper to get stock of currently selected item
+    get selectedStock(): number {
+        if (!this.selectedId) return 0;
+        const it = this.inventory.find(i => i.id === this.selectedId);
+        return it ? it.stock : 0;
+    }
+
 
     // createOrder(): API Call + Refresh
     createOrder(): void {
         if (!this.selectedId) return;
+        if (this.quantity < 1) return;
 
-        this.ordersService.createOrder(this.selectedId, this.quantity)
+        const item = this.inventory.find(i => i.id === this.selectedId);
+        if (!item) return;
+
+        if (item.stock < this.quantity) {
+            console.warn("Not enough stock to create order");
+            return;
+        }
+
+        const qty = this.quantity;
+
+        // Confirmation dialog
+        const confirmed = confirm(`Create order for "${item.name}" (Qty: ${qty})?`);
+        if (!confirmed) {
+            console.log("Create order canceled by user");
+            return;
+        }
+
+        // Optimistic update: reduce local stock immediately
+        item.stock -= qty;
+        this.cdr.detectChanges();
+
+        this.ordersService.createOrder(this.selectedId, qty)
             .subscribe({
                 next: () => {
                     this.quantity = 1;
@@ -102,6 +131,9 @@ export class InventoryComponent implements OnInit {
                 },
                 error: err => {
                     console.error("Error creating order:", err);
+                    // Restore stock on error
+                    item.stock += qty;
+                    this.cdr.detectChanges();
                 }
             });
     }

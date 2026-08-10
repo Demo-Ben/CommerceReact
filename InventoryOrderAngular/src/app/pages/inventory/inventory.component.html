@@ -41,4 +41,8 @@
     </label>
 </div>
 
-<button (click)="createOrder()">Create Order</button>
+<!-- Disabled when no item selected, invalid quantity, or not enough stock -->
+<button (click)="createOrder()"
+        [disabled]="!selectedId || quantity < 1 || selectedStock < quantity">
+    Create Order
+</button>
