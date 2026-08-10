@@ -1,25 +1,41 @@
-// function OrderPage() {
-//   return (
-//     <p>Hello world!</p>
-//   );
-// }
-// export default OrderPage;
-
-
+//1️. Imports
 import React from "react";
+
+
+//This hook is the “bridge” between your UI and backend.
+// useApi() is your custom hook that exposes:
+//      inventorys → list of item
+//      orders → list of existing orders
+//      createOrder() → API call
+//      payOrder() → API call
 import { useApi } from "../../context/ApiContext";
 
-export default function OrderPage() {
-    const { inventorys, orders, createOrder, payOrder } = useApi();         // renamed from "inventory"
 
-    // Helper: get item name from inventory
-    // TypeScript ensures itemId is a number and inventory items are typed
+//2. Component definition
+// Render #1 → React calls OrderPage() → useApi() → UI shows
+// Render #2 → orders updated → React calls OrderPage() → useApi() → UI updates
+// Render #3 → payOrder() changed context → React calls OrderPage() → useApi() → UI updates
+// Render #4 → navigation → React calls OrderPage() → useApi() → UI shows again
+export default function OrderPage() {
+
+    // 3. Extract API values: This pulls values from your API context provider
+    //                        ,not fetch data rather simply reads values from your context provider.
+    //    This line runs every time your component renders.
+    //    “render” means in React:
+    //        1. The first time the component is displayed on the screen.
+    //        2. Any state changes (useState)
+    //        3. Any context values change (useApi)
+    //        4. Any parent component re-renders
+    const { inventorys, orders, createOrder, payOrder } = useApi();         
+
+
+    //4. Helper: get item name
     function getItemName(itemId: number): string {
-        const item = inventorys.find(i => i.id === itemId);                 // renamed from "inventory"
+        const item = inventorys.find(i => i.id === itemId);                  
         return item ? item.name : "Unknown";
     }
 
-    // Create a new order
+    //5.Create a new order
     async function handleCreateOrder(itemId: number) {
         const ok = window.confirm("Create this order?");
         if (!ok) return;
@@ -28,7 +44,7 @@ export default function OrderPage() {
         await createOrder(itemId, quantity);
     }
 
-    // Pay for an order
+    //6. Pay for an order
     async function handlePay(order: { id: number; total: number }) {
         const ok = window.confirm(`Pay $${order.total} for this order?`);
         if (!ok) return;

@@ -6,9 +6,18 @@ import { useApi } from "../../context/ApiContext";
 
 
 // 2.Component definition
+// Render #1 → React calls InventoryPage() → useApi() → UI shows inventory list
+// Render #2 → selectedId changed → React calls InventoryPage() → useApi() → UI updates
+//             Triggered by user clicking on an inventory item
+// Render #3 → quantity changed → React calls InventoryPage() → useApi() → UI updates
+//             Triggered by user changing quantity input
+// Render #4 → createOrder() updated context → React calls InventoryPage() → useApi() → UI updates
+//             Triggered by user clicking "Create Order" button
+// Render #5 → navigation → React calls InventoryPage() → useApi() → UI shows again
 export default function InventoryPage() {
 
-    // 3. Extract API values: This pulls values from your API context provider.
+    // 3. Extract API values: This pulls values from your API context provider
+    //                        ,not fetch data rather simply reads values from your context provider.
     //    This line runs every time your component renders.
     //    “render” means in React:
     //        1. The first time the component is displayed on the screen.
