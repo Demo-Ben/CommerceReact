@@ -3,7 +3,7 @@
 <table border="1" cellpadding="4">
     <thead>
         <tr>
-            <th>Id</th>
+            <th>Order Id</th>
             <th>Item</th>
             <th>Quantity</th>
             <th>Total</th>
@@ -20,8 +20,12 @@
             <td>${{ order.total }}</td>
             <td>{{ order.status }}</td>
             <td>
-                <button (click)="payOrder(order.id, order.total)">Pay</button>
-                <button (click)="deleteOrder(order.id)">Delete</button>
+                <button *ngIf="order.status !== 'Paid'" (click)="payOrder(order.id, order.total)">
+                    Pay
+                </button>
+                <button *ngIf="order.status !== 'Paid'" (click)="deleteOrder(order.id)">
+                    Delete
+                </button>
             </td>
         </tr>
     </tbody>
