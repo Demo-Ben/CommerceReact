@@ -1,53 +1,64 @@
+// 1. Imports
+// useState gives React component state.
 import React, { useState } from "react";
+// useApi() is your custom hook that exposes: inventorys (your inventory list),createOrder() (API call)
 import { useApi } from "../../context/ApiContext";
 
+
+// 2.Component definition
 export default function InventoryPage() {
 
-    // When You are calling your custom hook useApi()
-    // That hook returns an "object""
-    // You extract two properties from that "object":
-    //     inventory
-    //     createOrder
-    // that's why you need "import { useApi } from "../../context/ApiContext""
-    const { inventorys, createOrder } = useApi();               // renamed from "inventory"
+    // 3. Extract API values: This pulls values from your API context provider.
+    //    This line runs every time your component renders.
+    //    “render” means in React:
+    //        1. The first time the component is displayed on the screen.
+    //        2. Any state changes (useState)
+    //        3. Any context values change (useApi)
+    //        4. Any parent component re-renders
+    //    In this case, we are extracting the inventory list and the createOrder() function from the API context.
+    const { inventorys, createOrder } = useApi();               
 
-    // React state: when selectedId changes, React re-renders this component.
+    // 4. Local component state.
+    //    React state: selectedId → which item the user selected. quantity → how many units to order
     const [selectedId, setSelectedId] = useState<string>("");
 
     // useState<number>(1) means React will track this value and re-render when it changes.
     const [quantity, setQuantity] = useState<number>(1);
 
+
+    // 5. Order creation handler
     const handleCreateOrder = () => {
         console.log("handleCreateOrder fired:", selectedId, quantity);
 
+
+        //Step A — Validate selected item
         if (!selectedId) {
             console.log("No item selected");
             return;
         }
 
+        //Step B — Validate quantity
         const qty = Number(quantity);
         if (isNaN(qty) || qty < 1) {
             console.log("Invalid quantity");
             return;
         }
 
-        // Find item name for a clearer confirmation message
+        // Step C — Find item name for confirmation
         const item = inventorys.find(i => String(i.id) === selectedId);
         const itemName = item ? item.name : `#${selectedId}`;
 
-        // Confirmation dialog before proceeding
+        // Step D — Ask user to confirm
         const confirmed = window.confirm(`Create order for "${itemName}" (quantity: ${quantity})?`);
         if (!confirmed) {
             console.log("Order creation cancelled by user");
             return;
         }
 
-        // React event handlers are just functions.
-        // Calling createOrder triggers your API context logic.
+        // Step E — Call API
         createOrder(Number(selectedId), qty);
 
-        // Reset quantity after creating an order.
-        // This triggers a re-render because state changed.
+        // Step F — Reset quantity.
         setQuantity(1);
     };
 
