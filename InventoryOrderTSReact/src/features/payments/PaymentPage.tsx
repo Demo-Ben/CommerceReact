@@ -52,17 +52,19 @@ export default function PaymentPage() {
             {/* ---------------------------------------------------------
                 Section 1: Pay an unpaid order
                --------------------------------------------------------- */}
-            <h3>Pay Order</h3>
+            <h3>Pay Existing Order by the Order list</h3>
             <div>
-                <select
-                    value={selectedOrderId}
-                    onChange={e => setSelectedOrderId(e.target.value)}
-                >
-                    <option value="">-- select unpaid order --</option>
+                <select value={selectedOrderId}
+                    onChange={e => setSelectedOrderId(e.target.value)} >
+
+                    <option value="">-- Please select unpaid order --</option>
+
+                    {/* the pattern: map unpaidOrders into <option> elements. */}
                     {unpaidOrders.map(o => (
                         <option key={o.id} value={o.id}>
                             Order #{o.id} - ${o.total} ({o.status})
                         </option>
+
                     ))}
                 </select>
 
@@ -72,7 +74,7 @@ export default function PaymentPage() {
             {/* ---------------------------------------------------------
                 Section 2: Payment History
                --------------------------------------------------------- */}
-            <h3>Payment History</h3>
+            <h3>Order Payment History</h3>
 
             {payments.length === 0 && <p>No payments yet.</p>}
 
@@ -95,6 +97,7 @@ export default function PaymentPage() {
                             </tr>
                         </thead>
                         <tbody>
+                            {/* payments.map(...) loops through your payment array. */}
                             {payments.map(p => (
                                 <tr key={p.id}>
                                     <td>{p.id}</td>

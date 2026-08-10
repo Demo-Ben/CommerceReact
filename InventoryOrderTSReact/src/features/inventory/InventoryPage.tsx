@@ -77,7 +77,7 @@ export default function InventoryPage() {
                 JSX is NOT HTML — it's JavaScript that looks like HTML.
                 Every time state changes, React re-renders this return block.
             */}
-            <h2>Inventory</h2>
+            <h2>Available Inventory List</h2>
 
             {/* Tables in React work exactly like HTML tables.
                 The difference is: dynamic rows must be generated using .map().
@@ -126,6 +126,7 @@ export default function InventoryPage() {
                     <select value={selectedId} onChange={e => setSelectedId(e.target.value)} >
 
                         <option value="">-- select --</option>
+
                         {/* Same pattern: map inventory into <option> elements.
                             The "value" is the item.id, which is a number,
                             but HTML always returns it as a string.

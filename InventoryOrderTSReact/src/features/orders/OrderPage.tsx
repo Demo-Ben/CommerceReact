@@ -54,21 +54,20 @@ export default function OrderPage() {
 
     return (
         <div>
-            <h2>Orders</h2>
+            <h2>Create New Order by Inventory List</h2>
 
             {/* ---------------------------------------------------------
                 Inventory List (Create Order)
                 --------------------------------------------------------- 
             */}
-            <h3>Inventory</h3>
+            <h3>Available Inventory</h3>
 
             <div
                 style={{
                     display: "flex",              // enable flexbox
                     justifyContent: "center",     // center horizontally
                     marginTop: "20px"             // optional spacing
-                }}
-            >
+                }} >
                 <table border={1} cellPadding={4}>
                     <thead>
                         <tr>
@@ -80,7 +79,8 @@ export default function OrderPage() {
                         </tr>
                     </thead>
                     <tbody>
-                        {inventorys.map(item => (           // renamed from "inventory"
+                       
+                        {inventorys.map(item => (           
                             <tr key={item.id}>
                                 <td>{item.id}</td>
                                 <td>{item.name}</td>
@@ -99,16 +99,15 @@ export default function OrderPage() {
 
             {/* ---------------------------------------------------------
                 Orders List (Pay Button)
-            --------------------------------------------------------- */}
-            <h3>Orders</h3>
+               --------------------------------------------------------- */}
+            <h3>Existing Orders</h3>
 
             <div
                 style={{
                     display: "flex",              // enable flexbox
                     justifyContent: "center",     // center horizontally
                     marginTop: "20px"             // optional spacing
-                }}
-            >
+                }} >
                 <table border={1} cellPadding={4}>
                     <thead>
                         <tr>
@@ -121,6 +120,7 @@ export default function OrderPage() {
                         </tr>
                     </thead>
                     <tbody>
+                        {/* orders.map(...) loops through your order array. */}
                         {orders.map(order => (
                             <tr key={order.id}>
                                 <td>{order.id}</td>
