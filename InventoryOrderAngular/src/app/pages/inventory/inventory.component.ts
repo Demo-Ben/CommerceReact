@@ -119,8 +119,10 @@ export class InventoryComponent implements OnInit {
             return;
         }
 
-        // Optimistic update: reduce local stock immediately
-        item.stock -= qty;
+        // Commented out to avoid double-reduction if API call fails
+        // item.stock -= qty;  
+
+        // Optimistic update: reduce local stock immediately      
         this.cdr.detectChanges();
 
         this.ordersService.createOrder(this.selectedId, qty)
