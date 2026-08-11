@@ -20,12 +20,17 @@ namespace OrderService.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateAsync([FromBody] CreateOrderDto dto)
         {
-            using var client = new HttpClient();
 
-            // 1) Get inventory item (price + stock)
+            using var client = new HttpClient();
             var item = await client.GetFromJsonAsync<InventoryItemDto>(
                 $"https://localhost:5003/inventory/{dto.ItemId}"
             );
+
+            //using var client = new HttpClient();
+            //// 1) Get inventory item (price + stock)
+            //var item = await client.GetFromJsonAsync<InventoryItemDto>(
+            //    $"https://localhost:5003/inventory/{dto.ItemId}"
+            //);
 
             if (item == null)
                 return BadRequest("Invalid item");
@@ -51,13 +56,7 @@ namespace OrderService.Controllers
                 Status = "Pending"
             };
 
-            //using var client = new HttpClient();
-            //var item = await client.GetFromJsonAsync<InventoryItemDto>(
-            //    $"https://localhost:5003/inventory/{dto.ItemId}"
-            //);
-
             newOrder.Total = item.Price * dto.Quantity;
-
             StaticOrders.Orders.Add(newOrder);
 
             return Ok(newOrder);
