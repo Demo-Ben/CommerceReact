@@ -18,4 +18,5 @@ export interface dtoPayment {
     orderId: number;
     amount: number;
     status: string;   // we decided to include status for Payment
+    paidAt: string
 }

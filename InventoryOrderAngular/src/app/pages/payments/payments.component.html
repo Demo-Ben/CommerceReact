@@ -20,7 +20,9 @@
             <td>{{ p.status }}</td>
             <td>{{ formatDate(p.paidAt) }}</td>
             <td>
-                <button (click)="payAgain(p.id, p.amount)">Pay Again</button>
+                <button *ngIf="p.status !== 'Completed'" (click)="payAgain(p.id, p.amount)">
+                    Pay Again
+                </button>
             </td>
         </tr>
     </tbody>

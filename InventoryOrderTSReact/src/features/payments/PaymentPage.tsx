@@ -45,6 +45,47 @@ export default function PaymentPage() {
         await payOrder(order.id, order.total);
     };
 
+    // helper to render a readable date/time
+    const formatDate = (value?: string | Date | null) => {
+        if (!value) return "";
+
+        const d = typeof value === "string" ? new Date(value) : value;
+
+        if (Number.isNaN(d.getTime())) return String(value);
+
+        // choose desired format:
+        //return d.toLocaleDateString();           // date only
+        return d.toLocaleString();            // date + time (localized)
+        // return d.toLocaleString("en-US", {    // example: "Aug 11, 2026, 2:34 PM"
+        //     year: "numeric",
+        //     month: "short",
+        //     day: "numeric",
+        //     hour: "numeric",
+        //     minute: "2-digit"
+        // });
+    };
+
+    // helper local currency formatter (used only in this file)
+    const formatCurrency = (
+        value?: number | string | null,
+        currency = "AUD",
+        locale = "en-US",
+        minimumFractionDigits = 2,
+        maximumFractionDigits = 2
+    ): string => {
+        if (value === null || value === undefined || value === "") return "";
+
+        const num = typeof value === "string" ? Number(value) : value;
+        if (Number.isNaN(num as number)) return String(value);
+
+        return new Intl.NumberFormat(locale, {
+            style: "currency",
+            currency,
+            minimumFractionDigits,
+            maximumFractionDigits,
+        }).format(num as number);
+    };
+
     return (
         <div>
             <h2>Payments</h2>
@@ -93,6 +134,7 @@ export default function PaymentPage() {
                                 <th>OrderId</th>
                                 <th>Amount</th>
                                 <th>Status</th>
+                                <th>Paid On</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -102,12 +144,15 @@ export default function PaymentPage() {
                                 <tr key={p.id}>
                                     <td>{p.id}</td>
                                     <td>{p.orderId}</td>
-                                    <td>${p.amount}</td>
+                                    <td>{formatCurrency(p.amount)}</td>
                                     <td>{p.status}</td>
-                                    <td>
-                                        <button onClick={() => handlePayAgain(p)}>
-                                            Pay Again
-                                        </button>
+                                    <td>{formatDate(p.paidAt)}</td>
+                                    <td>                  
+                                        {p.status !== "Completed" && (
+                                            <button onClick={() => handlePayAgain(p)}>
+                                                Pay Again
+                                            </button>
+                                        )}
                                     </td>
                                 </tr>
                             ))}

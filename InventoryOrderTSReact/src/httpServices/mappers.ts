@@ -33,6 +33,7 @@ export function mapPayment(p: any): dtoPayment {
         id: p.id,
         orderId: p.orderId,
         amount: p.amount,
-        status: p.status
+        status: p.status,
+        paidAt: p.paidAt
     };
 }
