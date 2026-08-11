@@ -45,14 +45,13 @@ export class PaymentComponent implements OnInit {
             next: () => {
                 console.log("Payment reprocessed:", id);
                 this.loadPayments();   // refresh after pay again
-                this.cdr.detectChanges(); // Force UI refresh
+                // this.cdr.detectChanges(); // Force UI refresh
             },
             error: err => {
                 console.error("Error reprocessing payment:", err);
             }
         });
     }
-
 
     formatAmount(amount: number) {
         return amount.toFixed(2);
