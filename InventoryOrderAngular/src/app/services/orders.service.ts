@@ -33,7 +33,10 @@ export class OrdersService {
 
     payOrder(id: number, total: number): Observable<void> {
         console.log("OrdersService.payOrder() called:", id, total);
-        return this.http.post<void>(`${this.baseUrl}/${id}/pay`, { total });
+
+        // return this.http.post<void>(`${this.baseUrl}/${id}/payments`, { total }); // Original line
+        // Use the payments API endpoint (matches backend: POST https://localhost:5004/payments)
+        return this.http.post<void>(`${remoteUrl.paymentsApi}`, { orderId: id, amount: total });
     }
 
     deleteOrder(id: number): Observable<void> {

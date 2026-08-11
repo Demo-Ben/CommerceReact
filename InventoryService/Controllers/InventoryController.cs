@@ -47,5 +47,21 @@ namespace InventoryService.Controllers
 
             return Ok(item);
         }
+
+        // POST /inventory/{id}/increase
+        [HttpPost("{id}/increase")]
+        public IActionResult IncreaseStock(int id, [FromBody] ReduceStockDto dto)
+        {
+            var item = StaticInventory.Items.FirstOrDefault(i => i.Id == id);
+            if (item == null)
+                return NotFound();
+
+            if (dto == null || dto.Quantity <= 0)
+                return BadRequest("Invalid quantity");
+
+            item.Stock += dto.Quantity;
+
+            return Ok(item);
+        }
     } 
 }

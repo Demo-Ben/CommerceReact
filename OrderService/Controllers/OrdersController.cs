@@ -100,6 +100,32 @@ namespace OrderService.Controllers
 
             return Ok(order);
         }
+
+        // DELETE /orders/{id}
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAsync(int id)
+        {
+            var order = StaticOrders.Orders.FirstOrDefault(o => o.Id == id);
+            if (order == null)
+                return NotFound();
+
+            // Try to increase stock back on InventoryService
+            using var client = new HttpClient();
+            var increaseResp = await client.PostAsJsonAsync(
+                $"https://localhost:5003/inventory/{order.ItemId}/increase",
+                new { Quantity = order.Quantity }
+            );
+
+            if (!increaseResp.IsSuccessStatusCode)
+            {
+                var error = await increaseResp.Content.ReadAsStringAsync();
+                return BadRequest($"Unable to increase inventory: {error}");
+            }
+
+            StaticOrders.Orders.Remove(order);
+
+            return Ok();
+        }
     }
 }
 
