@@ -82,8 +82,10 @@ export class OrdersComponent implements OnInit {
             return;
         }
 
+        // Commented out to avoid double-reduction if API call fails
+        //item.stock -= quantity;
+
         // Optimistic UI update: reduce local stock immediately
-        item.stock -= quantity;
         this.cdr.detectChanges();
 
         this.ordersService.createOrder(itemId, quantity).subscribe({
