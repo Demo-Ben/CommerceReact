@@ -2,12 +2,20 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { remoteUrl } from '../../environments/environment';
+
+// export interface PaymentItem {
+//     id: number;
+//     orderId: number;
+//     total: number;
+//     status: string;
+//     paidOn: string;
+// }
 export interface PaymentItem {
     id: number;
     orderId: number;
-    total: number;
+    amount: number;    // maps to API's Amount (decimal)
     status: string;
-    paidOn: string;
+    paidAt: string;    // ISO date string from API's PaidAt
 }
 
 @Injectable({

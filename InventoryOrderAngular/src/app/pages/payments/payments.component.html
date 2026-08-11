@@ -5,7 +5,7 @@
         <tr>
             <th>Id</th>
             <th>Order Id</th>
-            <th>Total</th>
+            <th>Amount</th>
             <th>Status</th>
             <th>Paid On</th>
             <th>Actions</th>
@@ -16,11 +16,11 @@
         <tr *ngFor="let p of payments">
             <td>{{ p.id }}</td>
             <td>{{ p.orderId }}</td>
-            <td>${{ p.total }}</td>
+            <td>{{ formatAmount(p.amount) }}</td>
             <td>{{ p.status }}</td>
-            <td>{{ p.paidOn }}</td>
+            <td>{{ formatDate(p.paidAt) }}</td>
             <td>
-                <button (click)="payAgain(p.id, p.total)">Pay Again</button>
+                <button (click)="payAgain(p.id, p.amount)">Pay Again</button>
             </td>
         </tr>
     </tbody>
