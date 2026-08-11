@@ -123,7 +123,8 @@ export class OrdersComponent implements OnInit {
         this.ordersService.deleteOrder(id).subscribe({
             next: () => {
                 console.log("Order deleted:", id);
-                this.loadOrders();   // refresh after delete
+                this.loadOrders();    // refresh after delete
+                this.loadInventory(); // refresh inventory (stock may have changed)
             },
             error: err => {
                 console.error("Error deleting order:", err);
