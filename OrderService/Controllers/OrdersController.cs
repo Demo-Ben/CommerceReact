@@ -51,12 +51,12 @@ namespace OrderService.Controllers
             var newOrder = new Order
             {
                 Id = StaticOrders.Orders.Count + 1,
-                ItemId = dto.ItemId,
+                ProductId = dto.ItemId,
                 Quantity = dto.Quantity,
                 Status = "Pending"
             };
 
-            newOrder.Total = item.Price * dto.Quantity;
+            newOrder.Amount = item.Price * dto.Quantity;
             StaticOrders.Orders.Add(newOrder);
 
             return Ok(newOrder);
@@ -112,7 +112,7 @@ namespace OrderService.Controllers
             // Try to increase stock back on InventoryService
             using var client = new HttpClient();
             var increaseResp = await client.PostAsJsonAsync(
-                $"https://localhost:5003/inventory/{order.ItemId}/increase",
+                $"https://localhost:5003/inventory/{order.ProductId}/increase",
                 new { Quantity = order.Quantity }
             );
 

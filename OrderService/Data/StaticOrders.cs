@@ -7,9 +7,9 @@ namespace OrderService.Data
     {
         public static List<Order> Orders = new()
         {
-            new Order { Id = 1, ItemId = 1, Quantity = 1, Total = 1500, Status = "Paid" },
-            new Order { Id = 2, ItemId = 2, Quantity = 1, Total = 100, Status = "Paid" },
-            new Order { Id = 3, ItemId = 3, Quantity = 1, Total = 40, Status = "Pending" }
+            new Order { Id = 1, ProductId = 1, Quantity = 1, Amount = 1500, Status = "Paid" },
+            new Order { Id = 2, ProductId = 2, Quantity = 1, Amount = 100, Status = "Paid" },
+            new Order { Id = 3, ProductId = 3, Quantity = 1, Amount = 40, Status = "Pending" }
         };
     }
 }
