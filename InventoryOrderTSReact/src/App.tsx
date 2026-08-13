@@ -133,14 +133,15 @@ function App() {
                             fontWeight: "bold"
                         }}
                     >
-                        {pageTitleMap[page]}
+                        {/*  {pageTitleMap[page]} */}
+                        Commerce App in React/TypeScript
                     </div>
 
                     {/* page body, conditional rendering based on page value */}
                     <div style={{ padding: "1rem" }}>
                         {page === "inventory" && <InventoryPage />}
                         {page === "orders" && <OrderPage />}
-                        {page === "payments" && <PaymentPage />}
+                        {page === "payments" && <PaymentPage />}                      
                     </div>
                 </div>
             </div>

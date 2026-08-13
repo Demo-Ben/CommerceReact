@@ -18,10 +18,12 @@ export function mapInventory(item: any): dtoInventory {
 export function mapOrder(o: any): dtoOrder {
     return {
         id: o.id,
-        itemId: o.itemId,
+        productId: o.productId,
+        // itemId: number;
         quantity: o.quantity,
         status: o.status,
-        total: o.total
+        //total: o.total
+        amount: o.amount
     };
 }
 

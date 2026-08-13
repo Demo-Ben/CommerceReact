@@ -7,9 +7,9 @@ export interface dtoInventory {
 
 export interface dtoOrder {
     id: number;
-    itemId: number;
-    quantity: number;
-    total: number;
+    productId: number;       // itemId: number;   
+    quantity: number;   
+    amount: number;     //total: number;
     status: string;
 }
 

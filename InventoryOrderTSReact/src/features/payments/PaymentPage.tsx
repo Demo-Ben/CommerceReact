@@ -103,7 +103,7 @@ export default function PaymentPage() {
                     {/* the pattern: map unpaidOrders into <option> elements. */}
                     {unpaidOrders.map(o => (
                         <option key={o.id} value={o.id}>
-                            Order #{o.id} - ${o.total} ({o.status})
+                            Order #{o.id} - ${o.amount} ({o.status})
                         </option>
 
                     ))}
@@ -130,8 +130,8 @@ export default function PaymentPage() {
                     <table border={1} cellPadding={4}>
                         <thead>
                             <tr>
-                                <th>Id</th>
-                                <th>OrderId</th>
+                                <th>Payment ID</th>
+                                <th>Order ID</th>
                                 <th>Amount</th>
                                 <th>Status</th>
                                 <th>Paid On</th>

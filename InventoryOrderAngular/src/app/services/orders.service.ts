@@ -5,9 +5,9 @@ import { remoteUrl } from '../../environments/environment';
 
 export interface OrderItem {
     id: number;
-    itemId: number;
+    productId: number;  //itemId: number;
     quantity: number;
-    total: number;
+    amount: number; // total: number;
     status: string;
 }
 

@@ -33,7 +33,7 @@
     <thead>
         <tr>
             <th>Order Id</th>
-            <th>Inventory ID</th>
+            <th>Product</th>
             <th>Quantity</th>
             <th>Total</th>
             <th>Status</th>
@@ -44,12 +44,12 @@
     <tbody>
         <tr *ngFor="let order of orders">
             <td>{{ order.id }}</td>
-            <td>{{ order.itemId }}</td>
+            <td>{{ getProductName(order.productId) }}</td>
             <td>{{ order.quantity }}</td>
-            <td>${{ order.total }}</td>
+            <td>${{ order.amount }}</td>
             <td>{{ order.status }}</td>
             <td>
-                <button *ngIf="order.status !== 'Paid'" (click)="payOrder(order.id, order.total)">
+                <button *ngIf="order.status !== 'Paid'" (click)="payOrder(order.id, order.amount)">
                     Pay
                 </button>
                 <button *ngIf="order.status !== 'Paid'" (click)="deleteOrder(order.id)">

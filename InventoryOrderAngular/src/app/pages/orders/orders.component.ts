@@ -131,4 +131,11 @@ export class OrdersComponent implements OnInit {
             }
         });
     }
+
+    // Synchronous lookup to avoid per-cell HTTP calls in the template
+    getProductName(productId: number): string {
+        const item = this.inventory.find(i => i.id === productId);
+        return item ? item.name : `Product ${productId}`;
+    }
+
 }

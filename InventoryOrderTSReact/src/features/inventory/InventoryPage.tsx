@@ -92,8 +92,8 @@ export default function InventoryPage() {
                 <table border={1} cellPadding={4}>
                     <thead>
                         <tr>
-                            <th>Id</th>
-                            <th>Name</th>
+                            <th>Stock ID</th>
+                            <th>Product</th>
                             <th>Stock</th>
                             <th>Price</th>
                         </tr>

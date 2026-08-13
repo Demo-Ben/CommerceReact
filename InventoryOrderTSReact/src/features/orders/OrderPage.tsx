@@ -30,26 +30,30 @@ export default function OrderPage() {
 
 
     //4. Helper: get item name
-    function getItemName(itemId: number): string {
-        const item = inventorys.find(i => i.id === itemId);                  
+    // function getItemName(itemId: number): string {
+    //     const item = inventorys.find(i => i.id === itemId);
+    //     return item ? item.name : "Unknown";
+    // }
+    function getItemName(productId: number): string {
+        const item = inventorys.find(i => i.id === productId);                  
         return item ? item.name : "Unknown";
     }
 
     //5.Create a new order
-    async function handleCreateOrder(itemId: number) {
+    async function handleCreateOrder(productId: number) {
         const ok = window.confirm("Create this order?");
         if (!ok) return;
 
         const quantity = 1; // or use a UI input
-        await createOrder(itemId, quantity);
+        await createOrder(productId, quantity);
     }
 
     //6. Pay for an order
-    async function handlePay(order: { id: number; total: number }) {
-        const ok = window.confirm(`Pay $${order.total} for this order?`);
+    async function handlePay(order: { id: number; amount: number }) {
+        const ok = window.confirm(`Pay $${order.amount} for this order?`);
         if (!ok) return;
 
-        await payOrder(order.id, order.total);
+        await payOrder(order.id, order.amount);
     }
 
     return (
@@ -71,8 +75,8 @@ export default function OrderPage() {
                 <table border={1} cellPadding={4}>
                     <thead>
                         <tr>
-                            <th>Id</th>
-                            <th>Name</th>
+                            <th>Stock ID</th>
+                            <th>Product</th>
                             <th>Stock</th>
                             <th>Price</th>
                             <th>Create Order</th>
@@ -111,8 +115,8 @@ export default function OrderPage() {
                 <table border={1} cellPadding={4}>
                     <thead>
                         <tr>
-                            <th>Id</th>
-                            <th>Item</th>
+                            <th>Order ID</th>
+                            <th>Product</th>
                             <th>Quantity</th>
                             <th>Total</th>
                             <th>Status</th>
@@ -120,13 +124,15 @@ export default function OrderPage() {
                         </tr>
                     </thead>
                     <tbody>
-                        {/* orders.map(...) loops through your order array. */}
+                        {/* orders.map(...) loops through your order array.
+                              <td>{getItemName(order.itemId)}</td>
+                              */}
                         {orders.map(order => (
                             <tr key={order.id}>
                                 <td>{order.id}</td>
-                                <td>{getItemName(order.itemId)}</td>
+                                <td>{getItemName(order.productId)}</td>
                                 <td>{order.quantity}</td>
-                                <td>${order.total}</td>
+                                <td>${order.amount}</td>
                                 <td>{order.status}</td>
                                 <td>
                                     {order.status !== "Paid" && (
