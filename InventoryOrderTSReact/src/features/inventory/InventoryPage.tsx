@@ -1,3 +1,21 @@
+//Terms you are using in this file
+// 1. Client Component
+// 2. Custom Hook (useApi) - const { inventorys, createOrder } = useApi();
+// 3. useState — Local UI State - const [selectedId, setSelectedId] = useState<string>("");
+//                                const [quantity, setQuantity] = useState<number>(1);
+// 4. Controlled Components - <select value={selectedId} onChange={e => setSelectedId(e.target.value)} />
+//                            <input type="number" value={quantity} onChange={e => setQuantity(Number(e.target.value))} />
+// 5. Derived State / Computation - const item = inventorys.find(i => String(i.id) === selectedId);
+// 6. Event Handlers - onClick, onChange, onMouseEnter, onMouseLeave
+// 7. Conditional Rendering - {inventorys.map(item => (  <tr key={item.id}>...</tr> ))}
+// 8. List Rendering with Keys - <tr key={item.id}>
+// 9. Input Validation Logic
+// 10. Calling Global Actions (Context + Reducer) - createOrder(Number(selectedId), qty);
+// 11. JSX Rendering
+// 12. Inline Styles
+// 13. SPA Navigation Pattern (Manual Routing) - {page === "inventory" && <InventoryPage />}
+
+
 // 1. Imports
 // useState gives React component state.
 import React, { useState } from "react";
