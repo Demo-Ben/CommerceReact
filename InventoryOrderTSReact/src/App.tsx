@@ -1,3 +1,17 @@
+//Terms you are using in this file
+
+// 1. Client Component -  entire App.tsx runs in the browser
+// 2. useState — Local UI State - const [page, setPage] = useState<Page>("inventory");
+// 3. TypeScript Union Types - type Page = "inventory" | "orders" | "payments";
+// 4. Context Provider - <ApiProvider>  ... </ApiProvider >
+// 5. Conditional Rendering - {page === "inventory" && <InventoryPage />}, {page === "orders" && <OrderPage />}, ...
+// 6. Component Composition - InventoryPage, OrderPage, PaymentPage
+// 7. Inline Styles - style={{ display: "flex", height: "100vh" }}
+// 8. Event Handlers - onClick={() => setPage("inventory")}, onMouseEnter, onMouseLeave
+// 9. Layout Composition - left sidebar , right content area, top banner, page body
+// 10. SPA Navigation Pattern
+// 11. Props + Component Architecture - pages (InventoryPage, OrderPage, PaymentPage) are child components rendered based on state.
+
 import React, { useState } from "react";
 
 // ApiProvider wraps the whole app and provides shared state + API calls
