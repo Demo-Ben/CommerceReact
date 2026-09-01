@@ -48,6 +48,14 @@
 //          └── apiClient.ts
 
 
+//Terms you are using in this file
+// 1. Client Component -  main.tsx is a client-side entry point.
+// 2. ReactDOM.createRoot - React 18 root API
+// 3. StrictMode -  <App />
+// 4. Root Component
+// 5. Module Imports
+// 6. Context Provider (imported but NOT used)
+
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
