@@ -135,6 +135,20 @@
 //      Custom hook returning the context value.
 
 
+//Terms you are using in this file
+// 1. React Context API - const ApiContext = createContext<ApiContextValue | undefined>(undefined);
+// 2. useReducer — Centralized State Machine - const [state, dispatch] = useReducer(fnReducer, initialCombinedState);
+// 3. Action Union Types (TypeScript Discriminated Unions) - type Action =  | { type: "LOAD_DATA"; payload: ApiState } |
+// 4. Combined State (Domain + Meta State) - type CombinedState = ApiState & ApiMetaState
+// 5. useEffect — Startup Data Loading - useEffect(() => { fnloadData(dispatch); }, []);
+// 6. Async Service Layer (HTTP Services)
+// 7. Internal Async Actions (thunks) - import * as inventoryService from "../httpServices/inventoryService";
+// 8. Selectors - export function selectInventoryById(state: CombinedState, id: number) {return state.inventorys.find(i => i.id === id); }
+// 9. Context Provider Component - <ApiContext.Provider value={value}>  {children} </ApiContext.Provider>
+// 10. Custom Hook (useApi) - export function useApi(): ApiContextValue { }
+// 11. Immutable State Updates - orders: [...state.orders, action.payload]
+// 12. Enterprise Architecture Patterns = Redux, NgRx, CQRS, DI, Singleton Services, Service layers, DTOs, Selector architecture, Global State Management
+
 // -------------------------------------------------------------
 // 1. Imports (react JavaScript library) - React, hooks, services, constants, utilities
 //
