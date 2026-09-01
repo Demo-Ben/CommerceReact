@@ -101,7 +101,10 @@ function App() {
 
     return (
         <ApiProvider>
+            {/* main layout container, flex layout: left sidebar + right content */}
             <div style={appContainerStyle}>
+
+                {/* left side menu,  deep blue background, vertical menu */}
                 <div style={sidebarStyle}>
                     <h2 style={menuTitleStyle}>Menu</h2>
 
@@ -132,11 +135,14 @@ function App() {
                     </div>
                 </div>
 
+                {/* right side container, contains top banner + page content */}
                 <div style={rightContainerStyle}>
+                    {/* sky blue background showing current page title*/}
                     <div style={topBannerStyle}>
                         Commerce App in React/TypeScript
                     </div>
 
+                    {/* page body, conditional rendering based on page value */}
                     <div style={pageBodyStyle}>
                         {page === "inventory" && <InventoryPage />}
                         {page === "orders" && <OrderPage />}
