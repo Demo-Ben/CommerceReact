@@ -22,14 +22,12 @@ import InventoryPage from "./features/inventory/InventoryPage";
 import OrderPage from "./features/orders/OrderPage";
 import PaymentPage from "./features/payments/PaymentPage";
 
-
 // Define allowed page names as a TypeScript union type.
 // This prevents invalid values like "inventroy" or "home".
 // Equivalent to an enum with strict string values.
 type Page = "inventory" | "orders" | "payments";
 
 function App() {
-
     // *** How does App.tsx ***
     // When the button is clicked -> Call setPage("page name") -> React updates the page state -> React re-renders
     // *** my comment ***
@@ -43,56 +41,76 @@ function App() {
         payments: "Payments"
     };
 
+    // Extracted style variables
+    const appContainerStyle: React.CSSProperties = {
+        display: "flex",
+        height: "100vh",
+        fontFamily: "sans-serif",
+    };
+
+    const sidebarStyle: React.CSSProperties = {
+        width: "200px",
+        backgroundColor: "#2B35AF",
+        color: "white",
+        padding: "1rem",
+    };
+
+    const menuTitleStyle: React.CSSProperties = {
+        backgroundColor: "transparent",
+        color: "white",
+        textAlign: "center",
+        margin: 0,
+        padding: "0.5rem",
+    };
+
+    const menuButtonsContainerStyle: React.CSSProperties = {
+        marginTop: "1rem",
+        display: "flex",
+        flexDirection: "column",
+        gap: "0.5rem",
+    };
+
+    const menuButtonStyle: React.CSSProperties = {
+        backgroundColor: "transparent",
+        color: "white",
+        border: "none",
+        padding: "0.75rem",
+        fontSize: "1.1rem",
+        textAlign: "center",
+        cursor: "pointer",
+        width: "100%",
+    };
+
+    const rightContainerStyle: React.CSSProperties = {
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+    };
+
+    const topBannerStyle: React.CSSProperties = {
+        backgroundColor: "#4895EF",
+        padding: "1rem",
+        color: "white",
+        fontSize: "1.9rem",
+        fontWeight: "bold",
+    };
+
+    const pageBodyStyle: React.CSSProperties = {
+        padding: "1rem",
+    };
+
     return (
         <ApiProvider>
+            <div style={appContainerStyle}>
+                <div style={sidebarStyle}>
+                    <h2 style={menuTitleStyle}>Menu</h2>
 
-            {/* main layout container, flex layout: left sidebar + right content */}
-            <div style={{ display: "flex", height: "100vh", fontFamily: "sans-serif" }}>
-
-                {/* left side menu,  deep blue background, vertical menu */}
-                <div
-                    style={{
-                        width: "200px",
-                        backgroundColor: "#2B35AF", // blue
-                        color: "white",
-                        padding: "1rem"
-                    }}>
-
-                    <h2
-                        style={{
-                            backgroundColor: "transparent",    // transparent background
-                            color: "white",                    // white font
-                            textAlign: "center",               // center the title
-                            margin: 0,                         // remove default margin
-                            padding: "0.5rem"                  // add slight spacing
-                        }}>
-                        Menu
-                    </h2>
-
-                    {/* clicking sets the page state */}
-                    <div style={{
-                        marginTop: "1rem",
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "0.5rem"
-                    }}
-                    >
-
+                    <div style={menuButtonsContainerStyle}>
                         <button
                             onClick={() => setPage("inventory")}
-                            onMouseEnter={(e) => (e.target.style.backgroundColor = "#004080")} // hover deep blue
+                            onMouseEnter={(e) => (e.target.style.backgroundColor = "#004080")}
                             onMouseLeave={(e) => (e.target.style.backgroundColor = "transparent")}
-                            style={{
-                                backgroundColor: "transparent",
-                                color: "white",
-                                border: "none",
-                                padding: "0.75rem",
-                                fontSize: "1.1rem",        // increase font size
-                                textAlign: "center",       // center text
-                                cursor: "pointer",
-                                width: "100%"              // full width button
-                            }}
-                        >
+                            style={menuButtonStyle}  >
                             Inventory
                         </button>
 
@@ -100,17 +118,7 @@ function App() {
                             onClick={() => setPage("orders")}
                             onMouseEnter={(e) => (e.target.style.backgroundColor = "#004080")}
                             onMouseLeave={(e) => (e.target.style.backgroundColor = "transparent")}
-                            style={{
-                                backgroundColor: "transparent",
-                                color: "white",
-                                border: "none",
-                                padding: "0.75rem",
-                                fontSize: "1.1rem",
-                                textAlign: "center",
-                                cursor: "pointer",
-                                width: "100%"
-                            }}
-                        >
+                            style={menuButtonStyle}  >
                             Orders
                         </button>
 
@@ -118,44 +126,21 @@ function App() {
                             onClick={() => setPage("payments")}
                             onMouseEnter={(e) => (e.target.style.backgroundColor = "#004080")}
                             onMouseLeave={(e) => (e.target.style.backgroundColor = "transparent")}
-                            style={{
-                                backgroundColor: "transparent",
-                                color: "white",
-                                border: "none",
-                                padding: "0.75rem",
-                                fontSize: "1.1rem",
-                                textAlign: "center",
-                                cursor: "pointer",
-                                width: "100%"
-                            }}
-                        >
+                            style={menuButtonStyle}  >
                             Payments
                         </button>
                     </div>
                 </div>
 
-                {/* right side container, contains top banner + page content */}
-                <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-
-                    {/* sky blue background showing current page title*/}
-                    <div
-                        style={{
-                            backgroundColor: "#4895EF", // sky blue
-                            padding: "1rem",
-                            color: "white",
-                            fontSize: "1.9rem",
-                            fontWeight: "bold"
-                        }}
-                    >
-                        {/*  {pageTitleMap[page]} */}
+                <div style={rightContainerStyle}>
+                    <div style={topBannerStyle}>
                         Commerce App in React/TypeScript
                     </div>
 
-                    {/* page body, conditional rendering based on page value */}
-                    <div style={{ padding: "1rem" }}>
+                    <div style={pageBodyStyle}>
                         {page === "inventory" && <InventoryPage />}
                         {page === "orders" && <OrderPage />}
-                        {page === "payments" && <PaymentPage />}                      
+                        {page === "payments" && <PaymentPage />}
                     </div>
                 </div>
             </div>
