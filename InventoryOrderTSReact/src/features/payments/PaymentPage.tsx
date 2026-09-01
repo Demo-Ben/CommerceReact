@@ -86,13 +86,17 @@ export default function PaymentPage() {
         }).format(num as number);
     };
 
+    const tableContainerStyle: React.CSSProperties = {
+        display: "flex",              // enable flexbox
+        justifyContent: "center",     // center horizontally
+        marginTop: "20px"             // optional spacing
+    };  
+
     return (
         <div>
             <h2>Payments</h2>
 
-            {/* ---------------------------------------------------------
-                Section 1: Pay an unpaid order
-               --------------------------------------------------------- */}
+            {/* Section 1: Pay an unpaid order*/}
             <h3>Pay Existing Order by the Order list</h3>
             <div>
                 <select value={selectedOrderId}
@@ -112,21 +116,13 @@ export default function PaymentPage() {
                 <button onClick={handlePay}>Pay</button>
             </div>
 
-            {/* ---------------------------------------------------------
-                Section 2: Payment History
-               --------------------------------------------------------- */}
+            {/* Section 2: Payment History*/}
             <h3>Order Payment History</h3>
 
             {payments.length === 0 && <p>No payments yet.</p>}
 
             {payments.length > 0 && (
-                <div
-                    style={{
-                        display: "flex",              // enable flexbox
-                        justifyContent: "center",     // center horizontally
-                        marginTop: "20px"             // optional spacing
-                    }}
-                >
+                <div style={tableContainerStyle}>
                     <table border={1} cellPadding={4}>
                         <thead>
                             <tr>

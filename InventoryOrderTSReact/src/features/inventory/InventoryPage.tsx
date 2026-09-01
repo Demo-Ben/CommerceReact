@@ -89,6 +89,12 @@ export default function InventoryPage() {
         setQuantity(1);
     };
 
+    const tableContainerStyle: React.CSSProperties = {
+        display: "flex",              // enable flexbox
+        justifyContent: "center",     // center horizontally
+        marginTop: "20px"             // optional spacing
+    };
+
     return (
         <div>
             {/* React components return JSX.
@@ -100,13 +106,7 @@ export default function InventoryPage() {
             {/* Tables in React work exactly like HTML tables.
                 The difference is: dynamic rows must be generated using .map().
             */}
-            <div
-                style={{
-                    display: "flex",              // enable flexbox
-                    justifyContent: "center",     // center horizontally
-                    marginTop: "20px"             // optional spacing
-                }}
-            >
+            <div style={tableContainerStyle}>
                 <table border={1} cellPadding={4}>
                     <thead>
                         <tr>

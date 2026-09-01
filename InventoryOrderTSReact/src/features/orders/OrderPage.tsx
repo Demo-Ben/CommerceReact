@@ -56,22 +56,19 @@ export default function OrderPage() {
         await payOrder(order.id, order.amount);
     }
 
+    const tableContainerStyle: React.CSSProperties = {
+        display: "flex",              // enable flexbox
+        justifyContent: "center",     // center horizontally
+        marginTop: "20px"             // optional spacing
+    };
     return (
         <div>
             <h2>Create New Order by Inventory List</h2>
 
-            {/* ---------------------------------------------------------
-                Inventory List (Create Order)
-                --------------------------------------------------------- 
-            */}
+            {/* Inventory List (Create Order) */}
             <h3>Available Inventory</h3>
 
-            <div
-                style={{
-                    display: "flex",              // enable flexbox
-                    justifyContent: "center",     // center horizontally
-                    marginTop: "20px"             // optional spacing
-                }} >
+            <div style={tableContainerStyle}>
                 <table border={1} cellPadding={4}>
                     <thead>
                         <tr>
@@ -101,17 +98,10 @@ export default function OrderPage() {
                 </table>
             </div>
 
-            {/* ---------------------------------------------------------
-                Orders List (Pay Button)
-               --------------------------------------------------------- */}
+            {/* Orders List (Pay Button)*/}
             <h3>Existing Orders</h3>
 
-            <div
-                style={{
-                    display: "flex",              // enable flexbox
-                    justifyContent: "center",     // center horizontally
-                    marginTop: "20px"             // optional spacing
-                }} >
+            <div style={tableContainerStyle}>
                 <table border={1} cellPadding={4}>
                     <thead>
                         <tr>
