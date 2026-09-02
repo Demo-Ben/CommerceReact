@@ -377,11 +377,11 @@ const initialCombinedState: CombinedState = {
 // signature and behavior of reducer:
 // function reducer(state: AppState, action: Action): AppState {
 //     switch (action.type) {
-//         case "LOAD": 
+//         case "LOAD":
 //              return { ...state, items: action.payload };
-//         case "ERROR": 
+//         case "ERROR":
 //              return { ...state, error: action.payload };
-//         default: 
+//         default:
 //              return state;
 //     }
 // }
