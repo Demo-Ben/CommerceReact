@@ -1,4 +1,4 @@
-//Terms you are using in this file
+// ** Terms you are using in this file **
 
 // 1. Client Component -  entire App.tsx runs in the browser
 // 2. useState — Local UI State - const [page, setPage] = useState<Page>("inventory");
@@ -30,8 +30,6 @@ type Page = "inventory" | "orders" | "payments";
 function App() {
     // *** How does App.tsx ***
     // When the button is clicked -> Call setPage("page name") -> React updates the page state -> React re-renders
-    // *** my comment ***
-    // page state controls which component is shown on the right side
     const [page, setPage] = useState<Page>("inventory");
 
     // map page string → readable banner title
@@ -109,28 +107,25 @@ function App() {
                     <h2 style={menuTitleStyle}>Menu</h2>
 
                     <div style={menuButtonsContainerStyle}>
-                        <button
-                            onClick={() => setPage("inventory")}
-                            onMouseEnter={(e) => (e.target.style.backgroundColor = "#004080")}
-                            onMouseLeave={(e) => (e.target.style.backgroundColor = "transparent")}
-                            style={menuButtonStyle}  >
-                            Inventory
+                        <button onClick={() => setPage("inventory")}
+                                onMouseEnter={(e) => (e.target.style.backgroundColor = "#004080")}
+                                onMouseLeave={(e) => (e.target.style.backgroundColor = "transparent")}
+                                style={menuButtonStyle}  >
+                                Inventory
                         </button>
 
-                        <button
-                            onClick={() => setPage("orders")}
-                            onMouseEnter={(e) => (e.target.style.backgroundColor = "#004080")}
-                            onMouseLeave={(e) => (e.target.style.backgroundColor = "transparent")}
-                            style={menuButtonStyle}  >
-                            Orders
+                        <button onClick={() => setPage("orders")}
+                                onMouseEnter={(e) => (e.target.style.backgroundColor = "#004080")}
+                                onMouseLeave={(e) => (e.target.style.backgroundColor = "transparent")}
+                                style={menuButtonStyle}  >
+                                Orders
                         </button>
 
-                        <button
-                            onClick={() => setPage("payments")}
-                            onMouseEnter={(e) => (e.target.style.backgroundColor = "#004080")}
-                            onMouseLeave={(e) => (e.target.style.backgroundColor = "transparent")}
-                            style={menuButtonStyle}  >
-                            Payments
+                        <button onClick={() => setPage("payments")}
+                                onMouseEnter={(e) => (e.target.style.backgroundColor = "#004080")}
+                                onMouseLeave={(e) => (e.target.style.backgroundColor = "transparent")}
+                                style={menuButtonStyle}  >
+                                Payments
                         </button>
                     </div>
                 </div>
@@ -139,7 +134,7 @@ function App() {
                 <div style={rightContainerStyle}>
                     {/* sky blue background showing current page title*/}
                     <div style={topBannerStyle}>
-                        Commerce App in React/TypeScript
+                        Commerce App in React/TypeScript - {page}
                     </div>
 
                     {/* page body, conditional rendering based on page value */}

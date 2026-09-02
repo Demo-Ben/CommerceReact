@@ -48,7 +48,7 @@
 //          └── apiClient.ts
 
 
-//Terms you are using in this file
+// ** Terms you are using in this file **
 // 1. Client Component -  main.tsx is a client-side entry point.
 // 2. ReactDOM.createRoot - React 18 root API
 // 3. StrictMode -  <App />
@@ -63,6 +63,7 @@ import './index.css'
 import { ApiProvider } from './context/ApiContext.tsx';
 
 console.log("main.tsx loaded"); // breakpoint here
+
 const root = ReactDOM.createRoot(document.getElementById("root")!);
 root.render(
     <React.StrictMode>

@@ -126,9 +126,7 @@ export default function OrderPage() {
                                 <td>{order.status}</td>
                                 <td>
                                     {order.status !== "Paid" && (
-                                        <button onClick={() => handlePay(order)}>
-                                            Pay
-                                        </button>
+                                        <button onClick={() => handlePay(order)}> Pay </button>
                                     )}
                                 </td>
                             </tr>

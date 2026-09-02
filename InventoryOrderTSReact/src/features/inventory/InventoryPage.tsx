@@ -1,4 +1,5 @@
-//Terms you are using in this file
+// ** Terms you are using in this file **
+
 // 1. Client Component
 // 2. Custom Hook (useApi) - const { inventorys, createOrder } = useApi();
 // 3. useState — Local UI State - const [selectedId, setSelectedId] = useState<string>("");
@@ -21,7 +22,6 @@
 import React, { useState } from "react";
 // useApi() is your custom hook that exposes: inventorys (your inventory list),createOrder() (API call)
 import { useApi } from "../../context/ApiContext";
-
 
 // 2.Component definition
 // Render #1 → React calls InventoryPage() → useApi() → UI shows inventory list
@@ -56,7 +56,6 @@ export default function InventoryPage() {
     // 5. Order creation handler
     const handleCreateOrder = () => {
         console.log("handleCreateOrder fired:", selectedId, quantity);
-
 
         //Step A — Validate selected item
         if (!selectedId) {
@@ -97,15 +96,11 @@ export default function InventoryPage() {
 
     return (
         <div>
-            {/* React components return JSX.
-                JSX is NOT HTML — it's JavaScript that looks like HTML.
-                Every time state changes, React re-renders this return block.
-            */}
+            {/* Every time state changes, React re-renders this return block. */}
             <h2>Available Inventory List</h2>
 
             {/* Tables in React work exactly like HTML tables.
-                The difference is: dynamic rows must be generated using .map().
-            */}
+                The difference is: dynamic rows must be generated using .map().*/}
             <div style={tableContainerStyle}>
                 <table border={1} cellPadding={4}>
                     <thead>
